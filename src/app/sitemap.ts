@@ -1,0 +1,37 @@
+import type { MetadataRoute } from "next";
+import { site } from "@/content/site";
+import { pillars } from "@/content/services";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date();
+
+  const staticPaths = [
+    { path: "/", priority: 1 },
+    { path: "/services", priority: 0.9 },
+    { path: "/growth-packages", priority: 0.9 },
+    { path: "/industries", priority: 0.8 },
+    { path: "/about", priority: 0.8 },
+    { path: "/process", priority: 0.7 },
+    { path: "/insights", priority: 0.6 },
+    { path: "/faq", priority: 0.6 },
+    { path: "/contact", priority: 0.9 },
+    { path: "/privacy-policy", priority: 0.2 },
+    { path: "/terms-of-use", priority: 0.2 },
+    { path: "/disclaimer", priority: 0.2 },
+  ];
+
+  const pillarPaths = pillars.flatMap((pillar) => [
+    { path: `/services/${pillar.slug}`, priority: 0.85 },
+    ...pillar.subServices.map((service) => ({
+      path: `/services/${pillar.slug}/${service.slug}`,
+      priority: 0.7,
+    })),
+  ]);
+
+  return [...staticPaths, ...pillarPaths].map((entry) => ({
+    url: `${site.url}${entry.path === "/" ? "" : entry.path}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: entry.priority,
+  }));
+}

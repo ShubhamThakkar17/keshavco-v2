@@ -1,0 +1,84 @@
+import type { Metadata } from "next";
+import { site } from "@/content/site";
+
+/** Builds page metadata from the title/description pairs in the copy document. */
+export function pageMetadata({
+  title,
+  description,
+  path,
+}: {
+  title: string;
+  description: string;
+  path: string;
+}): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      title,
+      description,
+      url: `${site.url}${path === "/" ? "" : path}`,
+      type: "website",
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
+
+export const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.name,
+  legalName: site.legalName,
+  url: site.url,
+  email: site.email,
+  description:
+    "KeshavCo is a business growth partner: one team that sets the strategy, runs the execution and answers for the outcome across strategy, branding, technology and digital marketing.",
+  areaServed: "IN",
+  slogan: site.tagline,
+};
+
+export function faqSchema(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
+export function serviceSchema({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    url: `${site.url}${path}`,
+    provider: { "@type": "Organization", name: site.name, url: site.url },
+    areaServed: "IN",
+  };
+}
+
+export function breadcrumbSchema(items: { label: string; href: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.label,
+      item: `${site.url}${item.href}`,
+    })),
+  };
+}

@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   KeshavCo design tokens — from the brand guidelines.
+   Primary Deep Navy #0F172A · Secondary Indigo #4F46E5
+   Accent Purple #7C3AED · Accent Green #22C55E
+   Display/Headline: Sora · Body: Inter
+--------------------------------------------------------------------------- */
+
+@theme {
+  --color-navy-50: #f5f7fb;
+  --color-navy-100: #e8edf6;
+  --color-navy-200: #cbd6e8;
+  --color-navy-300: #9db0cd;
+  --color-navy-400: #6a83ac;
+  --color-navy-500: #47608e;
+  --color-navy-600: #334a73;
+  --color-navy-700: #253758;
+  --color-navy-800: #17253f;
+  --color-navy-900: #0f172a;
+  --color-navy-950: #080d18;
+
+  --color-indigo-brand: #4f46e5;
+  --color-purple-brand: #7c3aed;
+  --color-green-brand: #22c55e;
+
+  --font-display: var(--font-sora), "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 40s linear infinite;
+
+  --breakpoint-3xl: 112rem;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f5f7fb;
+  --ink: #0f172a;
+  --ink-soft: #47608e;
+  --line: rgb(15 23 42 / 0.1);
+  --gradient-brand: linear-gradient(100deg, #4f46e5 0%, #7c3aed 48%, #22c55e 100%);
+  --header-h: 76px;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+/* Lenis drives scrolling itself; native smooth behaviour fights it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: #4f46e5;
+  color: #ffffff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+}
+
+/* --- Utilities ----------------------------------------------------------- */
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 84rem;
+  padding-inline: 1.25rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 3rem;
+  }
+}
+
+@utility text-gradient-brand {
+  background-image: var(--gradient-brand);
+  background-clip: text;
+  color: transparent;
+  /* Descenders get clipped without a little breathing room. */
+  padding-bottom: 0.08em;
+}
+
+@utility bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+
+@utility hairline {
+  border-top: 1px solid var(--line);
+}
+
+/* Fine-grained noise keeps the large flat panels from banding. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* --- Scroll-driven word highlight (progressive enhancement) --------------- */
+
+.scroll-highlight {
+  background-image: linear-gradient(to right, var(--ink) 50%, rgb(15 23 42 / 0.16) 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- Accordion ----------------------------------------------------------- */
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* --- Focus --------------------------------------------------------------- */
+
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: #0f172a;
+  color: #fff;
+  border-radius: 999px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* --- Reduced motion ------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .scroll-highlight {
+    background-image: none;
+    color: var(--ink);
+  }
+}
