@@ -7,7 +7,7 @@ import Breadcrumb, { type Crumb } from "@/components/ui/Breadcrumb";
 import { Eyebrow } from "@/components/ui/Section";
 import SplitText from "@/components/motion/SplitText";
 import Reveal from "@/components/motion/Reveal";
-import MorPankh from "@/components/graphics/MorPankh";
+import BrandFeature from "@/components/graphics/BrandFeature";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
 import type { SiteImage } from "@/content/images";
 
@@ -16,7 +16,7 @@ import type { SiteImage } from "@/content/images";
  * so the page beneath appears to slide over the top of it.
  *
  * Every page gets a graphic beside the headline: the photograph passed in, or
- * the Mor Pankh when a page has no image of its own.
+ * the brand mark when a page has no image of its own.
  */
 export default function PageHero({
   eyebrow,
@@ -144,7 +144,7 @@ export default function PageHero({
             </div>
           ) : (
             <div className="pointer-events-none flex justify-center">
-              <MorPankh className="h-[28rem] w-[20rem]" idSuffix="page-hero" />
+              <BrandFeature className="h-[24rem] w-[18rem]" />
             </div>
           )}
         </div>

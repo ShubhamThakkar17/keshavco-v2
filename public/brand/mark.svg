@@ -1,22 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="112" fill="#0F172A"/>
-  <g transform="translate(256 256) scale(0.82) translate(-256 -256)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Keshav Consultancy">
   <defs>
     <linearGradient id="kc-arch" x1="104" y1="336" x2="408" y2="40" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#4F7CFA" />
-      <stop offset="52%" stop-color="#6D5FF6" />
-      <stop offset="100%" stop-color="#9B6BF5" />
+      <stop offset="0%" stop-color="#2340D8" />
+      <stop offset="52%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#7C3AED" />
     </linearGradient>
     <linearGradient id="kc-leaf" x1="120" y1="520" x2="400" y2="300" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#3B5BDB" />
-      <stop offset="100%" stop-color="#4F9BFF" />
+      <stop offset="0%" stop-color="#16205A" />
+      <stop offset="100%" stop-color="#2563EB" />
     </linearGradient>
     <linearGradient id="kc-stem" x1="240" y1="480" x2="272" y2="250" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#3B5BDB" />
-      <stop offset="100%" stop-color="#5B7CFA" />
+      <stop offset="0%" stop-color="#16205A" />
+      <stop offset="100%" stop-color="#1E3A8A" />
     </linearGradient>
     <linearGradient id="kc-drop" x1="224" y1="270" x2="288" y2="220" gradientUnits="userSpaceOnUse">
-      <stop offset="47%" stop-color="#3B82F6" />
+      <stop offset="47%" stop-color="#1E3A8A" />
       <stop offset="53%" stop-color="#22C55E" />
     </linearGradient>
   </defs>
@@ -34,5 +32,4 @@
     <path d="M 256 172 C 274.6 181.72, 311.8 207.64, 318 233.56 C 318 262.72, 293.2 280, 256 280 C 218.8 280, 194 262.72, 194 233.56 C 194 207.64, 237.4 181.72, 256 172 Z M 256 206 C 267.4 211.04, 290.2 224.48, 294 237.92 C 294 253.04, 278.8 262, 256 262 C 233.2 262, 218 253.04, 218 237.92 C 218 224.48, 244.6 211.04, 256 206 Z" fill="url(#kc-arch)" fill-rule="evenodd" />
     <path d="M 256 196 C 280 226, 296 248, 296 264 C 296 287, 278 302, 256 302 C 234 302, 216 287, 216 264 C 216 248, 232 226, 256 196 Z" fill="url(#kc-drop)" />
   </g>
-</g>
 </svg>

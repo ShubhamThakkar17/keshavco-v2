@@ -2,12 +2,14 @@
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import { hero } from "@/content/home";
+import { brand } from "@/content/brand";
 import { cta } from "@/content/site";
 import Button from "@/components/ui/Button";
 import RotatingWords from "@/components/motion/RotatingWords";
 import { Eyebrow } from "@/components/ui/Section";
-import MorPankh from "@/components/graphics/MorPankh";
+import BrandFeature from "@/components/graphics/BrandFeature";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
 
 const line = {
@@ -67,9 +69,15 @@ export default function Hero() {
           />
         </motion.div>
 
-        {/* On narrow screens the feather washes in behind the headline. */}
-        <div className="absolute -right-24 top-24 w-[26rem] opacity-[0.16] lg:hidden">
-          <MorPankh className="h-[32rem] w-full" animate={false} idSuffix="hero-bg" />
+        {/* On narrow screens the mark washes in behind the headline. */}
+        <div className="absolute -right-20 top-24 w-[24rem] opacity-[0.14] lg:hidden">
+          <Image
+            src={brand.markLight}
+            alt=""
+            width={brand.markSize.width}
+            height={brand.markSize.height}
+            className="h-[30rem] w-full object-contain"
+          />
         </div>
 
         {/* Faint measurement grid, parallaxed behind everything. */}
@@ -169,9 +177,9 @@ export default function Hero() {
         </motion.div>
         </div>
 
-        {/* The Mor Pankh — Krishna's feather, and the reason for the name. */}
+        {/* The Keshav Consultancy mark at display size. */}
         <div className="pointer-events-none hidden shrink-0 lg:block">
-          <MorPankh className="h-[34rem] w-[24rem] xl:h-[40rem] xl:w-[28rem]" idSuffix="hero" />
+          <BrandFeature className="h-[32rem] w-[24rem] xl:h-[38rem] xl:w-[28rem]" priority />
         </div>
       </motion.div>
 

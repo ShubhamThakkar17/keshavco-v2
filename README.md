@@ -13,6 +13,7 @@ scroll position rather than simply fading in.
 | Motion | Framer Motion 12 |
 | Smooth scroll | Lenis |
 | Type | Sora (display) + Inter (body), via `next/font` |
+| Booking | Cal.com (`@calcom/embed-react`) |
 
 ## Getting started
 
@@ -54,18 +55,22 @@ component. Each module maps to a section of the source copy document.
 
 The site is graphic-led, not text-led. Three layers do that work.
 
-### 1. The Mor Pankh
+### 1. The brand mark
 
-`src/components/graphics/MorPankh.tsx` is the signature: the peacock feather
-Krishna wears, and the reason the business is called Keshav. It is drawn in
-code — 20 barbs fanned from the quill, three nested plume arcs, concentric eye
-rings — so it is original to this site and recolours with the brand rather than
-being a stock asset. It draws itself on load, sways on a long loop, and drifts
-against the scroll.
+Every logo on the site — header, footer, favicon, and the large hero graphic —
+resolves through `src/content/brand.ts`, which points at `public/brand/`.
+Replacing the artwork there updates all of them at once, with no code change.
 
-It appears large beside the home headline, washed in behind the copy on mobile,
-and as the fallback visual on any inner page that has no photograph of its own.
-`tone="onLight"` deepens the palette for light backgrounds.
+`BrandFeature` renders the mark at display size with a brand-coloured halo: it
+rises in on load, breathes on a long loop and drifts against the scroll. It is
+the hero graphic and the fallback visual on inner pages without a photograph.
+
+> **The mark currently shipping is a stand-in.** The supplied logo artwork
+> reached the build as images, not files, so it could not be embedded — what is
+> there is a close reconstruction in the brand palette. See
+> `public/brand/README.md` for exactly what to drop in, and why SVG with a
+> transparent background (plus a reversed version for the dark sections) is
+> what the site needs.
 
 ### 2. Photography
 
@@ -193,9 +198,9 @@ Everything below is a real placeholder in the codebase, not a nice-to-have.
 - [ ] **Social profile URLs** — `site.social` (all currently `#`)
 - [ ] **Enquiry delivery** — set `ENQUIRY_WEBHOOK_URL`
 - [ ] **Newsletter signup** — wire the footer form to a provider
-- [ ] **Logo master files** — `src/components/ui/Logo.tsx` renders the feather
-      mark in code; swap in the supplied master SVG, and replace
-      `src/app/icon.svg`
+- [ ] **Logo master files** — `public/brand/mark.svg` and `mark-light.svg` are
+      a reconstruction, not the supplied artwork. Replace both, then regenerate
+      `src/app/icon.svg`. See `public/brand/README.md`
 - [ ] **Photography** — the 17 images in `public/images/` are licensed stock
       standing in for real work. Replace with KeshavCo project photography,
       client work and team portraits; update `src/content/images.ts`

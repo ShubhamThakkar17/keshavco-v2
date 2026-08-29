@@ -7,6 +7,7 @@ import Reveal from "@/components/motion/Reveal";
 import RotatingWords from "@/components/motion/RotatingWords";
 import { Eyebrow } from "@/components/ui/Section";
 import { LogoMark } from "@/components/ui/Logo";
+import { brand } from "@/content/brand";
 import { useState } from "react";
 
 export default function Footer() {
@@ -48,12 +49,18 @@ export default function Footer() {
 
         <div className="mt-20 grid gap-12 border-t border-white/10 pt-14 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
-            <div className="flex items-center gap-2.5">
-              <LogoMark className="h-8 w-8" idSuffix="footer" tone="light" />
-              <span className="font-display text-lg font-extrabold tracking-tight">
-                Keshav<span className="text-white/50">Co</span>
+            <div className="flex items-center gap-3">
+              <LogoMark className="h-10 w-10" tone="light" />
+              <span className="flex flex-col leading-none">
+                <span className="font-display text-lg font-extrabold tracking-tight">Keshav</span>
+                <span className="mt-1 text-[0.72rem] font-medium tracking-[0.16em] text-white/55">
+                  CONSULTANCY
+                </span>
               </span>
             </div>
+            <p className="mt-4 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-white/35">
+              {brand.tagline}
+            </p>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/55">
               {site.description}
             </p>
