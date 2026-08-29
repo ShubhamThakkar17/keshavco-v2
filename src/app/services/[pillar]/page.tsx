@@ -9,10 +9,12 @@ import ScrollHighlightText from "@/components/motion/ScrollHighlightText";
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import { SectionHeading } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
+import MediaFrame from "@/components/ui/MediaFrame";
 import JsonLd from "@/components/ui/JsonLd";
 import PillarIcon from "@/components/ui/PillarIcon";
 
 import { getPillar, pillars } from "@/content/services";
+import { pillarImages, images } from "@/content/images";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata, serviceSchema } from "@/lib/seo";
 
@@ -63,6 +65,7 @@ export default async function PillarPage({ params }: Params) {
           { label: "Services", href: "/services" },
           { label: pillar.name },
         ]}
+        image={pillarImages[pillar.slug]}
       >
         <Button href={cta.primary.href} variant="light" size="lg" withArrow>
           {cta.primary.label}
@@ -74,6 +77,15 @@ export default async function PillarPage({ params }: Params) {
         <div className="container-page grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <SectionHeading title="The problem this solves" />
+            <div className="mt-8">
+              <MediaFrame
+                image={images.consultation}
+                className="aspect-[4/3] w-full"
+                sizes="(max-width: 1024px) 100vw, 30vw"
+                drift={6}
+                tint={false}
+              />
+            </div>
           </div>
           <ScrollHighlightText
             text={pillar.problem}

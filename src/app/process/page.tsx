@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import JsonLd from "@/components/ui/JsonLd";
 
 import { processPage, processStages } from "@/content/process";
+import { images } from "@/content/images";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -27,6 +28,7 @@ export default function ProcessPage() {
         title={processPage.h1}
         intro={processPage.intro}
         crumbs={[{ label: "Home", href: "/" }, { label: "Process" }]}
+        image={images.planning}
       >
         <Button href={cta.primary.href} variant="light" size="lg" withArrow>
           {cta.primary.label}

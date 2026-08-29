@@ -1,16 +1,22 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 import Breadcrumb, { type Crumb } from "@/components/ui/Breadcrumb";
 import { Eyebrow } from "@/components/ui/Section";
 import SplitText from "@/components/motion/SplitText";
 import Reveal from "@/components/motion/Reveal";
+import MorPankh from "@/components/graphics/MorPankh";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
+import type { SiteImage } from "@/content/images";
 
 /**
  * Inner-page hero. The whole block drifts up and fades as you scroll past it,
  * so the page beneath appears to slide over the top of it.
+ *
+ * Every page gets a graphic beside the headline: the photograph passed in, or
+ * the Mor Pankh when a page has no image of its own.
  */
 export default function PageHero({
   eyebrow,
@@ -18,6 +24,7 @@ export default function PageHero({
   accent,
   intro,
   crumbs,
+  image,
   children,
 }: {
   eyebrow: string;
@@ -25,6 +32,7 @@ export default function PageHero({
   accent?: string;
   intro?: string | string[];
   crumbs: Crumb[];
+  image?: SiteImage;
   children?: ReactNode;
 }) {
   const ref = useRef<HTMLElement>(null);
@@ -35,12 +43,13 @@ export default function PageHero({
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", reduceMotion ? "0%" : "22%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.85], [1, reduceMotion ? 1 : 0]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", reduceMotion ? "0%" : "12%"]);
   const paragraphs = Array.isArray(intro) ? intro : intro ? [intro] : [];
 
   return (
     <section
       ref={ref}
-      className="grain relative overflow-hidden bg-navy-950 pb-24 pt-36 text-white sm:pb-32 sm:pt-44"
+      className="grain relative overflow-hidden bg-navy-950 pb-24 pt-36 text-white sm:pb-28 sm:pt-40"
     >
       {/* Aurora field */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-0">
@@ -58,43 +67,76 @@ export default function PageHero({
         />
       </div>
 
-      <motion.div
-        className="container-page relative z-10"
-        style={{ y, opacity }}
-      >
-        <Reveal duration={0.5}>
-          <Breadcrumb items={crumbs} tone="light" />
-        </Reveal>
-        <div className="mt-8">
-          <Reveal duration={0.5} delay={0.05}>
-            <Eyebrow tone="light">{eyebrow}</Eyebrow>
+      <div className="container-page relative z-10 grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+        <motion.div style={{ y, opacity }}>
+          <Reveal duration={0.5}>
+            <Breadcrumb items={crumbs} tone="light" />
           </Reveal>
-          <h1 className="font-display mt-6 max-w-5xl text-balance text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-[3.9rem]">
-            <SplitText text={title} as="span" className="block" amount={0.1} />
-            {accent && (
-              <SplitText
-                text={accent}
-                as="span"
-                className="text-gradient-brand block"
-                delay={0.12}
-                amount={0.1}
-              />
+          <div className="mt-8">
+            <Reveal duration={0.5} delay={0.05}>
+              <Eyebrow tone="light">{eyebrow}</Eyebrow>
+            </Reveal>
+            <h1 className="font-display mt-6 text-balance text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-[3.6rem]">
+              <SplitText text={title} as="span" className="block" amount={0.1} />
+              {accent && (
+                <SplitText
+                  text={accent}
+                  as="span"
+                  className="text-gradient-brand block"
+                  delay={0.12}
+                  amount={0.1}
+                />
+              )}
+            </h1>
+            {paragraphs.map((paragraph, index) => (
+              <Reveal key={index} delay={0.18 + index * 0.07}>
+                <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-white/65">
+                  {paragraph}
+                </p>
+              </Reveal>
+            ))}
+            {children && (
+              <Reveal delay={0.3}>
+                <div className="mt-10">{children}</div>
+              </Reveal>
             )}
-          </h1>
-          {paragraphs.map((paragraph, index) => (
-            <Reveal key={index} delay={0.18 + index * 0.07}>
-              <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-white/65 sm:text-[1.08rem]">
-                {paragraph}
-              </p>
-            </Reveal>
-          ))}
-          {children && (
-            <Reveal delay={0.3}>
-              <div className="mt-10">{children}</div>
-            </Reveal>
+          </div>
+        </motion.div>
+
+        {/* The page's own visual, or the house feather. The photograph shows on
+            every screen — on mobile it stacks under the copy and breaks up
+            what would otherwise be a wall of text. The feather is decorative,
+            so it stays desktop-only. */}
+        <div className={image ? "" : "hidden lg:block"}>
+          {image ? (
+            <motion.div
+              style={{ y: imageY }}
+              initial={reduceMotion ? false : { clipPath: "inset(100% 0% 0% 0% round 1.5rem)" }}
+              animate={{ clipPath: "inset(0% 0% 0% 0% round 1.5rem)" }}
+              transition={{ duration: 1.1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/10 lg:aspect-[4/5]"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                priority
+                className="h-full w-full object-cover"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent"
+              />
+            </motion.div>
+          ) : (
+            <div className="pointer-events-none flex justify-center">
+              <MorPankh className="h-[28rem] w-[20rem]" idSuffix="page-hero" />
+            </div>
           )}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

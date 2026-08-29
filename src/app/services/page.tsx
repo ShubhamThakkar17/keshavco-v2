@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import PageHero from "@/components/layout/PageHero";
-import ServicesGrid from "@/components/sections/ServicesGrid";
+import CapabilityShowcase from "@/components/sections/CapabilityShowcase";
 import CtaBand from "@/components/sections/CtaBand";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import SpotlightCard from "@/components/motion/SpotlightCard";
@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import JsonLd from "@/components/ui/JsonLd";
 
 import { servicesHub } from "@/content/about";
+import { images } from "@/content/images";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -30,6 +31,7 @@ export default function ServicesPage() {
         title={servicesHub.h1}
         intro={servicesHub.intro}
         crumbs={[{ label: "Home", href: "/" }, { label: "Services" }]}
+        image={images.planning}
       >
         <Button href={cta.primary.href} variant="light" size="lg" withArrow>
           {cta.primary.label}
@@ -70,7 +72,7 @@ export default function ServicesPage() {
             body="Each capability below is a full practice with its own specialists. They are planned together, and priced as one engagement."
           />
           <div className="mt-16">
-            <ServicesGrid />
+            <CapabilityShowcase />
           </div>
         </div>
       </section>

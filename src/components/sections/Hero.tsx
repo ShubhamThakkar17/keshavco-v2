@@ -7,7 +7,7 @@ import { cta } from "@/content/site";
 import Button from "@/components/ui/Button";
 import RotatingWords from "@/components/motion/RotatingWords";
 import { Eyebrow } from "@/components/ui/Section";
-import HeroPanel from "@/components/sections/HeroPanel";
+import MorPankh from "@/components/graphics/MorPankh";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
 
 const line = {
@@ -66,6 +66,11 @@ export default function Hero() {
             style={{ background: "radial-gradient(closest-side, #22C55E, transparent)" }}
           />
         </motion.div>
+
+        {/* On narrow screens the feather washes in behind the headline. */}
+        <div className="absolute -right-24 top-24 w-[26rem] opacity-[0.16] lg:hidden">
+          <MorPankh className="h-[32rem] w-full" animate={false} idSuffix="hero-bg" />
+        </div>
 
         {/* Faint measurement grid, parallaxed behind everything. */}
         <motion.div
@@ -164,8 +169,9 @@ export default function Hero() {
         </motion.div>
         </div>
 
-        <div className="hidden shrink-0 xl:block">
-          <HeroPanel />
+        {/* The Mor Pankh — Krishna's feather, and the reason for the name. */}
+        <div className="pointer-events-none hidden shrink-0 lg:block">
+          <MorPankh className="h-[34rem] w-[24rem] xl:h-[40rem] xl:w-[28rem]" idSuffix="hero" />
         </div>
       </motion.div>
 

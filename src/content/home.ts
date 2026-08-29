@@ -21,7 +21,11 @@ export const hero = {
     "brand positioning",
     "scale challenges",
   ],
+  /** Shown in the hero. Kept to two sentences — the full version is below. */
   subheading:
+    "Most businesses do not have a marketing problem. They have a coordination problem — and one partner who owns the strategy, runs the execution and reports on the result.",
+  /** The complete positioning paragraph, used where there is room for it. */
+  subheadingFull:
     "Most businesses do not have a marketing problem. They have a coordination problem — a branding agency here, a web developer there, an ads freelancer somewhere else, and nobody accountable for the outcome. KeshavCo replaces that with one partner who owns the strategy, runs the execution and reports on the result.",
   quote: "An external growth department — not another vendor.",
 };

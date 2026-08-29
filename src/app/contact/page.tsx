@@ -8,6 +8,7 @@ import JsonLd from "@/components/ui/JsonLd";
 
 import { contactPage } from "@/content/misc";
 import { site } from "@/content/site";
+import { images } from "@/content/images";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({ ...contactPage.seo, path: "/contact" });
@@ -27,6 +28,7 @@ export default function ContactPage() {
         title={contactPage.h1}
         intro={contactPage.intro}
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+        image={images.consultation}
       />
 
       <section className="bg-navy-50 py-24 sm:py-32">

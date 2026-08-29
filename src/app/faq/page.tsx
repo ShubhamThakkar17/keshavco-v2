@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/ui/Section";
 import Reveal from "@/components/motion/Reveal";
 
 import { faqPage, faqs } from "@/content/faq";
+import { images } from "@/content/images";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 
@@ -30,6 +31,7 @@ export default function FaqPage() {
         title={faqPage.h1}
         intro={faqPage.intro}
         crumbs={[{ label: "Home", href: "/" }, { label: "FAQ" }]}
+        image={images.workspace}
       >
         <Button href={cta.primary.href} variant="light" size="lg" withArrow>
           {cta.primary.label}

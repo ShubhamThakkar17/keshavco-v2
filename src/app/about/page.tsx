@@ -9,8 +9,10 @@ import Counter from "@/components/motion/Counter";
 import { SectionHeading } from "@/components/ui/Section";
 import JsonLd from "@/components/ui/JsonLd";
 import Button from "@/components/ui/Button";
+import MediaFrame from "@/components/ui/MediaFrame";
 
 import { aboutPage } from "@/content/about";
+import { images } from "@/content/images";
 import { pillars } from "@/content/services";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
@@ -30,8 +32,9 @@ export default function AboutPage() {
       <PageHero
         eyebrow={aboutPage.eyebrow}
         title={aboutPage.h1}
-        intro={aboutPage.intro}
+        intro={aboutPage.intro[0]}
         crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
+        image={images.office}
       >
         <Button href={cta.primary.href} variant="light" size="lg" withArrow>
           {cta.primary.label}
@@ -43,6 +46,15 @@ export default function AboutPage() {
         <div className="container-page grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <SectionHeading title={aboutPage.whyWeExist.heading} />
+            <div className="mt-8">
+              <MediaFrame
+                image={images.boardroom}
+                className="aspect-[4/3] w-full"
+                sizes="(max-width: 1024px) 100vw, 32vw"
+                drift={6}
+                tint={false}
+              />
+            </div>
           </div>
           <div>
             <ScrollHighlightText
@@ -115,7 +127,16 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <RevealGroup className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14">
+            <MediaFrame
+              image={images.teamMeeting}
+              className="aspect-[21/9] w-full"
+              sizes="100vw"
+              drift={5}
+            />
+          </div>
+
+          <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar) => (
               <RevealItem key={pillar.slug}>
                 <SpotlightCard className="h-full rounded-2xl border border-navy-900/10 bg-navy-50/60 p-7">

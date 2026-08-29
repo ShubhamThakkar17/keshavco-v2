@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import JsonLd from "@/components/ui/JsonLd";
 
 import { packagesPage } from "@/content/packages";
+import { images } from "@/content/images";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -31,8 +32,9 @@ export default function GrowthPackagesPage() {
         eyebrow={packagesPage.eyebrow}
         title={packagesPage.h1Prefix}
         accent={packagesPage.h1Accent}
-        intro={packagesPage.intro}
+        intro={packagesPage.intro[0]}
         crumbs={[{ label: "Home", href: "/" }, { label: "Growth Packages" }]}
+        image={images.boardroom}
       >
         <Button href={cta.primary.href} variant="light" size="lg" withArrow>
           {cta.primary.label}

@@ -11,6 +11,7 @@ import Button from "@/components/ui/Button";
 import JsonLd from "@/components/ui/JsonLd";
 
 import { allServicePaths, getSubService } from "@/content/services";
+import { pillarImages } from "@/content/images";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata, serviceSchema } from "@/lib/seo";
 
@@ -69,6 +70,7 @@ export default async function SubServicePage({ params }: Params) {
           { label: pillar.name, href: pillarPath },
           { label: service.name },
         ]}
+        image={pillarImages[pillar.slug]}
       >
         <div className="flex flex-wrap gap-3">
           <Button href={ctaButton.href} variant="light" size="lg" withArrow>

@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import JsonLd from "@/components/ui/JsonLd";
 
 import { industriesPage } from "@/content/industries";
+import { images } from "@/content/images";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -32,6 +33,7 @@ export default function IndustriesPage() {
         title={industriesPage.h1}
         intro={industriesPage.intro}
         crumbs={[{ label: "Home", href: "/" }, { label: "Industries" }]}
+        image={images.office}
       >
         <Button href={cta.primary.href} variant="light" size="lg" withArrow>
           {cta.primary.label}

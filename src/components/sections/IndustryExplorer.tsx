@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { industries } from "@/content/industries";
+import { industryImages } from "@/content/images";
 import Reveal from "@/components/motion/Reveal";
 
 /**
@@ -78,17 +80,33 @@ export default function IndustryExplorer() {
             className="scroll-mt-28"
           >
             <Reveal>
-              <div className="rounded-3xl border border-navy-900/10 bg-white p-8 transition-colors sm:p-10">
-                <div className="flex items-baseline gap-4">
-                  <span className="font-display text-xs font-semibold tabular-nums text-navy-300">
-                    {String(index + 1).padStart(2, "0")}
+              <div className="overflow-hidden rounded-3xl border border-navy-900/10 bg-white transition-colors">
+                {/* The photograph carries the industry before a word is read. */}
+                <div className="relative h-52 w-full overflow-hidden sm:h-64">
+                  <Image
+                    src={industryImages[industry.slug].src}
+                    alt={industryImages[industry.slug].alt}
+                    width={industryImages[industry.slug].width}
+                    height={industryImages[industry.slug].height}
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    className="h-full w-full object-cover"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/30 to-transparent"
+                  />
+                  <span className="absolute inset-x-0 bottom-0 flex items-baseline gap-4 p-7 sm:p-8">
+                    <span className="font-display text-xs font-semibold tabular-nums text-white/50">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                      {industry.name}
+                    </span>
                   </span>
-                  <h2 className="font-display text-2xl font-bold tracking-tight text-navy-900 sm:text-3xl">
-                    {industry.name}
-                  </h2>
                 </div>
 
-                <div className="mt-8 grid gap-8 lg:grid-cols-2">
+                <div className="p-8 sm:p-10">
+                <div className="grid gap-8 lg:grid-cols-2">
                   <div>
                     <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-navy-400">
                       The growth problem
@@ -121,6 +139,7 @@ export default function IndustryExplorer() {
                       </li>
                     ))}
                   </ul>
+                </div>
                 </div>
               </div>
             </Reveal>

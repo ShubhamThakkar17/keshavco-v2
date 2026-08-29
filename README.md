@@ -50,6 +50,57 @@ src/
 **All copy is in `src/content/`.** Editing text never means touching a
 component. Each module maps to a section of the source copy document.
 
+## Visual system
+
+The site is graphic-led, not text-led. Three layers do that work.
+
+### 1. The Mor Pankh
+
+`src/components/graphics/MorPankh.tsx` is the signature: the peacock feather
+Krishna wears, and the reason the business is called Keshav. It is drawn in
+code — 20 barbs fanned from the quill, three nested plume arcs, concentric eye
+rings — so it is original to this site and recolours with the brand rather than
+being a stock asset. It draws itself on load, sways on a long loop, and drifts
+against the scroll.
+
+It appears large beside the home headline, washed in behind the copy on mobile,
+and as the fallback visual on any inner page that has no photograph of its own.
+`tone="onLight"` deepens the palette for light backgrounds.
+
+### 2. Photography
+
+Seventeen photographs in `public/images/`, registered with dimensions and alt
+text in `src/content/images.ts`. Every page hero, capability card, industry
+panel and section break is led by one. All are Unsplash-licensed (free for
+commercial use); `public/images/CREDITS.md` records every source ID so any
+image can be traced or swapped.
+
+**These are placeholders for real KeshavCo work.** Replace them with client
+projects, team portraits and case-study photography as they become available —
+`src/content/images.ts` is the only file that needs editing.
+
+### 3. Composition devices
+
+- `MediaFrame` — a photograph that wipes open from the bottom while the image
+  drifts against the scroll inside it
+- `CapabilityShowcase` — capability cards where the photograph *is* the card;
+  one line of copy, and the sub-service list expands on hover
+- `IndustryRail` — a pinned section that holds still while seven industry cards
+  travel sideways
+- Bento grids mixing cards, photographs and the support panel
+
+### Text density
+
+The home page deliberately shows the short version: one paragraph where the
+copy document has three, a written one-line `tagline` on every card, and detail
+that expands on hover instead of sitting open. Nothing was deleted — the full
+approved copy still lives in `src/content` and is rendered in full on About,
+Services, the pillar pages and Process, which is where someone who wants the
+detail goes.
+
+Cards use written `tagline` fields rather than truncating a paragraph, so a
+short line never reads as a fragment.
+
 ## Scroll animation system
 
 The animation vocabulary is deliberately small and reused everywhere, so the
@@ -77,7 +128,7 @@ cards (`sections/PackagesStack.tsx`), the scroll-filled process spine
 
 ### Reduced motion
 
-Every primitive checks `useReducedMotion()`. With
+Every primitive checks `useReducedMotionSafe()`. With
 `prefers-reduced-motion: reduce` the site renders fully static: Lenis is never
 initialised, parallax and scroll-linked transforms are dropped, rotating words
 settle on the first phrase, and `globals.css` neutralises transitions. Nothing
@@ -127,6 +178,9 @@ Everything below is a real placeholder in the codebase, not a nice-to-have.
 - [ ] **Logo master files** — `src/components/ui/Logo.tsx` renders the feather
       mark in code; swap in the supplied master SVG, and replace
       `src/app/icon.svg`
+- [ ] **Photography** — the 17 images in `public/images/` are licensed stock
+      standing in for real work. Replace with KeshavCo project photography,
+      client work and team portraits; update `src/content/images.ts`
 - [ ] **Open Graph image** — add `src/app/opengraph-image.png` (1200×630, dark,
       logo + "One partner. Strategy to execution.")
 - [ ] **Legal pages** — `legalPages` in `src/content/misc.ts` holds placeholder

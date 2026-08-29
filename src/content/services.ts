@@ -18,6 +18,8 @@ export type Pillar = {
   eyebrow: string;
   /** Short line used on the home and services-hub capability cards. */
   cardBody: string;
+  /** A single written line for image-led cards, where a paragraph will not fit. */
+  tagline: string;
   h1: string;
   intro: string;
   problem: string;
@@ -33,6 +35,7 @@ export const pillars: Pillar[] = [
     slug: "strategy",
     name: "Strategy",
     eyebrow: "Strategy",
+    tagline: "Know what you are solving before you spend on solving it.",
     cardBody:
       "Before you spend on marketing, you need to know what you are solving. We build the growth plan: where the revenue comes from, which markets to enter, how to position, and what to do first.",
     h1: "Decide where growth comes from — before you spend on it",
@@ -180,6 +183,7 @@ export const pillars: Pillar[] = [
     slug: "branding",
     name: "Branding",
     eyebrow: "Branding",
+    tagline: "Buyers decide how serious you are in seconds.",
     cardBody:
       "Buyers decide how serious you are in seconds. We build brand identities, profiles and pitch material that make a growing business look like the credible choice.",
     h1: "Look like the business you are becoming",
@@ -327,6 +331,7 @@ export const pillars: Pillar[] = [
     slug: "technology",
     name: "Technology",
     eyebrow: "Technology",
+    tagline: "The digital infrastructure your growth actually runs on.",
     cardBody:
       "We build the digital infrastructure your growth runs on — websites that convert, ecommerce that scales, CRMs that stop leads leaking, and automation that removes manual work.",
     h1: "Build the infrastructure your growth runs on",
@@ -474,6 +479,7 @@ export const pillars: Pillar[] = [
     slug: "digital-marketing",
     name: "Digital Marketing",
     eyebrow: "Digital Marketing",
+    tagline: "Get found by the customers already searching for what you sell.",
     cardBody:
       "We help your business get found by customers already searching for what you sell, and turn that attention into qualified enquiries you can track.",
     h1: "Be found by customers who are already looking",

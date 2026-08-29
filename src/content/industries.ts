@@ -18,6 +18,8 @@ export const industriesPage = {
 export type Industry = {
   slug: string;
   name: string;
+  /** One line for cards and rails — written, not truncated from `problem`. */
+  tagline: string;
   problem: string;
   help: string;
   typicalWork: string[];
@@ -26,6 +28,7 @@ export type Industry = {
 export const industries: Industry[] = [
   {
     slug: "manufacturing",
+    tagline: "Long sales cycles, technical buyers, and no presence where they research.",
     name: "Manufacturing",
     problem:
       "Long sales cycles, technical buyers, dealer and distributor networks, and a digital presence that has not kept pace with the scale of the business. Buyers research online and buy offline — and most manufacturers are invisible in the research stage.",
@@ -41,6 +44,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "healthcare",
+    tagline: "Trust is the entire purchase decision, and regulation limits the claims.",
     name: "Healthcare",
     problem:
       "Trust is the entire purchase decision, regulations limit what you can claim, and patients or partners choose based on credibility they can verify. Reputation and reach must grow together, carefully.",
@@ -56,6 +60,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "education",
+    tagline: "Admissions run on a calendar, and the decision-maker is rarely the student.",
     name: "Education",
     problem:
       "Admissions run on a calendar, the decision-maker is often not the student, and every institution in the market is making the same claims in the same window.",
@@ -71,6 +76,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "real-estate",
+    tagline: "Lead quality matters more than lead volume, and follow-up decides everything.",
     name: "Real Estate",
     problem:
       "High-value, high-consideration purchases where a single enquiry is worth a great deal — so lead quality matters more than lead volume, and follow-up decides everything.",
@@ -86,6 +92,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "d2c",
+    tagline: "Growth stalls the moment paid spend stops.",
     name: "D2C",
     problem:
       "Rising acquisition costs, thin differentiation and a business that only works if customers come back. Growth stalls the moment paid spend stops.",
@@ -101,6 +108,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "retail",
+    tagline: "Footfall depends on local visibility; the last three feet decide the sale.",
     name: "Retail",
     problem:
       "Footfall depends on visibility in a local catchment, and the last three feet inside the store decide the sale. Online presence supports the visit rather than replacing it.",
@@ -116,6 +124,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "professional-services",
+    tagline: "You sell expertise buyers cannot evaluate before they buy.",
     name: "Professional Services",
     problem:
       "You sell expertise that buyers cannot evaluate before they buy. The decision is made on credibility, referral and reputation — and most firms have no visible presence to support any of the three.",

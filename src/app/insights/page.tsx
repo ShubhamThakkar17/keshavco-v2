@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/ui/Section";
 import JsonLd from "@/components/ui/JsonLd";
 
 import { insightsPage } from "@/content/misc";
+import { images } from "@/content/images";
 import { newsletter } from "@/content/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -28,6 +29,7 @@ export default function InsightsPage() {
         title={insightsPage.h1}
         intro={insightsPage.intro}
         crumbs={[{ label: "Home", href: "/" }, { label: "Insights" }]}
+        image={images.designBoards}
       />
 
       <section className="bg-white py-24 sm:py-32">
