@@ -151,6 +151,25 @@ other changes.
 The **Expand** growth package and the **Industries** "typical work" lists were
 adjusted for the same reason.
 
+## Booking — Cal.com
+
+`/contact#book` embeds the Cal.com event `hello-kc/discovery` inline via
+`@calcom/embed-react` (namespace `discovery`, month view). Every "Book a
+Growth Consultation" button on the site points at that anchor. The event,
+namespace and direct URL are configured in one place — `booking` in
+`src/content/site.ts`.
+
+`BookingEmbed` judges readiness by watching for Cal's `iframe` to appear,
+**not** by whether `getCalApi()` resolved — that promise settles as soon as
+the queue is set up, whether or not `embed.js` actually loads. If no iframe
+appears within nine seconds the component shows a fallback with a direct link
+to the booking page and the phone number, so an ad blocker, a locked-down
+corporate network or a Cal outage never leaves an empty box.
+
+> The build sandbox blocks `app.cal.com`, so the embed was verified through
+> its fallback path rather than with a live calendar. Check the calendar
+> renders on the first real deploy.
+
 ## Contact form
 
 `ContactForm` posts JSON to `POST /api/enquiry`. The route validates the
@@ -169,9 +188,8 @@ UI-only and needs the same treatment.
 
 Everything below is a real placeholder in the codebase, not a nice-to-have.
 
-- [ ] **Phone number** — `site.phone` in `src/content/site.ts`
-- [ ] **Office address** — `site.addressLines`
-- [ ] **Working hours** — `site.workingHours`
+- [x] **Phone number** — +91 70411 92168
+- [ ] **Working hours** — `site.workingHours` in `src/content/site.ts`
 - [ ] **Social profile URLs** — `site.social` (all currently `#`)
 - [ ] **Enquiry delivery** — set `ENQUIRY_WEBHOOK_URL`
 - [ ] **Newsletter signup** — wire the footer form to a provider

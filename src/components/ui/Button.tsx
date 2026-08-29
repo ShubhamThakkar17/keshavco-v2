@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import type { MouseEvent, ReactNode } from "react";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
 
-type Variant = "primary" | "secondary" | "ghost" | "light";
+type Variant = "primary" | "secondary" | "ghost" | "light" | "onBrand";
 type Size = "md" | "lg";
 
 const base =
@@ -19,6 +19,11 @@ const variants: Record<Variant, string> = {
   ghost: "text-navy-900 hover:text-indigo-brand px-0",
   light:
     "border border-white/25 bg-white/10 text-white backdrop-blur hover:border-white/60 hover:bg-white/20",
+  // For sitting on the brand gradient. Use this rather than overriding
+  // `primary` with bg/text utilities: equal-specificity Tailwind classes are
+  // resolved by stylesheet order, not by the order they are written, so an
+  // override can silently lose and leave white text on a white pill.
+  onBrand: "bg-white text-navy-900 hover:bg-white/90",
 };
 
 const sizes: Record<Size, string> = {

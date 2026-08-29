@@ -109,27 +109,39 @@ export default function PageHero({
             so it stays desktop-only. */}
         <div className={image ? "" : "hidden lg:block"}>
           {image ? (
-            <motion.div
-              style={{ y: imageY }}
-              initial={reduceMotion ? false : { clipPath: "inset(100% 0% 0% 0% round 1.5rem)" }}
-              animate={{ clipPath: "inset(0% 0% 0% 0% round 1.5rem)" }}
-              transition={{ duration: 1.1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/10 lg:aspect-[4/5]"
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                priority
-                className="h-full w-full object-cover"
-              />
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/10 lg:aspect-[4/5]">
+              {/* Two counter-moving transforms, not a clip-path animation —
+                  see the note in MediaFrame for why clip-path silently fails. */}
+              <motion.div
+                className="h-full w-full"
+                initial={reduceMotion ? false : { y: "101%" }}
+                animate={{ y: "0%" }}
+                transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <motion.div
+                  className="relative h-full w-full overflow-hidden"
+                  initial={reduceMotion ? false : { y: "-101%" }}
+                  animate={{ y: "0%" }}
+                  transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <motion.div className="absolute inset-0" style={{ y: imageY }}>
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      sizes="(max-width: 1024px) 100vw, 40vw"
+                      priority
+                      className="h-full w-full object-cover"
+                    />
+                  </motion.div>
+                </motion.div>
+              </motion.div>
               <span
                 aria-hidden="true"
                 className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent"
               />
-            </motion.div>
+            </div>
           ) : (
             <div className="pointer-events-none flex justify-center">
               <MorPankh className="h-[28rem] w-[20rem]" idSuffix="page-hero" />

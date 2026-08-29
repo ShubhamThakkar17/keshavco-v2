@@ -26,7 +26,6 @@ import {
   advantageBand,
   capabilityBand,
   faqSection,
-  midCta,
   processSection,
   proofCounters,
   servicesSection,
@@ -345,25 +344,6 @@ export default function HomePage() {
             </Reveal>
           </div>
           <ProcessTimeline stages={processSection.steps} />
-        </div>
-      </section>
-
-      {/* ------------------------------------------------- Mid-page CTA */}
-      <section className="bg-gradient-brand relative overflow-hidden py-16 sm:py-20">
-        <div className="container-page relative z-10 flex flex-col items-center gap-8 text-center lg:flex-row lg:justify-between lg:text-left">
-          <h2 className="font-display max-w-2xl text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.1rem]">
-            <SplitText text={midCta.heading} />
-          </h2>
-          <Reveal direction="left" delay={0.1}>
-            <Button
-              href={cta.primary.href}
-              size="lg"
-              withArrow
-              className="bg-white text-navy-900 hover:bg-white/90"
-            >
-              {cta.primary.label}
-            </Button>
-          </Reveal>
         </div>
       </section>
 

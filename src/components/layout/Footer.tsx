@@ -96,8 +96,11 @@ export default function Footer() {
                   {site.email}
                 </a>
               </li>
-              <li>{site.phone}</li>
-              <li>{site.addressLines.join(", ")}</li>
+              <li>
+                <a href={site.phoneHref} className="transition-colors hover:text-white">
+                  {site.phone}
+                </a>
+              </li>
             </ul>
 
             <div className="mt-8">

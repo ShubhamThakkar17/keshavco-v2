@@ -4,9 +4,9 @@ export const site = {
   domain: "keshavco.com",
   url: "https://keshavco.com",
   email: "hello@keshavco.com",
-  // Pre-launch placeholders — see README checklist.
-  phone: "[Phone number]",
-  addressLines: ["[Address line 1]", "[City, State, PIN]"],
+  phone: "+91 70411 92168",
+  phoneHref: "tel:+917041192168",
+  // Pre-launch placeholder — see README checklist.
   workingHours: "[Monday – Saturday, 10:00 am – 7:00 pm IST]",
   tagline: "One partner. Strategy to execution.",
   description:
@@ -19,8 +19,17 @@ export const site = {
   ],
 } as const;
 
+/** Cal.com booking. Change the event here and every CTA follows. */
+export const booking = {
+  namespace: "discovery",
+  calLink: "hello-kc/discovery",
+  directUrl: "https://cal.com/hello-kc/discovery",
+  heading: "Pick a time that suits you",
+  body: "A 30-minute growth consultation. No cost, no deck, no obligation — bring the problem and you will leave with a point of view.",
+} as const;
+
 export const cta = {
-  primary: { label: "Book a Growth Consultation", href: "/contact" },
+  primary: { label: "Book a Growth Consultation", href: "/contact#book" },
   secondary: { label: "Talk to an Expert", href: "/contact" },
   tertiary: { label: "Request Proposal", href: "/contact?intent=proposal" },
 } as const;
