@@ -16,12 +16,9 @@ import { brand } from "@/content/brand";
  */
 export default function BrandFeature({
   className = "",
-  tone = "light",
   priority = false,
 }: {
   className?: string;
-  /** `light` = reversed artwork for dark grounds. */
-  tone?: "dark" | "light";
   priority?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -61,7 +58,7 @@ export default function BrandFeature({
           }
         >
           <Image
-            src={tone === "light" ? brand.markLight : brand.mark}
+            src={brand.mark}
             alt=""
             aria-hidden="true"
             width={brand.markSize.width}

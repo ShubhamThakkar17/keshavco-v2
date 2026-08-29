@@ -1,37 +1,41 @@
 # Brand assets
 
-Every logo on the site resolves through `src/content/brand.ts`, which points
-here. **Replacing these files updates the header, footer, favicon and the large
-hero graphic at once — no code change.**
+The supplied Keshav Consultancy artwork. Every logo on the site resolves
+through `src/content/brand.ts`, which points here — replacing a file updates
+the header, footer, hero and page heroes with no code change.
 
-| File | Where it appears |
-| :--- | :--------------- |
-| `mark.svg` | Light grounds — the condensed header |
-| `mark-light.svg` | Dark grounds — the transparent header, footer, hero, page heroes |
+| File | Used for |
+| :--- | :------- |
+| `mark.png` | **Every logo on the site** — header, footer, hero, page heroes |
+| `logo-horizontal.png` | Supplied lockup. Not used on the site — see below |
+| `logo-vertical.png` | Supplied lockup. Not used on the site — see below |
 
-`src/app/icon.svg` (the favicon) is generated from `mark-light.svg` on a navy
-rounded square; regenerate or replace it when the mark changes.
+`src/app/icon.png` (the favicon) is `mark.png` composited on the brand navy in
+a rounded square. Regenerate it if the mark changes.
 
-## These are stand-ins
+## Why only the mark is used on the site
 
-The supplied logo artwork reached the build as images, not as files, so it
-could not be embedded. What ships here is a **close reconstruction** of the
-Keshav Consultancy mark — nested pointed arches, the two-tone droplet, the
-tiered plume and the stem, in the brand palette — not the master artwork.
+The mark is authored with real transparency and holds up on both the white and
+the navy sections, so one file serves everywhere — there is no reversed variant
+to keep in step.
 
-To put the real logo on the site, drop the supplied files in at the two paths
-above. Notes:
+The two lockups are stored here as masters for decks, email signatures and
+social profiles, but the site does not use them:
 
-- **SVG is strongly preferred.** The mark renders anywhere from 36px in the
-  header to ~600px in the hero; vector stays crisp at both.
-- **Transparent background.** The supplied PNGs have a white background, which
-  would show as a white box on the dark navy sections.
-- **`mark-light.svg` needs to be a reversed version.** The master's outer barbs
-  are deep navy, which disappears on the dark sections. If a reversed master
-  does not exist, ask for one, or the mark can be lightened programmatically.
-- If only PNG masters exist, save them as `mark.png` / `mark-light.png` and
-  change the two paths in `src/content/brand.ts`. Supply at 1024px or larger.
+- **`logo-horizontal.png` has an opaque white background**, which would show as
+  a white box on every dark section.
+- **Both lockups set the wordmark in deep navy**, which all but disappears on
+  the navy sections. Only the green "GROWTH." in the tagline survives.
 
-The full horizontal and stacked lockups are not used on the site: the header
-and footer pair the mark with live text so the wordmark stays crisp and can
-recolour per background. Add them here if they are needed for other surfaces.
+So the header and footer pair `mark.png` with the wordmark as live text. That
+keeps it crisp at any size, lets it recolour per background, and means the
+lockups never need a reversed export.
+
+If a reversed lockup (white wordmark, transparent background) is produced
+later, add it here and the header and footer can switch to it.
+
+## Replacing the artwork
+
+Drop a new file in at the same path. SVG is preferred over PNG — the mark
+renders from 36px in the header to roughly 600px in the hero — in which case
+also update the path and `markSize` in `src/content/brand.ts`.

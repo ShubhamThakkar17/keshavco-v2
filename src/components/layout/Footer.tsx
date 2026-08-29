@@ -50,7 +50,7 @@ export default function Footer() {
         <div className="mt-20 grid gap-12 border-t border-white/10 pt-14 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
             <div className="flex items-center gap-3">
-              <LogoMark className="h-10 w-10" tone="light" />
+              <LogoMark className="h-10 w-10" />
               <span className="flex flex-col leading-none">
                 <span className="font-display text-lg font-extrabold tracking-tight">Keshav</span>
                 <span className="mt-1 text-[0.72rem] font-medium tracking-[0.16em] text-white/55">

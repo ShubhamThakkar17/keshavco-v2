@@ -72,7 +72,7 @@ export default function Hero() {
         {/* On narrow screens the mark washes in behind the headline. */}
         <div className="absolute -right-20 top-24 w-[24rem] opacity-[0.14] lg:hidden">
           <Image
-            src={brand.markLight}
+            src={brand.mark}
             alt=""
             width={brand.markSize.width}
             height={brand.markSize.height}

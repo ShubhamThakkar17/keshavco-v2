@@ -10,17 +10,14 @@ import { brand } from "@/content/brand";
  */
 export function LogoMark({
   className = "h-9 w-9",
-  tone = "dark",
   priority = false,
 }: {
   className?: string;
-  /** Which ground it sits on: `light` picks the reversed artwork. */
-  tone?: "dark" | "light";
   priority?: boolean;
 }) {
   return (
     <Image
-      src={tone === "light" ? brand.markLight : brand.mark}
+      src={brand.mark}
       alt=""
       aria-hidden="true"
       width={brand.markSize.width}
@@ -49,8 +46,7 @@ export default function Logo({
       className={`group inline-flex items-center gap-3 ${className}`}
     >
       <LogoMark
-        className="h-9 w-9 shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-0.5"
-        tone={tone}
+        className="h-10 w-10 shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-0.5"
         priority
       />
       {showWordmark && (

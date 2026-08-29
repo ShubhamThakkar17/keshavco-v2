@@ -57,20 +57,20 @@ The site is graphic-led, not text-led. Three layers do that work.
 
 ### 1. The brand mark
 
-Every logo on the site — header, footer, favicon, and the large hero graphic —
-resolves through `src/content/brand.ts`, which points at `public/brand/`.
-Replacing the artwork there updates all of them at once, with no code change.
+The supplied Keshav Consultancy artwork lives in `public/brand/` and resolves
+through `src/content/brand.ts`, so every logo — header, footer, favicon and the
+large hero graphic — comes from one file. Replacing it updates all of them.
 
-`BrandFeature` renders the mark at display size with a brand-coloured halo: it
+The mark is authored with real transparency and holds up on both the white and
+the navy sections, so a single file serves everywhere; there is no reversed
+variant to keep in step. The header and footer pair it with the wordmark as
+live text, which keeps it crisp at any size and lets it recolour per
+background — the supplied lockups set the wordmark in deep navy, which would
+disappear on the dark sections. `public/brand/README.md` covers this.
+
+`BrandFeature` renders the mark at display size over a brand-coloured halo: it
 rises in on load, breathes on a long loop and drifts against the scroll. It is
 the hero graphic and the fallback visual on inner pages without a photograph.
-
-> **The mark currently shipping is a stand-in.** The supplied logo artwork
-> reached the build as images, not files, so it could not be embedded — what is
-> there is a close reconstruction in the brand palette. See
-> `public/brand/README.md` for exactly what to drop in, and why SVG with a
-> transparent background (plus a reversed version for the dark sections) is
-> what the site needs.
 
 ### 2. Photography
 
@@ -198,9 +198,10 @@ Everything below is a real placeholder in the codebase, not a nice-to-have.
 - [ ] **Social profile URLs** — `site.social` (all currently `#`)
 - [ ] **Enquiry delivery** — set `ENQUIRY_WEBHOOK_URL`
 - [ ] **Newsletter signup** — wire the footer form to a provider
-- [ ] **Logo master files** — `public/brand/mark.svg` and `mark-light.svg` are
-      a reconstruction, not the supplied artwork. Replace both, then regenerate
-      `src/app/icon.svg`. See `public/brand/README.md`
+- [x] **Logo** — supplied artwork installed in `public/brand/`
+- [ ] **Reversed lockup** (optional) — if a white-wordmark, transparent-background
+      lockup is produced, add it to `public/brand/` and the header and footer can
+      use it instead of the mark-plus-live-text pairing
 - [ ] **Photography** — the 17 images in `public/images/` are licensed stock
       standing in for real work. Replace with KeshavCo project photography,
       client work and team portraits; update `src/content/images.ts`
