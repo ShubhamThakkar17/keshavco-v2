@@ -1,31 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 /**
- * `prefers-reduced-motion`, resolved only after mount.
+ * "Should this visitor get reduced motion?", resolved only after hydration.
  *
- * Framer's own `useReducedMotion` can resolve to a different value on the
- * server than on the client's first render. Any component that branches on it
- * to render *different markup* — a split heading vs. a plain string, a counter
- * at 0 vs. at its final value — then hydrates with mismatched output, which
- * React reports as a hydration error and repairs by re-rendering the subtree.
+ * True when the OS asks for `prefers-reduced-motion: reduce` **or** the site's
+ * own footer toggle has set `<html data-motion="off">`. Both are watched, so
+ * flipping either updates every component live.
  *
- * Returning `false` until mounted keeps the first client render identical to
- * the server's, then flips to the real preference on the next commit. Reduced
- * motion still wins; it just wins one paint later.
+ * The server snapshot is always `false`, so the first client render matches
+ * the server's markup; React then re-renders with the real value. Components
+ * that branch on this to render different markup (a split heading vs. a plain
+ * string) therefore never hydrate with a mismatch. Reduced motion still wins,
+ * one commit later.
  */
+const QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribe(onChange: () => void) {
+  const media = window.matchMedia(QUERY);
+  media.addEventListener("change", onChange);
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-motion"],
+  });
+  return () => {
+    media.removeEventListener("change", onChange);
+    observer.disconnect();
+  };
+}
+
+function getSnapshot() {
+  return (
+    window.matchMedia(QUERY).matches ||
+    document.documentElement.getAttribute("data-motion") === "off"
+  );
+}
+
+const getServerSnapshot = () => false;
+
 export default function useReducedMotionSafe(): boolean {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(query.matches);
-
-    const onChange = (event: MediaQueryListEvent) => setReduced(event.matches);
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, []);
-
-  return reduced;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

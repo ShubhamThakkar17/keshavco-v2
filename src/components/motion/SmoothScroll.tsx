@@ -3,26 +3,29 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
+import { setLenis } from "@/lib/lenis";
 
 /**
- * Lenis inertial scrolling, wired to the rAF loop.
+ * Lenis inertial scrolling for wheel input, wired to the rAF loop.
  *
- * Skipped entirely when the visitor prefers reduced motion — hijacking the
- * scroll wheel is exactly what that setting is asking us not to do.
+ * Touch devices keep native scrolling (`syncTouch: false`). Skipped entirely
+ * when the visitor prefers reduced motion or has switched motion off:
+ * hijacking the scroll wheel is exactly what that setting asks us not to do.
+ * The instance is shared through `@/lib/lenis` so menus can pause it.
  */
 export default function SmoothScroll() {
   const reduceMotion = useReducedMotionSafe();
 
   useEffect(() => {
     if (reduceMotion) return;
-    if (typeof window === "undefined") return;
 
     const lenis = new Lenis({
-      duration: 1.05,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.1,
+      wheelMultiplier: 1,
       smoothWheel: true,
-      touchMultiplier: 1.6,
+      syncTouch: false,
     });
+    setLenis(lenis);
 
     let frame = 0;
     const raf = (time: number) => {
@@ -40,13 +43,14 @@ export default function SmoothScroll() {
       const target = document.querySelector(id);
       if (!target) return;
       event.preventDefault();
-      lenis.scrollTo(target as HTMLElement, { offset: -100 });
+      lenis.scrollTo(target as HTMLElement, { offset: -24 });
     };
     document.addEventListener("click", onClick);
 
     return () => {
       document.removeEventListener("click", onClick);
       cancelAnimationFrame(frame);
+      setLenis(null);
       lenis.destroy();
     };
   }, [reduceMotion]);

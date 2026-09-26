@@ -1,0 +1,59 @@
+/**
+ * Copy for the internal /lab playground (not indexed, not linked, gated in
+ * production). Where a demo needs real words it borrows approved copy from
+ * the other content modules rather than inventing any.
+ */
+import { hero, whoWeAre, whyKeshavCo, proofCounters } from "@/content/home";
+import { footer } from "@/content/site";
+
+export const lab = {
+  seo: {
+    title: "Lab — KeshavCo v3 primitives",
+    description: "Internal playground for the v3 design system. Not for publication.",
+  },
+  cover: {
+    tag: "LAB",
+    title: "Growth Blueprint primitives",
+    line: "Every v3 building block in paper and night tones. Internal only.",
+    motionLabel: "Preview",
+  },
+  sections: {
+    tokens: { tag: "TOKENS", title: "Colour, type and grid" },
+    uiPaper: { tag: "UI / PAPER", title: "Components on paper", line: "Buttons, chips, tags, stat tiles and the row accordion." },
+    uiNight: { tag: "UI / NIGHT", title: "Components on night", line: "The same parts inside a night sheet adapt on their own." },
+    text: { tag: "TEXT MOTION", title: "Words that arrive with a job" },
+    diagrams: { tag: "DIAGRAMS", title: "Lines that draw and packets that flow" },
+    story: { tag: "STICKY STORY", title: "One pinned, scroll-scrubbed story" },
+    panels: { tag: "EXPANDING PANELS", title: "Four capabilities. One growth plan." },
+    ambient: { tag: "AMBIENT", title: "Giant words and the marquee" },
+    footer: { tag: "FOOTER REVEAL", title: "The page lifts off the footer" },
+  },
+  labels: {
+    solid: "Book a consultation",
+    ghost: "See how it works",
+    link: "All services",
+    chips: ["Growth strategy", "Brand identity", "SEO", "CRM"],
+    brackets: "BRACKETS",
+    crosshair: "CROSSHAIR",
+    scramble: "// COORDINATED",
+    rotatePrefix: "WE SOLVE →",
+    odometer: "ODOMETER",
+    before: "BEFORE",
+    after: "AFTER",
+    storyA: "Six vendors. Nobody owns the result.",
+    storyB: "One strategy. One team. One point of accountability.",
+    art: "ART · PHASE 2",
+    explore: "Explore",
+    scrollHint: "SCROLL INSIDE THE BOX",
+    diagramInputs: ["BRAND", "WEBSITE", "ADS"],
+    diagramOutput: "ENQUIRIES",
+    magnetic: "Magnetic CTA",
+    swatches: "SWATCHES",
+    typeScale: "TYPE SCALE",
+  },
+  specimen: "One partner. Strategy to execution.",
+  rotating: hero.rotatingWords.map((w) => w.toUpperCase()),
+  manifesto: `${whyKeshavCo.cards[0].body.split(".")[0]}. ${whoWeAre.body[2]}`,
+  counters: proofCounters,
+  footerWords: footer.rotatingWords,
+} as const;

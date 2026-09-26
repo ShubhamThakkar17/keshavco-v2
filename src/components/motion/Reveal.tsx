@@ -3,14 +3,15 @@
 import { motion, type Variants } from "framer-motion";
 import type { ElementType, ReactNode } from "react";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
+import { dur, ease, stagger as staggers } from "@/lib/motion";
 
 type Direction = "up" | "down" | "left" | "right" | "none";
 
 const offsets: Record<Direction, { x: number; y: number }> = {
-  up: { x: 0, y: 32 },
-  down: { x: 0, y: -32 },
-  left: { x: 40, y: 0 },
-  right: { x: -40, y: 0 },
+  up: { x: 0, y: 24 },
+  down: { x: 0, y: -24 },
+  left: { x: 16, y: 0 },
+  right: { x: -16, y: 0 },
   none: { x: 0, y: 0 },
 };
 
@@ -32,7 +33,7 @@ export default function Reveal({
   children,
   className,
   delay = 0,
-  duration = 0.7,
+  duration = dur.reveal,
   direction = "up",
   blur = false,
   once = true,
@@ -55,11 +56,11 @@ export default function Reveal({
         opacity: 0,
         x: offset.x,
         y: offset.y,
-        filter: blur ? "blur(10px)" : undefined,
+        filter: blur ? "blur(8px)" : undefined,
       }}
       whileInView={{ opacity: 1, x: 0, y: 0, filter: blur ? "blur(0px)" : undefined }}
       viewport={{ once, amount }}
-      transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration, delay, ease: ease.outExpo }}
     >
       {children}
     </MotionTag>
@@ -70,7 +71,7 @@ export default function Reveal({
 export function RevealGroup({
   children,
   className,
-  stagger = 0.09,
+  stagger = staggers.items,
   delay = 0,
   amount = 0.1,
   once = true,
@@ -136,7 +137,7 @@ export function RevealItem({
       opacity: 1,
       x: 0,
       y: 0,
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: dur.reveal, ease: ease.outExpo },
     },
   };
 

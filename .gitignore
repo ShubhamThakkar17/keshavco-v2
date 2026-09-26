@@ -20,3 +20,5 @@ tsconfig.tsbuildinfo
 
 # v3 redesign: third-party reference screenshots (not ours to publish)
 docs/v3/refs/
+# v3 checkpoint screenshots (sent with each checkpoint report, not versioned)
+docs/v3/shots/

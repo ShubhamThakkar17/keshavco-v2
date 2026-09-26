@@ -1,77 +1,84 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useId, useState } from "react";
+import { dur, ease } from "@/lib/motion";
 
 export type AccordionItem = { id: string; question: string; answer: string };
 
+/**
+ * FAQ accordion (brief §5.4), two looks:
+ * - **rows**: white rows on paper with a 1px line, for light sheets;
+ * - **pills**: dark rounded pills (Spartan), for night sheets or as the
+ *   contrast block on a paper sheet.
+ *
+ * One answer open at a time; closed answers are not in the DOM (the FAQ
+ * content is also in the page's FAQPage JSON-LD). The `+` turns into `×`.
+ */
 export default function Accordion({
   items,
-  tone = "dark",
-  defaultOpen = 0,
+  variant = "rows",
+  defaultOpen = null,
 }: {
   items: AccordionItem[];
-  tone?: "dark" | "light";
+  variant?: "rows" | "pills";
   defaultOpen?: number | null;
 }) {
+  const baseId = useId();
   const [open, setOpen] = useState<number | null>(defaultOpen);
-  const isLight = tone === "light";
+  const pills = variant === "pills";
 
   return (
-    <div className={`divide-y ${isLight ? "divide-white/12" : "divide-navy-900/10"}`}>
+    <div className="flex flex-col gap-2">
       {items.map((item, index) => {
         const expanded = open === index;
+        const panelId = `${baseId}-${item.id}`;
         return (
-          <div key={item.id}>
+          <div
+            key={item.id}
+            className={
+              pills
+                ? "rounded-[var(--radius-md)] bg-night-2 text-white"
+                : "rounded-xl border border-line bg-card text-ink"
+            }
+          >
             <h3>
               <button
                 type="button"
                 aria-expanded={expanded}
-                aria-controls={`faq-panel-${item.id}`}
+                aria-controls={panelId}
                 onClick={() => setOpen(expanded ? null : index)}
-                className={`flex w-full items-start justify-between gap-6 py-6 text-left transition-colors ${
-                  isLight ? "text-white hover:text-white/80" : "text-navy-900 hover:text-indigo-brand"
-                }`}
+                className="flex min-h-16 w-full items-center justify-between gap-6 px-5 py-4 text-left sm:px-6"
               >
-                <span className="flex gap-4">
-                  <span
-                    className={`font-display pt-0.5 text-xs font-semibold tabular-nums ${
-                      isLight ? "text-white/35" : "text-navy-300"
-                    }`}
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-display text-lg font-semibold tracking-tight sm:text-xl">
-                    {item.question}
-                  </span>
+                <span className="text-[1.0625rem] font-medium leading-snug tracking-[-0.01em]">
+                  {item.question}
                 </span>
                 <span
                   aria-hidden="true"
-                  className={`relative mt-1.5 h-4 w-4 shrink-0 ${isLight ? "text-white/50" : "text-navy-400"}`}
+                  className={`relative grid h-7 w-7 shrink-0 place-items-center rounded-[var(--radius-sm)] transition-transform duration-300 ease-[var(--ease-out-expo)] ${
+                    expanded ? "rotate-45" : ""
+                  } ${pills ? "bg-white/[0.08] text-white" : "bg-paper-2 text-ink"}`}
                 >
-                  <span className="absolute left-0 top-1/2 h-px w-4 -translate-y-1/2 bg-current" />
-                  <motion.span
-                    className="absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-current"
-                    animate={{ scaleY: expanded ? 0 : 1 }}
-                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  />
+                  <span className="absolute h-px w-3 bg-current" />
+                  <span className="absolute h-3 w-px bg-current" />
                 </span>
               </button>
             </h3>
             <AnimatePresence initial={false}>
               {expanded && (
                 <motion.div
-                  id={`faq-panel-${item.id}`}
+                  id={panelId}
                   key="panel"
+                  role="region"
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: dur.ui, ease: ease.outExpo }}
                   className="overflow-hidden"
                 >
                   <p
-                    className={`max-w-3xl pb-7 pl-9 pr-8 text-[0.98rem] leading-relaxed ${
-                      isLight ? "text-white/65" : "text-navy-500"
+                    className={`type-body max-w-3xl px-5 pb-6 pr-12 sm:px-6 ${
+                      pills ? "text-white/65" : "text-ink-2"
                     }`}
                   >
                     {item.answer}

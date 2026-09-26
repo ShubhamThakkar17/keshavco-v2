@@ -8,6 +8,10 @@
  * copies of a marquee are not counted four times). Closed accordion panels are
  * not in the DOM, so FAQ answers are excluded automatically.
  *
+ * Components that draw a label as split letters (TextRoll, Odometer) mark the
+ * letters `data-wc="skip"` and their screen-reader label `data-wc="count"`, so
+ * the label is counted once as the word a reader sees.
+ *
  * Usage: node scripts/wordcount.mjs [--path /] [--base http://localhost:3000] [--width 1440]
  */
 import { chromium } from "playwright";
@@ -31,10 +35,10 @@ await page.goto(`${base}${path}`, { waitUntil: "networkidle" });
 await page.evaluate(async () => {
   const step = window.innerHeight * 0.6;
   for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
-    window.scrollTo(0, y);
+    window.scrollTo({ top: y, behavior: "instant" });
     await new Promise((resolve) => setTimeout(resolve, 120));
   }
-  window.scrollTo(0, document.documentElement.scrollHeight);
+  window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" });
   await new Promise((resolve) => setTimeout(resolve, 1200));
 });
 
@@ -45,6 +49,8 @@ const result = await page.evaluate(() => {
     let words = 0;
     const sample = [];
     const visible = (element) => {
+      if (element.closest('[data-wc="skip"]')) return false;
+      if (element.closest('[data-wc="count"]')) return true;
       let opacity = 1;
       for (let node = element; node && node !== document.body; node = node.parentElement) {
         const style = getComputedStyle(node);

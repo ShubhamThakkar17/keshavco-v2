@@ -131,3 +131,6 @@ export const newsletter = {
   button: "Subscribe",
   success: "You are subscribed. Look for us in your inbox next month.",
 } as const;
+
+/** Footer switch that turns decorative motion off site-wide (brief §6.6). */
+export const motionToggle = { label: "Motion", on: "On", off: "Off" } as const;
