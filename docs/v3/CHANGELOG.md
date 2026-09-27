@@ -182,3 +182,19 @@ Other
 - Fix: the footer wordmark no longer throws when its canvas has no size yet.
 - `scripts/overflow-check.mjs`: horizontal-overflow check for every route.
 - `scripts/axe.mjs`: axe-core on one route per template, desktop and phone, motion on and off.
+
+## Phase 6: Copy compression and parity
+
+- Short hero lines and compressed variants for every inner page live in the
+  content modules; every long approved field is still rendered, split at
+  sentence breaks. Longest rendered paragraph: 57 words.
+- `docs/v3/routes-after.json` and `docs/v3/route-parity.md`: 42/42 original
+  routes keep their title, description, canonical, robots and JSON-LD types
+  with one H1 each; `/careers` is route 43. `/growth-packages` H1 now reads
+  "Engagements built around outcomes" (v2 rendered it without the space).
+- `scripts/copy-audit.mjs` (paragraph and heading budgets per route) and
+  `scripts/route-parity.mjs` (parity report).
+- Fixes from the checks: package and industry inclusion chips wrap on narrow
+  phones (360px overflow); `/about` statement keeps 3:1 contrast before it
+  fills; `/faq` gains an H2 above the questions; failed form submits move
+  focus to the first invalid field.

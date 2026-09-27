@@ -1,0 +1,810 @@
+{
+  "generatedAt": "2026-09-27T01:27:26.167Z",
+  "base": "http://localhost:3000",
+  "count": 43,
+  "ok": 43,
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": "KeshavCo — Business Growth Partner in India",
+      "description": "We help businesses solve growth problems. Strategy, branding, technology and digital marketing under one partner. Book a growth consultation.",
+      "canonical": "https://keshavco.com",
+      "robots": "index, follow",
+      "ogTitle": "KeshavCo — Business Growth Partner in India",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "One partner. Strategy to execution."
+      ],
+      "jsonLd": [
+        "FAQPage",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/services",
+      "status": 200,
+      "title": "Business Growth Services — KeshavCo",
+      "description": "Strategy, branding, technology and digital marketing — planned together as one growth system. Explore our services.",
+      "canonical": "https://keshavco.com/services",
+      "robots": "index, follow",
+      "ogTitle": "Business Growth Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Services built around growth outcomes"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/growth-packages",
+      "status": 200,
+      "title": "Growth Packages — Launch, Grow, Expand, Scale",
+      "description": "Four engagements built around outcomes, not service lists. Find the right starting point for your business stage.",
+      "canonical": "https://keshavco.com/growth-packages",
+      "robots": "index, follow",
+      "ogTitle": "Growth Packages — Launch, Grow, Expand, Scale",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Engagements built around outcomes"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/industries",
+      "status": 200,
+      "title": "Industries We Serve — KeshavCo",
+      "description": "Growth partnership for manufacturing, healthcare, education, real estate, D2C, retail and professional services businesses.",
+      "canonical": "https://keshavco.com/industries",
+      "robots": "index, follow",
+      "ogTitle": "Industries We Serve — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Growth looks different in every industry"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "title": "About KeshavCo — Your External Growth Department",
+      "description": "KeshavCo is a business growth partner, not an agency. One team for strategy, brand, technology and marketing. Learn why we exist and how we work.",
+      "canonical": "https://keshavco.com/about",
+      "robots": "index, follow",
+      "ogTitle": "About KeshavCo — Your External Growth Department",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "We exist because growth got fragmented"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/process",
+      "status": 200,
+      "title": "Our Process — From Growth Problem to Result",
+      "description": "Discover, strategy, execute, measure, scale. See how KeshavCo takes a business from a growth problem to a measurable result.",
+      "canonical": "https://keshavco.com/process",
+      "robots": "index, follow",
+      "ogTitle": "Our Process — From Growth Problem to Result",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "How we take a business from growth problem to result"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/insights",
+      "status": 200,
+      "title": "Insights on Business Growth — KeshavCo",
+      "description": "Practical writing on growth, marketing, brand and business building for Indian businesses. No trend commentary.",
+      "canonical": "https://keshavco.com/insights",
+      "robots": "index, follow",
+      "ogTitle": "Insights on Business Growth — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Thinking worth your time"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/faq",
+      "status": 200,
+      "title": "Frequently Asked Questions — KeshavCo",
+      "description": "How we work, what we cost, how long results take and how we differ from a marketing agency. Straight answers to common questions.",
+      "canonical": "https://keshavco.com/faq",
+      "robots": "index, follow",
+      "ogTitle": "Frequently Asked Questions — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Questions businesses ask us"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "title": "Contact KeshavCo — Book a Growth Consultation",
+      "description": "Tell us your growth problem. A 30-minute consultation, no obligation, with an honest read on what your business should do next.",
+      "canonical": "https://keshavco.com/contact",
+      "robots": "index, follow",
+      "ogTitle": "Contact KeshavCo — Book a Growth Consultation",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Let's talk about your growth problem"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/careers",
+      "status": 200,
+      "title": "Careers at KeshavCo — Open Applications",
+      "description": "Work on growth end to end. KeshavCo takes open applications from senior people across strategy, brand, technology and media.",
+      "canonical": "https://keshavco.com/careers",
+      "robots": "index, follow",
+      "ogTitle": "Careers at KeshavCo — Open Applications",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Build growth with us"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization"
+      ]
+    },
+    {
+      "path": "/privacy-policy",
+      "status": 200,
+      "title": "Privacy Policy — KeshavCo",
+      "description": "This page is a placeholder. The published privacy policy must be reviewed and approved before launch.",
+      "canonical": "https://keshavco.com/privacy-policy",
+      "robots": "index, follow",
+      "ogTitle": "Privacy Policy — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Privacy Policy"
+      ],
+      "jsonLd": [
+        "Organization"
+      ]
+    },
+    {
+      "path": "/terms-of-use",
+      "status": 200,
+      "title": "Terms of Use — KeshavCo",
+      "description": "This page is a placeholder. The published terms must be reviewed and approved before launch.",
+      "canonical": "https://keshavco.com/terms-of-use",
+      "robots": "index, follow",
+      "ogTitle": "Terms of Use — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Terms of Use"
+      ],
+      "jsonLd": [
+        "Organization"
+      ]
+    },
+    {
+      "path": "/disclaimer",
+      "status": 200,
+      "title": "Disclaimer — KeshavCo",
+      "description": "This page is a placeholder. The published disclaimer must be reviewed and approved before launch.",
+      "canonical": "https://keshavco.com/disclaimer",
+      "robots": "index, follow",
+      "ogTitle": "Disclaimer — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Disclaimer"
+      ],
+      "jsonLd": [
+        "Organization"
+      ]
+    },
+    {
+      "path": "/services/strategy",
+      "status": 200,
+      "title": "Business & Growth Strategy Consulting — KeshavCo",
+      "description": "Growth strategy, go-to-market planning and business consulting that decides where growth comes from before you spend on marketing.",
+      "canonical": "https://keshavco.com/services/strategy",
+      "robots": "index, follow",
+      "ogTitle": "Business & Growth Strategy Consulting — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Decide where growth comes from — before you spend on it"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/strategy/business-consulting",
+      "status": 200,
+      "title": "Business Consulting Services — KeshavCo",
+      "description": "We diagnose the real constraint holding your business back and recommend what to fix first, with reasoning you can act on.",
+      "canonical": "https://keshavco.com/services/strategy/business-consulting",
+      "robots": "index, follow",
+      "ogTitle": "Business Consulting Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Fix the constraint holding your business back"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/strategy/growth-strategy",
+      "status": 200,
+      "title": "Growth Strategy Consulting — KeshavCo",
+      "description": "A written roadmap for your next stage of revenue: priorities, channels, budget allocation and targets your leadership can approve.",
+      "canonical": "https://keshavco.com/services/strategy/growth-strategy",
+      "robots": "index, follow",
+      "ogTitle": "Growth Strategy Consulting — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "A written plan for your next stage of revenue"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/strategy/go-to-market-strategy",
+      "status": 200,
+      "title": "Go-To-Market Strategy Services — KeshavCo",
+      "description": "Enter a new city, segment or category with a plan — positioning, pricing, channel mix and a defined first 90 days.",
+      "canonical": "https://keshavco.com/services/strategy/go-to-market-strategy",
+      "robots": "index, follow",
+      "ogTitle": "Go-To-Market Strategy Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Enter a new market without guessing"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/strategy/brand-strategy",
+      "status": 200,
+      "title": "Brand Strategy Consulting — KeshavCo",
+      "description": "Positioning, audience and differentiation that give buyers a reason to choose you over a cheaper option.",
+      "canonical": "https://keshavco.com/services/strategy/brand-strategy",
+      "robots": "index, follow",
+      "ogTitle": "Brand Strategy Consulting — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Give buyers a reason to choose you over a cheaper option"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/strategy/marketing-strategy",
+      "status": 200,
+      "title": "Marketing Strategy Services — KeshavCo",
+      "description": "A channel plan with budget allocation and reasoning behind every line, with all channels planned as one campaign.",
+      "canonical": "https://keshavco.com/services/strategy/marketing-strategy",
+      "robots": "index, follow",
+      "ogTitle": "Marketing Strategy Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Spend on marketing with a reason behind every line"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/strategy/fractional-growth-partner",
+      "status": 200,
+      "title": "Fractional CMO & Growth Partner — KeshavCo",
+      "description": "Senior marketing leadership on a retained basis — direction, vendor management and monthly reviews without a full-time hire.",
+      "canonical": "https://keshavco.com/services/strategy/fractional-growth-partner",
+      "robots": "index, follow",
+      "ogTitle": "Fractional CMO & Growth Partner — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Senior growth leadership without a full-time hire"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/branding",
+      "status": 200,
+      "title": "Brand Identity & Branding Services — KeshavCo",
+      "description": "Brand identity, logo, packaging, company profiles and pitch decks that make growing businesses look like the credible choice.",
+      "canonical": "https://keshavco.com/services/branding",
+      "robots": "index, follow",
+      "ogTitle": "Brand Identity & Branding Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Look like the business you are becoming"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/branding/brand-identity",
+      "status": 200,
+      "title": "Brand Identity Design Services — KeshavCo",
+      "description": "A complete visual and verbal brand system with usage guidelines your whole team can apply consistently.",
+      "canonical": "https://keshavco.com/services/branding/brand-identity",
+      "robots": "index, follow",
+      "ogTitle": "Brand Identity Design Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "A brand system that holds together everywhere"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/branding/logo-design",
+      "status": 200,
+      "title": "Professional Logo Design Services — KeshavCo",
+      "description": "Distinctive marks tested at every size and application, with complete file formats and clear usage rules.",
+      "canonical": "https://keshavco.com/services/branding/logo-design",
+      "robots": "index, follow",
+      "ogTitle": "Professional Logo Design Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "A mark that works everywhere your business appears"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/branding/packaging-design",
+      "status": 200,
+      "title": "Packaging Design Services — KeshavCo",
+      "description": "Shelf-ready packaging that earns the pick-up and works within your production and distribution constraints.",
+      "canonical": "https://keshavco.com/services/branding/packaging-design",
+      "robots": "index, follow",
+      "ogTitle": "Packaging Design Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Packaging that earns the pick-up"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/branding/company-profile",
+      "status": 200,
+      "title": "Company Profile Design — KeshavCo",
+      "description": "The document that establishes credibility in tenders, partner conversations and first meetings you are not in.",
+      "canonical": "https://keshavco.com/services/branding/company-profile",
+      "robots": "index, follow",
+      "ogTitle": "Company Profile Design — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "The document that establishes you as the credible choice"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/branding/pitch-deck",
+      "status": 200,
+      "title": "Pitch Deck Design Services — KeshavCo",
+      "description": "Investor and client decks built on a clear narrative, with evidence in the right places and design that supports the story.",
+      "canonical": "https://keshavco.com/services/branding/pitch-deck",
+      "robots": "index, follow",
+      "ogTitle": "Pitch Deck Design Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Make the argument, not the feature list"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/branding/creative-design",
+      "status": 200,
+      "title": "Creative Design Services — KeshavCo",
+      "description": "Ongoing campaign and collateral design at predictable turnaround, consistent across digital and print.",
+      "canonical": "https://keshavco.com/services/branding/creative-design",
+      "robots": "index, follow",
+      "ogTitle": "Creative Design Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Consistent creative, at the volume your growth needs"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/technology",
+      "status": 200,
+      "title": "Website, CRM & Automation Services — KeshavCo",
+      "description": "Websites that convert, ecommerce, mobile apps, CRM, automation and AI integrations — the infrastructure your growth runs on.",
+      "canonical": "https://keshavco.com/services/technology",
+      "robots": "index, follow",
+      "ogTitle": "Website, CRM & Automation Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Build the infrastructure your growth runs on"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/technology/website-development",
+      "status": 200,
+      "title": "Website Development Services — KeshavCo",
+      "description": "We build digital experiences that convert visitors into customers — fast, mobile-first and structured to rank.",
+      "canonical": "https://keshavco.com/services/technology/website-development",
+      "robots": "index, follow",
+      "ogTitle": "Website Development Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "We build digital experiences that convert visitors into customers"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/technology/ecommerce",
+      "status": 200,
+      "title": "Ecommerce Development Services — KeshavCo",
+      "description": "Online stores built to sell — catalogue, checkout, payments and logistics designed for repeat purchase and scale.",
+      "canonical": "https://keshavco.com/services/technology/ecommerce",
+      "robots": "index, follow",
+      "ogTitle": "Ecommerce Development Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Online stores built to sell, not just to list"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/technology/mobile-apps",
+      "status": 200,
+      "title": "Mobile App Development — KeshavCo",
+      "description": "Apps built where they measurably improve customer experience or operations, with a clear case made before development.",
+      "canonical": "https://keshavco.com/services/technology/mobile-apps",
+      "robots": "index, follow",
+      "ogTitle": "Mobile App Development — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Apps built where they genuinely earn their place"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/technology/crm",
+      "status": 200,
+      "title": "CRM Setup & Implementation — KeshavCo",
+      "description": "Stop losing leads you already paid for. Every enquiry captured, assigned, followed up and visible to leadership.",
+      "canonical": "https://keshavco.com/services/technology/crm",
+      "robots": "index, follow",
+      "ogTitle": "CRM Setup & Implementation — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Stop losing leads you already paid for"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/technology/automation",
+      "status": 200,
+      "title": "Business Process Automation — KeshavCo",
+      "description": "Automate enquiry routing, follow-ups, reporting and internal handoffs, and return hours to your team.",
+      "canonical": "https://keshavco.com/services/technology/automation",
+      "robots": "index, follow",
+      "ogTitle": "Business Process Automation — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Remove the manual work slowing your team down"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/technology/ai-integrations",
+      "status": 200,
+      "title": "AI Integration Services — KeshavCo",
+      "description": "Practical AI in support, lead qualification, content operations and internal knowledge, measured on time and revenue.",
+      "canonical": "https://keshavco.com/services/technology/ai-integrations",
+      "robots": "index, follow",
+      "ogTitle": "AI Integration Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Apply AI where it pays for itself"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing",
+      "status": 200,
+      "title": "Digital Marketing Services in India — KeshavCo",
+      "description": "SEO, Google Ads, Meta Ads, email, WhatsApp and lead generation that turn search demand into qualified enquiries you can measure.",
+      "canonical": "https://keshavco.com/services/digital-marketing",
+      "robots": "index, follow",
+      "ogTitle": "Digital Marketing Services in India — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Be found by customers who are already looking"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/seo",
+      "status": 200,
+      "title": "SEO Services in India — KeshavCo",
+      "description": "Get discovered by customers actively searching for your products and services, with enquiries that do not stop when spend stops.",
+      "canonical": "https://keshavco.com/services/digital-marketing/seo",
+      "robots": "index, follow",
+      "ogTitle": "SEO Services in India — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Get discovered by customers actively searching for you"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/google-ads",
+      "status": 200,
+      "title": "Google Ads Management — KeshavCo",
+      "description": "Capture high-intent demand at a cost per enquiry your business can justify, reported in enquiries not clicks.",
+      "canonical": "https://keshavco.com/services/digital-marketing/google-ads",
+      "robots": "index, follow",
+      "ogTitle": "Google Ads Management — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Capture demand at the moment of intent"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/meta-ads",
+      "status": 200,
+      "title": "Facebook & Instagram Ads — KeshavCo",
+      "description": "Precise targeting and platform-native creative, measured on qualified enquiries rather than engagement.",
+      "canonical": "https://keshavco.com/services/digital-marketing/meta-ads",
+      "robots": "index, follow",
+      "ogTitle": "Facebook & Instagram Ads — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Reach the right audience on Facebook and Instagram"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/email-marketing",
+      "status": 200,
+      "title": "Email Marketing Services — KeshavCo",
+      "description": "Turn your existing database into repeat revenue through segmented campaigns and automated sequences.",
+      "canonical": "https://keshavco.com/services/digital-marketing/email-marketing",
+      "robots": "index, follow",
+      "ogTitle": "Email Marketing Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Turn your existing database into revenue"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/whatsapp-marketing",
+      "status": 200,
+      "title": "WhatsApp Marketing Services — KeshavCo",
+      "description": "Compliant, permission-based WhatsApp campaigns on the official API, with response rates email cannot match.",
+      "canonical": "https://keshavco.com/services/digital-marketing/whatsapp-marketing",
+      "robots": "index, follow",
+      "ogTitle": "WhatsApp Marketing Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Reach customers where Indian buyers respond"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/lead-generation",
+      "status": 200,
+      "title": "Lead Generation Services — KeshavCo",
+      "description": "Complete funnels built around qualified enquiries — targeting, creative, landing page, capture and follow-up.",
+      "canonical": "https://keshavco.com/services/digital-marketing/lead-generation",
+      "robots": "index, follow",
+      "ogTitle": "Lead Generation Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Campaigns built around qualified enquiries"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/content-marketing",
+      "status": 200,
+      "title": "Content Marketing Services — KeshavCo",
+      "description": "Content planned around real buyer questions and search demand, building authority that supports SEO and sales.",
+      "canonical": "https://keshavco.com/services/digital-marketing/content-marketing",
+      "robots": "index, follow",
+      "ogTitle": "Content Marketing Services — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "Answer what your buyers are researching"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    },
+    {
+      "path": "/services/digital-marketing/social-media",
+      "status": 200,
+      "title": "Social Media Marketing — KeshavCo",
+      "description": "A consistent, credible presence that strengthens sales conversations instead of chasing engagement.",
+      "canonical": "https://keshavco.com/services/digital-marketing/social-media",
+      "robots": "index, follow",
+      "ogTitle": "Social Media Marketing — KeshavCo",
+      "ogImage": "https://keshavco.com/opengraph-image",
+      "h1Count": 1,
+      "h1": [
+        "A presence that supports your sales conversations"
+      ],
+      "jsonLd": [
+        "BreadcrumbList",
+        "Organization",
+        "Service"
+      ]
+    }
+  ]
+}
