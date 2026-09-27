@@ -5,7 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import SiteChrome from "@/components/layout/SiteChrome";
-import { site } from "@/content/site";
+import { navV3, site } from "@/content/site";
 import { organizationSchema } from "@/lib/seo";
 import { MOTION_STORAGE_KEY } from "@/lib/motionPreference";
 
@@ -98,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           // Static, first-party schema — no user input reaches this string.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <SiteChrome skipLabel="Skip to content" smooth={<SmoothScroll />} header={<Header />} footer={<Footer />}>
+        <SiteChrome skipLabel={navV3.skipLink} smooth={<SmoothScroll />} header={<Header />} footer={<Footer />}>
           {children}
         </SiteChrome>
       </body>

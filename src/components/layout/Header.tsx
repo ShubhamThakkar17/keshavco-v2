@@ -170,7 +170,7 @@ export default function Header() {
             }`}
           >
             <Link href="/" aria-label={site.name} className="flex shrink-0 items-center gap-2 rounded-full pr-2">
-              <LogoMark className="h-7 w-7" priority />
+              <LogoMark className="h-7 w-7" sizes="28px" />
               <span className="font-display text-base font-semibold tracking-[-0.02em] lg:hidden xl:inline">
                 {site.name}
               </span>

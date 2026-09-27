@@ -20,7 +20,7 @@ export default function AboutMark() {
       <div className="hatch relative grid aspect-square w-[42%] place-items-center p-3">
         <Brackets inset={-8} />
         <div className="grid h-full w-full place-items-center bg-card">
-          <LogoMark className="h-[46%] w-[46%]" />
+          <LogoMark className="h-[46%] w-[46%]" sizes="120px" />
         </div>
       </div>
     </div>

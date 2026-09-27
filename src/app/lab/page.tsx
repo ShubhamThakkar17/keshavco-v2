@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Sheet from "@/components/ui/Sheet";
 import SectionTag from "@/components/ui/SectionTag";
 import SectionHead from "@/components/ui/SectionHead";
@@ -132,6 +133,8 @@ function UiShowcase() {
 }
 
 export default function LabPage() {
+  // Gated (brief Phase 8): the playground only exists when NEXT_PUBLIC_LAB=1.
+  if (process.env.NEXT_PUBLIC_LAB !== "1") notFound();
   return (
     <>
       {/* ------------------------------------------------------------ Cover */}

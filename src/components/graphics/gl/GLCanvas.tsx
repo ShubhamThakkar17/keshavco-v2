@@ -3,6 +3,7 @@
 import type { MotionValue } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
+import { whenAwake } from "@/lib/whenAwake";
 import type { SceneFactory, SceneHandle } from "./types";
 
 /**
@@ -10,8 +11,9 @@ import type { SceneFactory, SceneHandle } from "./types";
  * motion (§6.4, §12) so each scene only has to draw:
  *
  * - **Lazy**: the scene module (and three.js with it) is imported only when
- *   the canvas is near the viewport and the browser is idle, so it never adds
- *   to first-load JS or competes with the LCP.
+ *   the canvas is near the viewport and the visitor has interacted (or 8s
+ *   have passed, `whenAwake`), so it never adds to first-load JS or competes
+ *   with the LCP and first input.
  * - **Cheap**: device pixel ratio capped at 1.5; frames throttled to `fps`;
  *   the loop runs only while on screen and while the tab is visible.
  * - **Calm**: with reduced motion (OS or site toggle) it draws one static
@@ -47,6 +49,7 @@ export default function GLCanvas<Options>({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduceMotion = useReducedMotionSafe();
   const [near, setNear] = useState(false);
+  const [awake, setAwake] = useState(false);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -72,6 +75,17 @@ export default function GLCanvas<Options>({
 
   useEffect(() => {
     if (!near) return;
+    let live = true;
+    void whenAwake().then(() => {
+      if (live) setAwake(true);
+    });
+    return () => {
+      live = false;
+    };
+  }, [near]);
+
+  useEffect(() => {
+    if (!near || !awake) return;
     const wrap = wrapRef.current;
     const canvas = canvasRef.current;
     if (!wrap || !canvas) return;
@@ -191,7 +205,7 @@ export default function GLCanvas<Options>({
       handle?.dispose();
       setReady(false);
     };
-  }, [near, reduceMotion, fps, interactive, progress, staticTime]);
+  }, [near, awake, reduceMotion, fps, interactive, progress, staticTime]);
 
   return (
     <div ref={wrapRef} aria-hidden="true" className={`relative ${className}`}>

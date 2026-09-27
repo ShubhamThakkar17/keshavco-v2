@@ -11,6 +11,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import Overview from "@/components/ui/Overview";
 import Brackets from "@/components/ui/Brackets";
 import JsonLd from "@/components/ui/JsonLd";
+import Button from "@/components/ui/Button";
 
 import { breadcrumbV3, contactPage, contactV3 } from "@/content/misc";
 import { booking, site } from "@/content/site";
@@ -55,6 +56,14 @@ export default function ContactPage() {
               <BlurInWords text={contactPage.h1} />
             </h1>
             <p className="type-body-l mt-6 max-w-md text-pretty text-ink-2">{copy.short}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:hidden">
+              <Button href={copy.jump.book.href} size="lg">
+                {copy.jump.book.label}
+              </Button>
+              <Button href={copy.jump.enquiry.href} variant="ghost" size="lg">
+                {copy.jump.enquiry.label}
+              </Button>
+            </div>
 
             <dl className="mt-10 border-t border-line">
               {rows.map((row) => (

@@ -83,7 +83,7 @@ async function sample(text: string, fontFamily: string | undefined, width: numbe
   canvas.width = Math.ceil(width);
   canvas.height = Math.ceil(height);
   const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-  ctx.fillStyle = "#fff";
+  ctx.fillStyle = "white"; // mask only, never shown
   ctx.font = `700 ${fontSize}px ${family}`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";

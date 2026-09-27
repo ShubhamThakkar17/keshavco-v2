@@ -77,6 +77,7 @@ export const navV3 = {
   menuOpen: "Open menu",
   menuClose: "Close menu",
   primaryLabel: "Primary",
+  skipLink: "Skip to content",
   servicesLabel: "services",
 } as const;
 

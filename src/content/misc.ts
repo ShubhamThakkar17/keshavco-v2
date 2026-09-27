@@ -184,6 +184,8 @@ export const contactV3 = {
   short: "Bring a specific problem. We will tell you what we would do about it.",
   overview: "// WHERE TO START",
   tabs: { label: "How would you like to reach us?", book: "Book a call", enquiry: "Send an enquiry" },
+  /** Phone-only jump links to the card below the contact details. */
+  jump: { book: { label: "Book a call", href: "#book" }, enquiry: { label: "Send an enquiry", href: "#enquiry" } },
   direct: { tag: "DIRECT", email: "EMAIL", phone: "PHONE", offices: "OFFICES", follow: "FOLLOW" },
   next: {
     tag: "WHAT HAPPENS NEXT",

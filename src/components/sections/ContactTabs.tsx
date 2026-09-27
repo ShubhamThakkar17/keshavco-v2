@@ -52,6 +52,7 @@ export default function ContactTabs() {
       const link = (event.target as Element | null)?.closest?.("a[href]");
       const href = link?.getAttribute("href") ?? "";
       if (href.endsWith("#book") && (href.startsWith("#") || href.startsWith("/contact"))) select("book");
+      if (href === "#enquiry") select("enquiry");
     };
     window.addEventListener("hashchange", onHash);
     document.addEventListener("click", onClick);
@@ -77,6 +78,8 @@ export default function ContactTabs() {
 
   return (
     <div id="book" className="relative scroll-mt-24 rounded-[var(--radius-lg)] border border-line bg-card p-2 shadow-[0_24px_48px_-32px_rgb(15_23_42/0.35)]">
+      {/* Target for "#enquiry" links (the phone jump buttons). */}
+      <span id="enquiry" aria-hidden="true" className="absolute -top-24 left-0" />
       <div role="tablist" aria-label={copy.label} className="grid grid-cols-2 gap-1 rounded-[20px] bg-paper-2 p-1">
         {order.map((id) => (
           <button

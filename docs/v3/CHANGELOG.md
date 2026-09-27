@@ -220,3 +220,16 @@ Other
   study template, fed from the editor; 404 and noindex until launched.
 - `SiteChrome`: the site frame is left out on `/keystatic`.
 - Forms sheet created in Google Drive (`docs/forms/README.md`).
+
+## Phase 7: QA
+
+- Checklist, before/after and Lighthouse: [after.md](./after.md).
+- 3D scenes start on first interaction or after 8 s (`whenAwake`): home mobile
+  TBT 370 → 100 ms, Performance 85 → 93.
+- Header logo requests a 28 px image instead of preloading a 1080 px one.
+- `/contact` on phones: "Book a call" / "Send an enquiry" jump buttons under
+  the H1 open the matching tab.
+- `/lab` returns 404 unless `NEXT_PUBLIC_LAB=1`.
+- Removed the unused full `Logo` lockup component; skip-link label moved to
+  content.
+- New checks: `scripts/qa-sweep.mjs` (console, H1, phone fold).
