@@ -21,6 +21,11 @@ Browser form ──► /api/enquiry   ─┐
 
 ## One-time setup (about 10 minutes)
 
+Already done: a Google Drive folder **"KeshavCo website forms"** holds the
+sheet (tabs Enquiries, Careers and Subscribers with their header rows), a
+copy of the script, and these steps as a Google Doc. Start at step 2 in that
+sheet.
+
 1. **Create the sheet.** In the Google account that owns hello@keshavco.com,
    create a new Google Sheet, for example "KeshavCo website forms". You do not
    need to create the tabs; the script creates **Enquiries**, **Careers** and

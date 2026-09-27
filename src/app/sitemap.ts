@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { pillars } from "@/content/services";
+import { getInsights } from "@/lib/cms";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
   const staticPaths = [
@@ -29,7 +30,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ]);
 
-  return [...staticPaths, ...pillarPaths].map((entry) => ({
+  // Published Insights articles (written in the /keystatic editor).
+  const { published } = await getInsights();
+  const articlePaths = published.map((post) => ({ path: `/insights/${post.slug}`, priority: 0.6 }));
+
+  return [...staticPaths, ...pillarPaths, ...articlePaths].map((entry) => ({
     url: `${site.url}${entry.path === "/" ? "" : entry.path}`,
     lastModified,
     changeFrequency: "monthly" as const,

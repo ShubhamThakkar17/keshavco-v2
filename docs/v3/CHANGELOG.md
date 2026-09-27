@@ -198,3 +198,25 @@ Other
   phones (360px overflow); `/about` statement keeps 3:1 contrast before it
   fills; `/faq` gains an H2 above the questions; failed form submits move
   focus to the first invalid field.
+
+## Checkpoint 4 follow-ups
+
+- `/contact`: careers note now "Write to us at hello@keshavco.com with your
+  interest in joining" (email link); working hours hidden; offices row.
+- Offices (Vadodara, Mumbai, Indore) in the footer mono row and the
+  Organization JSON-LD (`address`).
+- Long H1s checked on phones (≤ 5 lines at 360px, button above the fold):
+  kept.
+- **Insights editor** (Keystatic) at `/keystatic`: articles and images saved
+  to the repository; blocks for the site's ready-made graphics plus new
+  configurable ones (steps flow, funnel, bar chart, key figure, callout,
+  pull quote). `/insights` lists published articles in a masonry grid and
+  upcoming drafts as DRAFTING; `/insights/[slug]` renders articles with a
+  contents list, BlogPosting JSON-LD, more articles and the newsletter.
+  Published articles join the sitemap. The five planned titles are seeded as
+  drafts. Without the GitHub App variables the site still builds and
+  `/keystatic` explains how to connect it (`docs/cms/README.md`).
+- **Our Work** (`/our-work`, `/our-work/[slug]`): hidden portfolio and case
+  study template, fed from the editor; 404 and noindex until launched.
+- `SiteChrome`: the site frame is left out on `/keystatic`.
+- Forms sheet created in Google Drive (`docs/forms/README.md`).

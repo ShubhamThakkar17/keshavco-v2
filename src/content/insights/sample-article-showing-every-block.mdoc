@@ -1,0 +1,43 @@
+---
+title: Sample article (not published) showing every block
+status: draft
+upcoming: false
+publishedAt: 2026-09-27
+topic: growth-operations
+summary: A draft that is never listed. Open it in the editor to see how each block looks and works, then copy what you need.
+author: KeshavCo
+cover:
+  discriminant: graphic
+  value: channel-hub
+seoTitle: ''
+---
+This draft is only for learning the editor. It stays a draft, so it never appears on the site. Change **Status** to Published on a copy, never on this one.
+
+## Writing
+
+Use headings (H2 and H3), **bold**, *italic*, [links](/contact), bulleted and numbered lists, quotes and tables from the toolbar. Every H2 appears in the "On this page" list beside the article.
+
+- Keep paragraphs short: three or four sentences.
+- Upload images with the image button; they are stored with the site.
+
+## Ready-made graphics
+
+Insert → Graphic, then pick one from the list. They animate when scrolled into view and stop when the reader turns motion off.
+
+{% graphic name="hero-engine" caption="Every channel feeding one plan." /%}
+
+## Charts from your own numbers
+
+{% flowSteps steps=["Audit the channels", "Agree one plan", "Run it as one campaign", "Report monthly"] caption="Replace these steps with your own." /%}
+
+{% funnel stages=[{label: "Website visits", value: 1000}, {label: "Enquiries", value: 100}, {label: "Meetings", value: 30}, {label: "Clients", value: 10}] caption="Sample numbers only. Use real figures and name the source." /%}
+
+{% barChart bars=[{label: "Q1", value: 10}, {label: "Q2", value: 14}, {label: "Q3", value: 19}, {label: "Q4", value: 25}] unit="" caption="Sample numbers only." /%}
+
+{% keyFigure value="00%" label="Replace with a real number" source="Replace with the real source" /%}
+
+{% callout tone="takeaway" title="A key takeaway" %}
+Callouts wrap normal text. Use them once or twice per article at most.
+{% /callout %}
+
+{% pullQuote text="Pull quotes repeat a line from the article itself." /%}

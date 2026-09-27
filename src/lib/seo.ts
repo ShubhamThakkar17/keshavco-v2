@@ -49,6 +49,12 @@ export const organizationSchema = {
     "KeshavCo is a business growth partner: one team that sets the strategy, runs the execution and answers for the outcome across strategy, branding, technology and digital marketing.",
   areaServed: "IN",
   slogan: site.tagline,
+  address: site.offices.map((office) => ({
+    "@type": "PostalAddress",
+    addressLocality: office.city,
+    addressRegion: office.region,
+    addressCountry: "IN",
+  })),
 };
 
 export function faqSchema(items: { question: string; answer: string }[]) {
@@ -93,5 +99,39 @@ export function breadcrumbSchema(items: { label: string; href: string }[]) {
       name: item.label,
       item: `${site.url}${item.href}`,
     })),
+  };
+}
+
+/** Insights article (BlogPosting), published by the organisation. */
+export function articleSchema({
+  headline,
+  description,
+  path,
+  datePublished,
+  author,
+  image,
+}: {
+  headline: string;
+  description: string;
+  path: string;
+  datePublished: string | null;
+  author: string;
+  image?: string;
+}) {
+  const url = `${site.url}${path}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline,
+    description,
+    url,
+    mainEntityOfPage: url,
+    ...(datePublished ? { datePublished } : {}),
+    image: `${site.url}${image ?? "/opengraph-image"}`,
+    author:
+      author && author !== site.name
+        ? { "@type": "Person", name: author }
+        : { "@type": "Organization", name: site.name, url: site.url },
+    publisher: { "@type": "Organization", name: site.name, url: site.url },
   };
 }

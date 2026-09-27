@@ -71,6 +71,7 @@ export default function Footer() {
             <a href={site.phoneHref} className="transition-colors hover:text-white">
               {site.phone}
             </a>
+            <span>{site.offices.map((office) => office.city.toUpperCase()).join(" · ")}</span>
             {socials.map((profile) => (
               <a key={profile.label} href={profile.href} className="transition-colors hover:text-white">
                 {profile.label.toUpperCase()}

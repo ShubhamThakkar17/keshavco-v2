@@ -32,7 +32,7 @@ export default function ContactPage() {
   const rows = [
     { label: copy.direct.email, value: site.email, href: `mailto:${site.email}` },
     { label: copy.direct.phone, value: site.phone, href: site.phoneHref },
-    { label: copy.direct.hours, value: site.workingHours },
+    { label: copy.direct.offices, value: site.offices.map((office) => office.city).join(" · ") },
   ];
 
   return (
@@ -154,7 +154,10 @@ export default function ContactPage() {
                 key: note.title,
                 title: note.title,
                 body: note.body,
-                href: index === contactPage.notes.length - 1 ? copy.careersLink.href : `mailto:${site.email}`,
+                href:
+                  index === contactPage.notes.length - 1
+                    ? `mailto:${site.email}?subject=${encodeURIComponent(copy.careersSubject)}`
+                    : `mailto:${site.email}`,
               }))}
             />
           </div>

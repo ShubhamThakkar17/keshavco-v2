@@ -9,6 +9,8 @@ export const insightsPage = {
    * with real posts as they go live.
    */
   plannedHeading: "What we are writing next",
+  // These five titles are now draft entries in src/content/insights (edit
+  // them in the /keystatic editor); the list below is kept as approved copy.
   planned: [
     {
       title: "Why hiring five vendors costs more than one growth partner",
@@ -67,7 +69,7 @@ export const contactPage = {
     },
     {
       title: "For careers",
-      body: 'We are always interested in senior people across strategy, brand, technology and media. Write to us with "Careers" in the subject line.',
+      body: "Write to us at hello@keshavco.com with your interest in joining.",
     },
   ],
   seo: {
@@ -182,7 +184,7 @@ export const contactV3 = {
   short: "Bring a specific problem. We will tell you what we would do about it.",
   overview: "// WHERE TO START",
   tabs: { label: "How would you like to reach us?", book: "Book a call", enquiry: "Send an enquiry" },
-  direct: { tag: "DIRECT", email: "EMAIL", phone: "PHONE", hours: "HOURS", follow: "FOLLOW" },
+  direct: { tag: "DIRECT", email: "EMAIL", phone: "PHONE", offices: "OFFICES", follow: "FOLLOW" },
   next: {
     tag: "WHAT HAPPENS NEXT",
     steps: [
@@ -201,7 +203,7 @@ export const contactV3 = {
   },
   phonePrompt: "Prefer to talk now?",
   other: { tag: "OTHER WAYS TO REACH US", title: "Proposals, partners and careers." },
-  careersLink: { label: "See the careers page", href: "/careers" },
+  careersSubject: "Interest in joining KeshavCo",
 } as const;
 
 /** Words inside the booking embed while it loads or if it fails. */
@@ -236,7 +238,17 @@ export const insightsV3 = {
   planned: {
     tag: "EDITORIAL PLAN",
     line: "Nothing is linked yet because nothing is published yet. Subscribers get the first piece first.",
+    /** Used once at least one article is published. */
+    lineOnceLive: "Pieces in progress. Subscribers get each one before it reaches this page.",
     status: "DRAFTING",
+  },
+  latest: { tag: "LATEST", title: "Latest thinking." },
+  article: {
+    minRead: "MIN READ",
+    by: "BY",
+    contents: "On this page",
+    more: { tag: "KEEP READING", title: "More insights." },
+    all: { label: "All insights", href: "/insights" },
   },
   subscribe: {
     tag: "NEWSLETTER",
@@ -263,3 +275,13 @@ export const notFoundV3 = {
 
 /** Mono breadcrumb: the label for the first crumb on every inner page. */
 export const breadcrumbV3 = { home: "Home", label: "Breadcrumb" } as const;
+
+/** The /keystatic editor's own page (only seen by the team). */
+export const cmsAdmin = {
+  title: "KeshavCo editor",
+  tag: "EDITOR",
+  notConnected: {
+    heading: "The editor is not connected yet.",
+    body: "Connect the GitHub App described in docs/cms/README.md, then redeploy. Articles and case studies can be edited here after that.",
+  },
+} as const;

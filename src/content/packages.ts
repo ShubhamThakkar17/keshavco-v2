@@ -139,7 +139,8 @@ export const packagesV3 = {
   short: "Four engagements for the four problems we solve most. Scoped after a consultation, priced after the plan.",
   overview: "// HOW WE SELL",
   panel: { tag: "COMPARE", title: "Choose your starting point." },
-  /** House rule restated; confirm with Krupal before launch (brief §15, item 3). */
+  /** House rule, confirmed (decision log #17). Nothing beyond this: a separate
+   *  agency fee may apply per project, so never claim "no fees". */
   note: "AD SPEND IS PAID DIRECTLY TO THE PLATFORM. NO MARK-UP.",
   stack: {
     tag: "ENGAGEMENTS",

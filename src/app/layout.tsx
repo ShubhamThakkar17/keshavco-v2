@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
+import SiteChrome from "@/components/layout/SiteChrome";
 import { site } from "@/content/site";
 import { organizationSchema } from "@/lib/seo";
 import { MOTION_STORAGE_KEY } from "@/lib/motionPreference";
@@ -97,19 +98,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           // Static, first-party schema — no user input reaches this string.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <SmoothScroll />
-        <Header />
-        {/* main lifts off the footer, which is revealed from behind it. */}
-        <main
-          id="main"
-          className="relative z-[1] rounded-b-[20px] bg-paper pb-2 shadow-[0_24px_48px_-24px_rgb(8_13_24/0.45)] md:rounded-b-[var(--radius-lg)]"
-        >
+        <SiteChrome skipLabel="Skip to content" smooth={<SmoothScroll />} header={<Header />} footer={<Footer />}>
           {children}
-        </main>
-        <Footer />
+        </SiteChrome>
       </body>
     </html>
   );

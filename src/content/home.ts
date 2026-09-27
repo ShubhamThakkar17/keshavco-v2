@@ -281,7 +281,8 @@ export const homeV3 = {
     with: "With KeshavCo",
     without: "Without",
     vs: "VS",
-    /** Rows 4 and 5 restate house rules; confirm before launch (brief §15, item 3). */
+    /** Rows 4 and 5 restate house rules, confirmed by Krupal (decision log #17).
+     *  Say no more than this: a separate agency fee may apply per project. */
     rows: [
       { icon: "plan", with: "One plan across every channel", without: "Five vendors, five plans" },
       { icon: "contact", with: "One point of contact", without: "You become the project manager" },

@@ -6,8 +6,14 @@ export const site = {
   email: "hello@keshavco.com",
   phone: "+91 70411 92168",
   phoneHref: "tel:+917041192168",
-  // Pre-launch placeholder — see README checklist.
+  // Pre-launch placeholder. Not shown on the site (decision log #19).
   workingHours: "[Monday – Saturday, 10:00 am – 7:00 pm IST]",
+  /** Offices (decision log #20): footer, /contact and Organization JSON-LD. */
+  offices: [
+    { city: "Vadodara", region: "Gujarat" },
+    { city: "Mumbai", region: "Maharashtra" },
+    { city: "Indore", region: "Madhya Pradesh" },
+  ],
   tagline: "One partner. Strategy to execution.",
   description:
     "KeshavCo is the business growth partner for companies that would rather build one relationship than manage six vendors. Strategy, branding, technology, marketing and execution under one team.",

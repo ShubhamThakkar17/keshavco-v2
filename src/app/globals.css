@@ -833,3 +833,125 @@ html[data-motion="off"] .flow-line {
 html[data-motion="off"] .packet {
   display: none;
 }
+
+/* --- Editor content: Insights articles and case studies ------------------
+   Top-level Markdoc output only (direct children), so the block components
+   inside an article keep their own styling. */
+@layer components {
+  .article {
+    color: var(--color-ink);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .article > :first-child {
+    margin-top: 0;
+  }
+  .article > p,
+  .article-callout > p {
+    margin-top: 1.1em;
+    text-wrap: pretty;
+  }
+  .article-callout > p:first-child {
+    margin-top: 0;
+  }
+  .article > h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-top: 2.2em;
+    scroll-margin-top: 7rem;
+    text-wrap: balance;
+  }
+  .article > h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-top: 1.8em;
+    scroll-margin-top: 7rem;
+  }
+  .article > ul,
+  .article > ol,
+  .article-callout > ul,
+  .article-callout > ol {
+    margin-top: 1.1em;
+    padding-left: 1.25em;
+  }
+  .article > ul,
+  .article-callout > ul {
+    list-style: disc;
+  }
+  .article > ol,
+  .article-callout > ol {
+    list-style: decimal;
+  }
+  .article li {
+    margin-top: 0.4em;
+  }
+  .article li::marker {
+    color: var(--color-signal);
+  }
+  .article a {
+    color: var(--color-signal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .article strong {
+    font-weight: 600;
+  }
+  .article > blockquote {
+    margin-top: 1.5em;
+    border-left: 2px solid var(--color-signal);
+    padding-left: 1.25em;
+    color: var(--color-ink-2);
+  }
+  .article > hr {
+    margin-block: 2.5em;
+    border-top: 1px solid var(--color-line);
+  }
+  .article code {
+    border-radius: 4px;
+    background: var(--color-paper-2);
+    padding: 0.1em 0.35em;
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+  .article > pre {
+    margin-top: 1.5em;
+    overflow-x: auto;
+    border-radius: var(--radius-sm);
+    background: var(--color-night);
+    padding: 1rem 1.25rem;
+    color: white;
+    font-size: 0.875rem;
+  }
+  .article > pre code {
+    background: transparent;
+    padding: 0;
+  }
+  .article > table {
+    display: block;
+    margin-top: 1.5em;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+  .article th,
+  .article td {
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.6em 1em 0.6em 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  .article th {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+  }
+}
