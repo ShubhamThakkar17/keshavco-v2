@@ -1,8 +1,9 @@
 # v3 handover (27 Sep 2026)
 
-All phases (0–8) are done on `redesign/v3` and pushed. **Nothing is merged
-and nothing was deployed to production.** Vercel builds a preview of the
-branch on every push:
+All phases (0–8) are done. On 27 Sep 2026, at Shubham's request,
+`redesign/v3` was **merged into the production branch**
+(`claude/agency-website-scroll-animations-1a2r3d`) to launch on
+keshavco.com. Vercel builds a preview of `redesign/v3` on every push:
 
 **Preview:** https://keshavco-v2-git-redesign-v3-shubhamthakkar17s-projects.vercel.app
 (behind Vercel login: open it while signed in).
@@ -24,8 +25,8 @@ branch on every push:
    doc: paste the script, deploy, add `ENQUIRY_WEBHOOK_URL` in Vercel.
 2. **Editor:** create the GitHub App and add four variables in Vercel
    ([docs/cms/README.md](../cms/README.md)).
-3. **Review the preview**, then merge `redesign/v3` into the production
-   branch when you are happy (I have not merged).
+3. Launched: keep working on `redesign/v3` (previews) and merge into the
+   production branch to publish.
 4. Still open from brief §15: social profile URLs, legal copy, real proof
    (testimonials, logos, case studies), founders' details, Geist Mono
    approval.
