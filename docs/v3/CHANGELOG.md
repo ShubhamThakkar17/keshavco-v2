@@ -242,3 +242,12 @@ Other
   editor, environment variables, scripts, pre-launch checklist.
 - Handover record: [handover.md](./handover.md). Branch `redesign/v3`
   pushed; preview deploys from Vercel. Not merged.
+
+## Launch
+
+- 27 Sep 2026: `redesign/v3` merged into the production branch
+  (`claude/agency-website-scroll-animations-1a2r3d`) at Shubham's request,
+  to go live on keshavco.com (moved from the `keshavco-v1` "Coming Soon"
+  project to `keshavco-v2`). Still to do after launch: forms setup
+  (`docs/forms/README.md`), editor setup (`docs/cms/README.md`), and the
+  journey trims in `docs/v3/handover.md`.
