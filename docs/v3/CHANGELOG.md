@@ -233,3 +233,12 @@ Other
 - Removed the unused full `Logo` lockup component; skip-link label moved to
   content.
 - New checks: `scripts/qa-sweep.mjs` (console, H1, phone fold).
+
+## Phase 8: Preview and handover
+
+- `/lab` gated behind `NEXT_PUBLIC_LAB=1` (404 otherwise; noindex and outside
+  the sitemap either way).
+- README rewritten for v3: visual system, motion system, graphics, forms,
+  editor, environment variables, scripts, pre-launch checklist.
+- Handover record: [handover.md](./handover.md). Branch `redesign/v3`
+  pushed; preview deploys from Vercel. Not merged.

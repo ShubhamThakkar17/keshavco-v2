@@ -1,25 +1,30 @@
-# KeshavCo — keshavco.com
+# KeshavCo: keshavco.com
 
-Marketing site for **Keshav Consultancy Pvt. Ltd.** — a business growth partner.
-Built as a scroll-led agency site: every section is choreographed to the
-scroll position rather than simply fading in.
+Marketing site for **Keshav Consultancy Pvt. Ltd.**, a business growth partner.
+Version 3, "Growth Blueprint": a paper-and-navy canvas with visible grid
+guides, mono annotations, live vector diagrams, 3D dot fields and scroll
+storytelling. The brief is `docs/REDESIGN-V3.md`; the decisions taken with
+Shubham during the build (which win over the brief) are in
+`docs/v3/decisions.md`.
 
 ## Stack
 
 | Piece | Choice |
 | :---- | :----- |
 | Framework | Next.js 15 (App Router, React 19, TypeScript) |
-| Styling | Tailwind CSS v4 (CSS-first config in `src/app/globals.css`) |
-| Motion | Framer Motion 12 |
+| Styling | Tailwind CSS v4 (CSS-first config and v3 tokens in `src/app/globals.css`) |
+| Motion | Framer Motion 12, CSS keyframes, SMIL (SVG packets) |
 | Smooth scroll | Lenis |
-| Type | Sora (display) + Inter (body), via `next/font` |
+| 3D | three.js, loaded lazily (decision #5) |
+| Type | Sora (display), Inter (body), Geist Mono (labels), via `next/font` |
 | Booking | Cal.com (`@calcom/embed-react`) |
+| Editor | Keystatic + Markdoc for Insights and Our Work (decision #21) |
 
 ## Getting started
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
+npm run dev        # http://localhost:3000 (editor at /keystatic, on local files)
 npm run build      # production build
 npm start          # serve the production build
 npm run lint       # eslint
@@ -30,214 +35,204 @@ npm run typecheck  # tsc --noEmit
 
 ```
 src/
-  app/                      routes (App Router)
-    page.tsx                home
-    about/ services/ growth-packages/ industries/
-    process/ faq/ contact/ insights/
-    services/[pillar]/                    4 pillar pages
-    services/[pillar]/[service]/          26 sub-service pages
-    privacy-policy/ terms-of-use/ disclaimer/
-    api/enquiry/route.ts    contact form endpoint
-    sitemap.ts robots.ts icon.svg not-found.tsx
+  app/                        routes (App Router)
+    page.tsx                  home (ten sections)
+    services/ [pillar]/ [pillar]/[service]/   hub, 4 pillars, 26 services
+    growth-packages/ industries/ process/ about/ contact/ careers/ faq/
+    insights/ insights/[slug]/                articles from the editor
+    our-work/ our-work/[slug]/                portfolio (hidden until launched)
+    privacy-policy/ terms-of-use/ disclaimer/ not-found.tsx
+    keystatic/                the editor (Keystatic admin UI)
+    api/enquiry/ api/careers/ api/subscribe/ api/keystatic/
+    lab/                      component playground (404 unless NEXT_PUBLIC_LAB=1)
+    opengraph-image.tsx sitemap.ts robots.ts
   components/
-    layout/                 Header, Footer, PageHero, LegalPage
-    motion/                 the scroll-animation primitives
-    sections/               composed page sections
-    ui/                     Button, Logo, Accordion, Section, Breadcrumb…
-  content/                  ALL COPY LIVES HERE — typed modules, no CMS
-  lib/                      seo helpers
+    layout/                   Header, MobileMenu, Footer, PageHero, LegalPage, SiteChrome
+    motion/                   motion primitives (below)
+    graphics/                 vectors, isometric art, WebGL scenes (gl/)
+    sections/                 composed page sections
+    cms/                      article renderer, blocks, cards
+    forms/                    shared form fields
+    ui/                       Button, Sheet, SectionHead, SectionTag, Chip, …
+  content/                    ALL COPY LIVES HERE (typed modules)
+    insights/ work/           editor content (Markdoc files)
+  lib/                        seo, forms delivery, CMS reader, motion helpers
+keystatic.config.tsx          editor collections and blocks
+docs/                         brief, v3 records, forms and editor guides
+scripts/                      audits and QA (below)
 ```
 
 **All copy is in `src/content/`.** Editing text never means touching a
-component. Each module maps to a section of the source copy document.
+component. Approved long copy is kept; v3 adds `short` / `line` fields and
+`*V3` label objects next to it.
 
 ## Visual system
 
-The site is graphic-led, not text-led. Three layers do that work.
+- **Tokens** (`globals.css`, brief §5): paper / paper-2 / paper-3 / card,
+  night / night-2 / night-3, ink / ink-2, signal (Indigo), growth (green, for
+  outcomes only), line and guide colours; radii 6 / 16 / 28; `type-*`
+  utilities from `display-xxl` to `mono-s`; `sheet-pad` section rhythm.
+- **Sheets.** Each section is a `Sheet` (paper, paper-2 or night) with rounded
+  top corners that overlap the one above; night sheets carry film grain. As a
+  sheet scrolls away it eases back and dims (`SheetStack`). The header reads
+  the sheet's `data-tone` and flips to night styling over dark sheets.
+- **Blueprint devices.** `GridGuides` (six dashed guides, one Indigo),
+  `Crosshair`, `Brackets`, numbered `SectionTag`s, mono labels, `GiantWord`.
+- **Imagery.** Vectors and 3D instead of photographs (decision #4). The
+  licensed stock photos stay in `public/images/` (credits in
+  `public/images/CREDITS.md`) but are not used. The brief's photo
+  dither/duotone script was therefore not built.
+- **Brand mark.** `public/brand/` through `src/content/brand.ts`; never
+  redrawn. The chevron motif (`ChevronStack`) is derived from its layers.
 
-### 1. The brand mark
+## Motion system
 
-The supplied Keshav Consultancy artwork lives in `public/brand/` and resolves
-through `src/content/brand.ts`, so every logo — header, footer, favicon and the
-large hero graphic — comes from one file. Replacing it updates all of them.
+One small vocabulary, reused everywhere (`src/components/motion/`):
 
-The mark is authored with real transparency and holds up on both the white and
-the navy sections, so a single file serves everywhere; there is no reversed
-variant to keep in step. The header and footer pair it with the wordmark as
-live text, which keeps it crisp at any size and lets it recolour per
-background — the supplied lockups set the wordmark in deep navy, which would
-disappear on the dark sections. `public/brand/README.md` covers this.
+| Primitive | What it does |
+| :-- | :-- |
+| `SmoothScroll` | Lenis inertial scrolling, anchor offsets, scroll lock for the menu |
+| `Reveal` | Fade and rise on enter, with stagger |
+| `SplitText`, `BlurInWords` | Masked word reveal for H2s; CSS blur-in for H1s (LCP-safe) |
+| `ScrambleText`, `ScrambleRotate` | Mono labels that decode in; the hero rotator |
+| `TextRoll`, `RollingWords` | Label roll on hover; the footer's rolling line |
+| `Odometer` | Digit strips for stat tiles |
+| `ScrollHighlightText` | Statement that fills word by word with scroll |
+| `DrawPath`, `FlowLine`, `LiveSvg` | Stroke drawing, dotted flows with packets, and the SVG host that pauses them offscreen |
+| `StickyStory` | The pinned problem story on the home page |
+| `StackCards` | Sticky overlapping cards (packages, industries) |
+| `ExpandingPanels` | Capability panels |
+| `SheetStack`, `FooterReveal` | Sheet recede; footer revealed from behind the page |
+| `Parallax`, `Marquee`, `Magnetic`, `ScrollProgress` | Supporting effects |
 
-`BrandFeature` renders the mark at display size over a brand-coloured halo: it
-rises in on load, breathes on a long loop and drifts against the scroll. It is
-the hero graphic and the fallback visual on inner pages without a photograph.
+**Reduced motion is first-class.** `useReducedMotionSafe()` honours both the
+OS setting and the footer's Motion On/Off switch (`html[data-motion="off"]`,
+remembered in `localStorage`). With motion off, pinned stories become static
+frames, sticky stacks become plain stacks, canvases draw one still frame, and
+nothing is hidden. Every auto-moving element also pauses offscreen, when the
+tab is hidden, and on hover or focus.
 
-### 2. Photography
+## Graphics
 
-Seventeen photographs in `public/images/`, registered with dimensions and alt
-text in `src/content/images.ts`. Every page hero, capability card, industry
-panel and section break is led by one. All are Unsplash-licensed (free for
-commercial use); `public/images/CREDITS.md` records every source ID so any
-image can be traced or swapped.
+`src/components/graphics/`:
 
-**These are placeholders for real KeshavCo work.** Replace them with client
-projects, team portraits and case-study photography as they become available —
-`src/content/images.ts` is the only file that needs editing.
+- **Diagrams:** `HeroEngine` (channels into one hub, out to results),
+  `CoordinationStory` (vendor tangle to hub), `ChannelHub`, `ProcessMini`,
+  `PackagesMini`, `IndustryCluster`, `NetworkArt`, `CapabilityQuad`,
+  `AboutMark`, `NotFoundArt`, `WaveLines`, `CompareIcons`.
+- **Isometric art:** `capability/*` (four pillars), `industry/IndustryScene`
+  (seven animated scenes), `industry/IndustryIcon`, `process/ProcessIcon`,
+  with shared projection helpers in `iso.ts`.
+- **WebGL** (`gl/`): `DotField` (terrain), `DotWordmark` (footer),
+  `ChevronParticles` (manifesto). Loaded only when near the viewport and
+  after the visitor's first interaction (or 8 s), DPR capped at 1.5, paused
+  offscreen; a static frame with reduced motion.
+- Labels and screen-reader sentences for diagrams: `src/content/graphics.ts`.
 
-### 3. Composition devices
+## Insights editor and Our Work
 
-- `MediaFrame` — a photograph that wipes open from the bottom while the image
-  drifts against the scroll inside it
-- `CapabilityShowcase` — capability cards where the photograph *is* the card;
-  one line of copy, and the sub-service list expands on hover
-- `IndustryRail` — a pinned section that holds still while seven industry cards
-  travel sideways
-- Bento grids mixing cards, photographs and the support panel
+Articles are written at **`/keystatic`** and saved into this repository;
+Vercel republishes in a minute or two. Editors can insert the site's
+ready-made graphics and configurable ones (steps flow, funnel, bar chart, key
+figure, callout, pull quote). **Setup and writing guide:
+[docs/cms/README.md](docs/cms/README.md).** Until the GitHub App variables
+are set, the site builds normally and `/keystatic` says it is not connected.
 
-### Text density
+`/our-work` (portfolio and case studies) is built but hidden: 404, noindex,
+not in the sitemap. Preview with `OUR_WORK_PREVIEW=1`; launch by setting
+`visible: true` in `src/content/work.ts`.
 
-The home page deliberately shows the short version: one paragraph where the
-copy document has three, a written one-line `tagline` on every card, and detail
-that expands on hover instead of sitting open. Nothing was deleted — the full
-approved copy still lives in `src/content` and is rendered in full on About,
-Services, the pillar pages and Process, which is where someone who wants the
-detail goes.
+## Forms
 
-Cards use written `tagline` fields rather than truncating a paragraph, so a
-short line never reads as a fragment.
+| Form | Route | Delivery |
+| :-- | :-- | :-- |
+| Enquiry (`/contact`) | `/api/enquiry` (unchanged from v2) | `ENQUIRY_WEBHOOK_URL` |
+| Careers (`/careers`) | `/api/careers` | `FORMS_WEBHOOK_URL`, else `ENQUIRY_WEBHOOK_URL` |
+| Newsletter (`/insights`) | `/api/subscribe` | same |
 
-## Scroll animation system
+All three go to one Google Apps Script web app that adds a row to a Google
+Sheet (a tab per form) and emails hello@keshavco.com. Each form has a hidden
+honeypot. Without a webhook, submissions are written to the server log.
+**Setup: [docs/forms/README.md](docs/forms/README.md)** (the Sheet already
+exists in Google Drive, folder "KeshavCo website forms").
 
-The animation vocabulary is deliberately small and reused everywhere, so the
-site feels like one object rather than a pile of effects.
+## Booking: Cal.com
 
-| Primitive | File | What it does |
-| :-------- | :--- | :----------- |
-| `SmoothScroll` | `motion/SmoothScroll.tsx` | Lenis inertial scrolling + anchor handling |
-| `Reveal` / `RevealGroup` / `RevealItem` | `motion/Reveal.tsx` | Fade + translate (+ optional blur) on enter, with stagger |
-| `SplitText` | `motion/SplitText.tsx` | Masked word-by-word heading reveal |
-| `RotatingWords` | `motion/RotatingWords.tsx` | Kinetic headline phrase swap (hero, footer) |
-| `ScrollHighlightText` | `motion/ScrollHighlightText.tsx` | Manifesto paragraph that fills in word by word against scroll progress |
-| `Parallax` | `motion/Parallax.tsx` | Counter-scroll drift, optional scale |
-| `Marquee` | `motion/Marquee.tsx` | Infinite rail whose speed and direction react to scroll velocity |
-| `Counter` | `motion/Counter.tsx` | Count-up on first view |
-| `SpotlightCard` | `motion/SpotlightCard.tsx` | Pointer-tracking gradient spotlight |
-| `ScrollProgress` | `motion/ScrollProgress.tsx` | Gradient reading indicator under the header |
+`/contact#book` opens the "Book a call" tab with the Cal.com event
+`hello-kc/discovery` (config: `booking` in `src/content/site.ts`). Every
+"Book a consultation" button points there. `BookingEmbed` waits for Cal's
+iframe; if none appears within nine seconds it shows a direct link and the
+phone number. `/contact?intent=proposal&package=grow` opens the enquiry tab
+with "Request proposal" and the package preselected.
 
-Composed behaviours built on those: the hero's multi-rate aurora parallax, the
-header's condense-and-flip-tone transition, the sticky-stacking growth package
-cards (`sections/PackagesStack.tsx`), the scroll-filled process spine
-(`sections/ProcessTimeline.tsx`), the sticky industry index
-(`sections/IndustryExplorer.tsx`), and the pinned horizontal testimonial rail
-(`sections/Testimonials.tsx`).
+## Environment variables
 
-### Reduced motion
+| Variable | Needed for |
+| :-- | :-- |
+| `ENQUIRY_WEBHOOK_URL` | Form delivery (the Apps Script URL with `?key=`) |
+| `FORMS_WEBHOOK_URL` | Optional: careers and newsletter to a different endpoint |
+| `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | The `/keystatic` editor on a deployment |
+| `OUR_WORK_PREVIEW=1` | Preview the hidden Our Work pages (Preview environment only) |
+| `NEXT_PUBLIC_LAB=1` | Show the `/lab` component playground |
 
-Every primitive checks `useReducedMotionSafe()`. With
-`prefers-reduced-motion: reduce` the site renders fully static: Lenis is never
-initialised, parallax and scroll-linked transforms are dropped, rotating words
-settle on the first phrase, and `globals.css` neutralises transitions. Nothing
-is hidden — reduced motion never costs content.
-
-## Scope note — services
+## Scope note: services
 
 Two pillars from the source copy document, **Offline Marketing** and
-**Community & PR**, are intentionally not in this build. They are removed from
-navigation, the services grid, the footer, the sitemap and all SEO metadata,
-and prose that promised offline media buying or PR has been rewritten so the
-site does not advertise a capability it does not have a page for.
-
-To add them back later: append the pillar objects to `pillars` in
-`src/content/services.ts` (structure and copy for both are in the source
-document) — the mega-menu, services grid, sitemap, pillar routes and
-sub-service routes are all generated from that array and pick them up with no
-other changes.
-
-The **Expand** growth package and the **Industries** "typical work" lists were
-adjusted for the same reason.
-
-## Booking — Cal.com
-
-`/contact#book` embeds the Cal.com event `hello-kc/discovery` inline via
-`@calcom/embed-react` (namespace `discovery`, month view). Every "Book a
-Growth Consultation" button on the site points at that anchor. The event,
-namespace and direct URL are configured in one place — `booking` in
-`src/content/site.ts`.
-
-`BookingEmbed` judges readiness by watching for Cal's `iframe` to appear,
-**not** by whether `getCalApi()` resolved — that promise settles as soon as
-the queue is set up, whether or not `embed.js` actually loads. If no iframe
-appears within nine seconds the component shows a fallback with a direct link
-to the booking page and the phone number, so an ad blocker, a locked-down
-corporate network or a Cal outage never leaves an empty box.
-
-> The build sandbox blocks `app.cal.com`, so the embed was verified through
-> its fallback path rather than with a live calendar. Check the calendar
-> renders on the first real deploy.
-
-## Contact form
-
-`ContactForm` posts JSON to `POST /api/enquiry`. The route validates the
-payload, then:
-
-- if `ENQUIRY_WEBHOOK_URL` is set, forwards the submission there (CRM, inbox
-  automation, or a form service) and fails loudly if delivery fails;
-- otherwise logs a warning with the payload so nothing is silently dropped in
-  development.
-
-**Set `ENQUIRY_WEBHOOK_URL` before launch**, or replace the route body with a
-direct email/CRM integration. The newsletter form in the footer is currently
-UI-only and needs the same treatment.
+**Community & PR**, are intentionally not in this build. To add them back,
+append the pillar objects to `pillars` in `src/content/services.ts`; the
+navigation strip, services pages, sitemap and routes are all generated from
+that array.
 
 ## Pre-launch checklist
 
-Everything below is a real placeholder in the codebase, not a nice-to-have.
-
-- [x] **Phone number** — +91 70411 92168
-- [ ] **Working hours** — `site.workingHours` in `src/content/site.ts`
-- [ ] **Social profile URLs** — `site.social` (all currently `#`)
-- [ ] **Enquiry delivery** — set `ENQUIRY_WEBHOOK_URL`
-- [ ] **Newsletter signup** — wire the footer form to a provider
-- [x] **Logo** — supplied artwork installed in `public/brand/`
-- [ ] **Reversed lockup** (optional) — if a white-wordmark, transparent-background
-      lockup is produced, add it to `public/brand/` and the header and footer can
-      use it instead of the mark-plus-live-text pairing
-- [ ] **Photography** — the 17 images in `public/images/` are licensed stock
-      standing in for real work. Replace with KeshavCo project photography,
-      client work and team portraits; update `src/content/images.ts`
-- [ ] **Open Graph image** — add `src/app/opengraph-image.png` (1200×630, dark,
-      logo + "One partner. Strategy to execution.")
-- [ ] **Legal pages** — `legalPages` in `src/content/misc.ts` holds placeholder
-      text for Privacy Policy, Terms of Use and Disclaimer. Replace with
-      reviewed copy.
-- [ ] **Testimonials** — `showTestimonials` in `src/content/home.ts` is `false`
-      and the quotes are placeholders. Flip it on only with real, permissioned
-      quotes. The carousel component is built and ready.
-- [ ] **Counters** — the home band shows structural facts (4 capabilities,
-      26 services, 7 industries, 1 point of accountability), which are true.
-      `placeholderCounters` in `src/content/home.ts` holds the
-      "businesses advised / campaigns executed" version for when defensible
-      figures exist.
-- [ ] **Client logos** — the home strip currently runs the industry list, per
-      the copy document's own fallback. Swap `industryStrip.items` for logos
-      once permissions are cleared.
-- [ ] **Insights** — `/insights` lists planned titles with no links because
-      nothing is published. Replace `insightsPage.planned` with real posts and
-      add article routes.
-- [ ] **Canonical domain** — `site.url` is `https://keshavco.com`; confirm
-      before the sitemap and Open Graph tags go live.
+- [x] Phone number: +91 70411 92168
+- [x] Offices: Vadodara, Mumbai, Indore (footer, `/contact`, JSON-LD)
+- [x] Open Graph image (`src/app/opengraph-image.tsx`)
+- [x] Commitment lines confirmed (decision #17)
+- [ ] **Forms:** deploy the Apps Script and set `ENQUIRY_WEBHOOK_URL`
+      (`docs/forms/README.md`)
+- [ ] **Editor:** create the GitHub App and set the four Keystatic variables
+      (`docs/cms/README.md`)
+- [ ] **Social profile URLs:** `site.social` (all `#`, so hidden)
+- [ ] **Legal pages:** placeholder text in `legalPages` (`src/content/misc.ts`)
+- [ ] **Real proof:** testimonials (`showTestimonials` is `false`), client
+      logos, case studies in Our Work: only real, permissioned material
+- [ ] **Founders block** on `/about`: names, roles and photos when possible
+- [ ] **SVG logo files** (optional; the PNG mark is used everywhere)
+- [ ] **Geist Mono** approved as the label font
+- [ ] **Canonical domain:** `site.url` is `https://keshavco.com`
 
 ## SEO
 
-Per-page titles and descriptions come straight from the source copy document
-and live beside the copy they describe. `src/lib/seo.ts` builds the metadata
-objects plus JSON-LD for Organization, BreadcrumbList, FAQPage and Service.
-`sitemap.ts` and `robots.ts` generate from the content modules, so new services
-appear automatically.
+Titles and descriptions live beside the copy in `src/content/`.
+`src/lib/seo.ts` builds page metadata (with the shared Open Graph image) and
+JSON-LD for Organization (with office addresses), BreadcrumbList, FAQPage,
+Service and BlogPosting. `sitemap.ts` is generated from the content modules
+and the published articles; `/lab`, `/keystatic` and the hidden Our Work pages
+are never in it. `docs/v3/route-parity.md` shows the v2 → v3 parity (42/42
+routes unchanged, plus `/careers`).
 
 ## Accessibility
 
-Skip link, one `<h1>` per page, labelled form fields with inline errors and
-`aria-invalid`, `aria-expanded` on the accordion and menus, Escape closes the
-menus, visible focus rings, and full reduced-motion support. Decorative motion
-layers are `aria-hidden`; `SplitText` keeps headings as single readable nodes.
+Skip link, one `<h1>` per page, labelled fields with inline errors,
+`aria-invalid` and focus moved to the first invalid field, `aria-expanded`
+on menus, panels and accordions, keyboard tabs on `/contact`, Escape closes
+overlays and returns focus, visible focus, 4.5:1 body contrast, decorative
+art `aria-hidden` and meaningful diagrams with a screen-reader sentence.
+axe reports no violations on any template (`scripts/axe.mjs`).
+
+## Scripts
+
+| Script | Purpose |
+| :-- | :-- |
+| `scripts/route-audit.mjs` | Status, title, description, canonical, H1s and JSON-LD for every sitemap URL |
+| `scripts/route-parity.mjs` | Compares two audits into `docs/v3/route-parity.md` |
+| `scripts/wordcount.mjs` | Visible words and height of a page |
+| `scripts/copy-audit.mjs` | Paragraph (≤ 60 words) and heading budgets per route |
+| `scripts/qa-sweep.mjs` | Console errors, hydration warnings, H1 count, phone fold |
+| `scripts/overflow-check.mjs` | Horizontal overflow at any set of widths |
+| `scripts/axe.mjs` | axe-core on every template, phone and desktop, motion on and off |
+| `scripts/shoot.mjs` | Full-page or stitched screenshots |
+
+Run them against `npm start` (default base `http://localhost:3000`).
+Measurements before and after: `docs/v3/baseline.md`, `docs/v3/after.md`.
