@@ -2,6 +2,8 @@ export type GrowthPackage = {
   slug: string;
   name: string;
   audience: string;
+  /** v3 one-liner for the home panel (≤ 6 words), condensed from `audience`. */
+  line: string;
   /** Short version used in the home page section. */
   summary: string;
   situation: string;
@@ -46,6 +48,7 @@ export const packagesPage = {
 export const growthPackages: GrowthPackage[] = [
   {
     slug: "launch",
+    line: "Going to market for the first time",
     name: "Launch",
     audience: "For businesses going to market for the first time",
     summary:
@@ -66,6 +69,7 @@ export const growthPackages: GrowthPackage[] = [
   },
   {
     slug: "grow",
+    line: "When you need predictable enquiries",
     name: "Grow",
     audience: "For businesses that need predictable enquiries",
     summary:
@@ -86,6 +90,7 @@ export const growthPackages: GrowthPackage[] = [
   },
   {
     slug: "expand",
+    line: "Entering new markets or categories",
     name: "Expand",
     audience: "For businesses entering new markets or categories",
     summary:
@@ -106,6 +111,7 @@ export const growthPackages: GrowthPackage[] = [
   },
   {
     slug: "scale",
+    line: "A growth team, not a project",
     name: "Scale",
     audience: "For businesses that need a growth team, not a project",
     summary:

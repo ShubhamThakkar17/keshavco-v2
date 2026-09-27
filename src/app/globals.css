@@ -633,6 +633,19 @@ html:not(.js) .art-grow {
   animation-delay: var(--delay, 0s);
 }
 
+/* Process row: a packet runs along the connector of the active stage. */
+@keyframes process-packet {
+  from {
+    left: 0;
+  }
+  to {
+    left: calc(100% - 8px);
+  }
+}
+.process-packet {
+  animation: process-packet 1.4s var(--ease-in-out-quart) both;
+}
+
 /* Cards that fan out of a stack (Branding art). */
 .art-fan {
   transform-box: fill-box;

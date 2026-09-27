@@ -29,9 +29,9 @@ export const booking = {
 } as const;
 
 export const cta = {
-  primary: { label: "Book a Growth Consultation", href: "/contact#book" },
-  secondary: { label: "Talk to an Expert", href: "/contact" },
-  tertiary: { label: "Request Proposal", href: "/contact?intent=proposal" },
+  primary: { label: "Book a Growth Consultation", short: "Book a consultation", href: "/contact#book" },
+  secondary: { label: "Talk to an Expert", short: "Send an enquiry", href: "/contact" },
+  tertiary: { label: "Request Proposal", short: "Request proposal", href: "/contact?intent=proposal" },
 } as const;
 
 export const ctaSupportLines = [
@@ -49,6 +49,29 @@ export const nav: NavItem[] = [
   { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
 ];
+
+/**
+ * v3 navigation (decision log #6): the four service pillars sit directly in
+ * the bar (their sub-services open in a horizontal strip, generated from
+ * `pillars`), followed by these links. Insights and Careers live in the
+ * footer and the mobile menu.
+ */
+export const navV3 = {
+  links: [
+    { label: "Packages", href: "/growth-packages" },
+    { label: "Industries", href: "/industries" },
+    { label: "About", href: "/about" },
+  ],
+  mobileExtras: [
+    { label: "Insights", href: "/insights" },
+    { label: "Contact", href: "/contact" },
+  ],
+  allServices: "All services",
+  menuOpen: "Open menu",
+  menuClose: "Close menu",
+  primaryLabel: "Primary",
+  servicesLabel: "services",
+} as const;
 
 export const footerColumns = [
   {
@@ -83,6 +106,23 @@ export const footer = {
     { label: "Terms of Use", href: "/terms-of-use" },
     { label: "Disclaimer", href: "/disclaimer" },
   ],
+} as const;
+
+/** v3 footer: the merged closing CTA (decision log #3) and compact links. */
+export const footerV3 = {
+  tag: "CONTACT",
+  headingPrefix: footer.headingPrefix,
+  rotatingWords: footer.rotatingWords,
+  /** Carried over from the retired mid-page CTA band ("Ready to solve…"). */
+  line: "One conversation is usually enough to know whether we can help. Thirty minutes, no obligation.",
+  columns: [
+    { title: "Services", links: footerColumns[0].links },
+    { title: "Company", links: footerColumns[1].links },
+    { title: "Legal", links: footer.legalLinks },
+  ],
+  legalLine: `© ${new Date().getFullYear()} ${site.legalName.toUpperCase()}`,
+  wordmark: site.name,
+  navLabel: "Footer",
 } as const;
 
 export const contactForm = {

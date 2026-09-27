@@ -12,7 +12,10 @@
  * letters `data-wc="skip"` and their screen-reader label `data-wc="count"`, so
  * the label is counted once as the word a reader sees.
  *
- * Usage: node scripts/wordcount.mjs [--path /] [--base http://localhost:3000] [--width 1440]
+ * SVG text (diagram labels) is reported separately: run once with and once
+ * without `--svg true` to get both numbers.
+ *
+ * Usage: node scripts/wordcount.mjs [--path /] [--base http://localhost:3000] [--width 1440] [--svg true]
  */
 import { chromium } from "playwright";
 
@@ -26,6 +29,8 @@ const base = (args.base ?? "http://localhost:3000").replace(/\/$/, "");
 const path = args.path ?? "/";
 const width = Number(args.width ?? 1440);
 const height = Number(args.height ?? 900);
+/** Diagram labels (SVG text) are excluded unless --svg true. */
+const includeSvg = args.svg === "true";
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width, height } });
@@ -42,7 +47,7 @@ await page.evaluate(async () => {
   await new Promise((resolve) => setTimeout(resolve, 1200));
 });
 
-const result = await page.evaluate(() => {
+const result = await page.evaluate((countSvg) => {
   const countIn = (root) => {
     if (!root) return { words: 0, sample: [] };
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -51,6 +56,8 @@ const result = await page.evaluate(() => {
     const visible = (element) => {
       if (element.closest('[data-wc="skip"]')) return false;
       if (element.closest('[data-wc="count"]')) return true;
+      if (element.closest(".sr-only")) return false; // screen-reader-only text
+      if (element.closest("svg")) return countSvg; // diagram labels, optional
       let opacity = 1;
       for (let node = element; node && node !== document.body; node = node.parentElement) {
         const style = getComputedStyle(node);
@@ -86,7 +93,7 @@ const result = await page.evaluate(() => {
     height: document.documentElement.scrollHeight,
     sections: sections.length,
   };
-});
+}, includeSvg);
 
 await browser.close();
 console.log(JSON.stringify({ path, viewport: `${width}x${height}`, ...result }, null, 2));

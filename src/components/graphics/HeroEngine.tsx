@@ -114,7 +114,7 @@ function Layout({
   const hatch = `${idPrefix}-hatch`;
   const tileW = vertical ? 84 : 100;
   const tileH = vertical ? 34 : 40;
-  const outW = vertical ? 116 : 128;
+  const outW = vertical ? 116 : 136;
   const outFont = vertical ? 9 : 10;
   const outH = vertical ? 38 : 44;
   const hubCx = hub.x + hub.size / 2;
@@ -304,7 +304,7 @@ export default function HeroEngine({
           vertical={false}
           inputs={inputs(desktopInputs)}
           hub={{ x: 344, y: 136, size: 128 }}
-          outputs={heroEngine.outputs.map((label, k) => ({ x: 528, y: 98 + k * 78, label }))}
+          outputs={heroEngine.outputs.map((label, k) => ({ x: 520, y: 98 + k * 78, label }))}
         />
       </LiveSvg>
       <LiveSvg viewBox="0 0 368 420" className="h-auto w-full md:hidden">

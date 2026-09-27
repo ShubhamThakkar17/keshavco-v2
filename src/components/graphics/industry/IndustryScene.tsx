@@ -255,7 +255,7 @@ export default function IndustryScene({
 }) {
   const Scene = scenes[slug] ?? Manufacturing;
   return (
-    <span className="art block">
+    <span className="art block h-full">
       <LiveSvg viewBox="-160 -158 320 250" className={className} drawn={active} fill="none">
         <Scene />
       </LiveSvg>
