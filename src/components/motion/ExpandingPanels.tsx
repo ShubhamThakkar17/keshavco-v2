@@ -15,8 +15,9 @@ export type PanelItem = {
   id: string;
   /** Accessible name and the collapsed, rotated label. */
   name: string;
-  /** Expanded content. Rendered for every panel (crawlable); inert when closed. */
-  content: ReactNode;
+  /** Expanded content. Rendered for every panel (crawlable); inert when closed.
+   *  A function receives whether the panel is open, so artwork can play on open. */
+  content: ReactNode | ((active: boolean) => ReactNode);
 };
 
 /**
@@ -184,7 +185,7 @@ export default function ExpandingPanels({
                     : "opacity-0 duration-150"
                 }`}
               >
-                {item.content}
+                {typeof item.content === "function" ? item.content(isActive) : item.content}
               </div>
             </div>
           </div>

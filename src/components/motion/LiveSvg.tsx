@@ -54,7 +54,8 @@ export default function LiveSvg({
     };
   }, []);
 
-  const paused = reduceMotion || !visible || tabHidden;
+  // A controlled host that is not drawn (e.g. a closed panel) also rests.
+  const paused = reduceMotion || !visible || tabHidden || drawnProp === false;
 
   useEffect(() => {
     const node = ref.current;

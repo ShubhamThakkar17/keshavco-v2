@@ -59,3 +59,41 @@ Playground and tooling
   paper and night, with a Motion On/Off preview.
 - `scripts/shoot.mjs` (checkpoint screenshots, `--stitch` for real
   scroll-position captures), `sharp` added as a dev dependency.
+
+## Phase 2: Graphics
+
+Decisions from Checkpoint 1 are recorded in `docs/v3/decisions.md` (three.js
+approved, motion graphics instead of photographs, navbar, careers, forms).
+
+3D (three.js, lazy)
+- `graphics/gl/GLCanvas.tsx`: one host for every WebGL scene. Imports the
+  scene (and three.js) only near the viewport and after idle, caps DPR at
+  1.5, throttles frames, pauses offscreen and in hidden tabs, draws one
+  static frame for reduced motion, and falls back to a static graphic if
+  WebGL is unavailable. three.js lands in two lazy chunks (about 124 KB
+  gzipped) and never in first-load JS.
+- Scenes: `DotField` (3D dot-matrix growth terrain, noise in the vertex
+  shader, pointer ripple; paper and night), `ChevronParticles` (thousands of
+  points converge from a scattered cloud into the chevron stack and green eye;
+  scroll-scrubbed or auto), `DotWordmark` (the word in Sora sampled into dots
+  in 3D, tilts and parts around the pointer).
+- `simplex-noise` was not needed: the noise runs on the GPU (Ashima GLSL,
+  MIT).
+
+Vectors (SVG, CSS and SMIL; paused offscreen by `LiveSvg`)
+- `HeroEngine` (7 inputs → hatched hub → 3 outputs, packets every 900ms,
+  vertical layout below 768px), `CoordinationStory` (tangle → hub, scrubbed by
+  scroll; static before/after frames for reduced motion), `CapabilityArt`
+  (Strategy, Branding, Technology, Digital Marketing, isometric),
+  `IndustryIcon` ×7, `IndustryScene` ×7 (animated isometric vignettes that
+  replace the stock photos), `ProcessIcon` ×5, `CompareIcons`, `ChevronStack`
+  (with loader), `WaveLines`, `NotFoundArt`, `ChannelHub`.
+- `graphics/iso.ts`: shared isometric projection helpers; diagram labels live
+  in `src/content/graphics.ts`.
+
+Other
+- `src/app/opengraph-image.tsx` (1200 × 630) with OFL fonts in `src/app/_og/`;
+  `pageMetadata` now attaches it to every page (42/42 routes carry og:image;
+  titles, descriptions and canonicals unchanged).
+- Photo treatment (brief §7.3) dropped per decision #4.
+- `/lab` shows every graphic in paper and night.

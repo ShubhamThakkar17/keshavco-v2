@@ -22,7 +22,18 @@ import FlowLine from "@/components/motion/FlowLine";
 import Magnetic from "@/components/motion/Magnetic";
 import Marquee from "@/components/motion/Marquee";
 import FooterReveal from "@/components/motion/FooterReveal";
-import { PanelsDemo, StoryDemo } from "./LabDemos";
+import { GlDemo, PanelsDemo, StoryDemo } from "./LabDemos";
+import HeroEngine from "@/components/graphics/HeroEngine";
+import CapabilityArt from "@/components/graphics/capability";
+import IndustryIcon from "@/components/graphics/industry/IndustryIcon";
+import IndustryScene from "@/components/graphics/industry/IndustryScene";
+import ProcessIcon from "@/components/graphics/process/ProcessIcon";
+import { CheckIcon, CompareRowIcon, CrossIcon } from "@/components/graphics/CompareIcons";
+import ChevronStack from "@/components/graphics/ChevronStack";
+import WaveLines from "@/components/graphics/WaveLines";
+import NotFoundArt from "@/components/graphics/NotFoundArt";
+import ChannelHub from "@/components/graphics/ChannelHub";
+import { industries } from "@/content/industries";
 import { lab } from "@/content/lab";
 import { homeFaqs } from "@/content/faq";
 import { industryStrip } from "@/content/home";
@@ -302,6 +313,121 @@ export default function LabPage() {
               </Magnetic>
               <p className="type-mono-s mt-4 text-ink-2">{lab.labels.magnetic}</p>
             </div>
+          </div>
+        </div>
+      </Sheet>
+
+      {/* --------------------------------------------------------------- 3D */}
+      <Sheet tone="paper-2" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <SectionHead index={10} tag={lab.sections.gl.tag} title={lab.sections.gl.title} />
+          <div className="mt-14">
+            <GlDemo />
+          </div>
+        </div>
+      </Sheet>
+
+      {/* ---------------------------------------------------- Hero engine */}
+      <Sheet tone="paper-2" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <SectionHead index={11} tag={lab.sections.engine.tag} title={lab.sections.engine.title} />
+          <div className="mx-auto mt-14 max-w-3xl text-ink/70">
+            <HeroEngine idPrefix="lab-engine" />
+          </div>
+        </div>
+      </Sheet>
+
+      {/* ------------------------------------------------- Capability art */}
+      <Sheet tone="paper" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <SectionHead index={12} tag={lab.sections.capability.tag} title={lab.sections.capability.title} />
+          <div className="mt-14 grid gap-6 sm:grid-cols-2">
+            {pillars.map((pillar) => (
+              <div key={pillar.slug} className="rounded-[var(--radius-md)] border border-line bg-card p-4 text-ink/70">
+                <p className="type-mono-s text-ink-2">{pillar.name}</p>
+                <CapabilityArt slug={pillar.slug} />
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2" data-tone="night">
+            {pillars.slice(0, 2).map((pillar) => (
+              <div key={pillar.slug} className="rounded-[var(--radius-md)] bg-night-2 p-4 text-white/70">
+                <p className="type-mono-s text-white/60">{pillar.name}</p>
+                <CapabilityArt slug={pillar.slug} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sheet>
+
+      {/* ------------------------------------------------- Industry scenes */}
+      <Sheet tone="paper-2" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <SectionHead index={13} tag={lab.sections.industries.tag} title={lab.sections.industries.title} />
+          <div className="mt-14 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            {industries.map((industry) => (
+              <div key={industry.slug} className="group bg-paper-2 p-5 text-ink/70">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-14 w-14 place-items-center border border-line bg-card text-ink">
+                    <IndustryIcon slug={industry.slug} />
+                  </span>
+                  <span className="type-mono-s text-ink">{industry.name}</span>
+                </div>
+                <IndustryScene slug={industry.slug} className="mt-4 h-auto w-full" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sheet>
+
+      {/* ------------------------------------------------------ Small parts */}
+      <Sheet tone="paper" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <SectionHead index={14} tag={lab.sections.parts.tag} title={lab.sections.parts.title} />
+          <div className="mt-14 grid gap-10 lg:grid-cols-2">
+            <div className="space-y-10">
+              <div className="flex flex-wrap items-end gap-8">
+                {lab.labels.processStages.map((stage, i) => (
+                  <div key={stage} className="text-center">
+                    <span className="relative inline-grid place-items-center p-2 text-ink">
+                      {i === 2 && <Brackets inset={-4} />}
+                      <ProcessIcon stage={stage} active={i === 2 || i === 3 || i === 4} />
+                    </span>
+                    <p className="type-mono-s mt-2 text-ink-2">{stage}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center gap-6 text-ink">
+                <span className="text-growth-ink"><CheckIcon /></span>
+                <span className="text-ink-2"><CrossIcon /></span>
+                {lab.labels.compareRows.map((row) => (
+                  <CompareRowIcon key={row} kind={row} />
+                ))}
+              </div>
+              <div className="flex items-center gap-8 text-signal">
+                <ChevronStack eye className="h-12 w-12" />
+                <span className="flex items-center gap-3">
+                  <ChevronStack loader className="h-8 w-8" />
+                  <span className="type-mono-s text-ink-2">{lab.labels.loader}</span>
+                </span>
+              </div>
+              <div className="text-ink/70">
+                <NotFoundArt />
+              </div>
+            </div>
+            <div className="relative min-h-80 overflow-hidden rounded-[var(--radius-md)] bg-night text-white" data-tone="night">
+              <WaveLines />
+            </div>
+          </div>
+        </div>
+      </Sheet>
+
+      {/* ------------------------------------------------------ Channel hub */}
+      <Sheet tone="paper-2" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <SectionHead index={15} tag={lab.sections.hub.tag} title={lab.sections.hub.title} />
+          <div className="mx-auto mt-14 max-w-3xl text-ink/70">
+            <ChannelHub />
           </div>
         </div>
       </Sheet>

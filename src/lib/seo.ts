@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 
+/**
+ * The site-wide social preview, rendered by `src/app/opengraph-image.tsx`.
+ * Pages set their own `openGraph` object, which would otherwise drop the
+ * file-based image, so it is attached explicitly here.
+ */
+const socialImage = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: `${site.name}: ${site.tagline}`,
+};
+
 /** Builds page metadata from the title/description pairs in the copy document. */
 export function pageMetadata({
   title,
@@ -20,8 +32,9 @@ export function pageMetadata({
       description,
       url: `${site.url}${path === "/" ? "" : path}`,
       type: "website",
+      images: [socialImage],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", title, description, images: [socialImage.url] },
   };
 }
 

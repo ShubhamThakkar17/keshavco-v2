@@ -1,7 +1,13 @@
 "use client";
 
-import { motion, useMotionValueEvent, useTransform, type MotionValue } from "framer-motion";
-import { useState } from "react";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
+import { useRef, useState } from "react";
 import StickyStory from "@/components/motion/StickyStory";
 import ExpandingPanels from "@/components/motion/ExpandingPanels";
 import SectionTag from "@/components/ui/SectionTag";
@@ -10,37 +16,18 @@ import Button from "@/components/ui/Button";
 import { lab } from "@/content/lab";
 import { ease } from "@/lib/motion";
 import type { Pillar } from "@/content/services";
+import DotField from "@/components/graphics/DotField";
+import DotWordmark from "@/components/graphics/DotWordmark";
+import ChevronParticles from "@/components/graphics/ChevronParticles";
+import CoordinationStory from "@/components/graphics/CoordinationStory";
+import CapabilityArt from "@/components/graphics/capability";
 
 /* ------------------------------------------------------------------ Story */
-
-const scattered = [
-  [18, 22],
-  [72, 14],
-  [86, 52],
-  [64, 84],
-  [22, 78],
-  [8, 50],
-];
-
-function StoryNode({ progress, index }: { progress: MotionValue<number>; index: number }) {
-  const [sx, sy] = scattered[index];
-  const tx = 16;
-  const ty = 14 + index * 14;
-  const x = useTransform(progress, [0.35, 0.75], [`${sx}%`, `${tx}%`]);
-  const y = useTransform(progress, [0.35, 0.75], [`${sy}%`, `${ty}%`]);
-  return (
-    <motion.span
-      className="absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 border border-ink bg-card"
-      style={{ left: x, top: y }}
-    />
-  );
-}
 
 function StoryFrame({ progress }: { progress: MotionValue<number> }) {
   const [after, setAfter] = useState(false);
   useMotionValueEvent(progress, "change", (v) => setAfter(v >= 0.55));
   const dot = useTransform(progress, [0, 1], ["0%", "100%"]);
-  const hub = useTransform(progress, [0.55, 0.75], [0, 1]);
 
   return (
     <div className="container-page grid h-full items-center gap-10 lg:grid-cols-12">
@@ -73,14 +60,8 @@ function StoryFrame({ progress }: { progress: MotionValue<number> }) {
           <span>{lab.labels.after}</span>
         </div>
       </div>
-      <div className="relative aspect-[4/3] border border-line bg-card lg:col-span-8">
-        {scattered.map((_, index) => (
-          <StoryNode key={index} progress={progress} index={index} />
-        ))}
-        <motion.span
-          className="absolute left-[62%] top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 border-2 border-signal"
-          style={{ opacity: hub, scale: hub }}
-        />
+      <div className="relative aspect-[3/4] max-h-[62svh] w-full text-ink/70 md:aspect-[3/2] lg:col-span-8">
+        <CoordinationStory progress={progress} idPrefix="lab-story" />
       </div>
     </div>
   );
@@ -90,9 +71,15 @@ export function StoryDemo() {
   return (
     <StickyStory
       fallback={
-        <div className="container-page grid gap-6 py-16 lg:grid-cols-2">
-          <p className="type-display-m">{lab.labels.storyA}</p>
-          <p className="type-display-m">{lab.labels.storyB}</p>
+        <div className="container-page grid gap-10 py-16 lg:grid-cols-2">
+          <div className="text-ink/70">
+            <p className="type-display-m text-ink">{lab.labels.storyA}</p>
+            <CoordinationStory state="before" idPrefix="lab-story-a" className="mt-6 aspect-[3/4] md:aspect-[3/2]" />
+          </div>
+          <div className="text-ink/70">
+            <p className="type-display-m text-ink">{lab.labels.storyB}</p>
+            <CoordinationStory state="after" idPrefix="lab-story-b" className="mt-6 aspect-[3/4] md:aspect-[3/2]" />
+          </div>
         </div>
       }
     >
@@ -109,7 +96,7 @@ export function PanelsDemo({ pillars }: { pillars: Pillar[] }) {
       items={pillars.map((pillar) => ({
         id: pillar.slug,
         name: pillar.name,
-        content: (
+        content: (active: boolean) => (
           <div className="grid gap-6 px-5 pb-6 lg:h-full lg:grid-cols-[45%_55%] lg:px-8 lg:pb-8">
             <div className="flex flex-col">
               <p className="type-display-m text-white">{pillar.name}</p>
@@ -125,12 +112,47 @@ export function PanelsDemo({ pillars }: { pillars: Pillar[] }) {
                 </Button>
               </div>
             </div>
-            <div className="type-mono-s grid min-h-40 place-items-center rounded-[var(--radius-sm)] border border-dashed border-white/15 text-white/55">
-              {lab.labels.art}
+            <div className="grid place-items-center text-white/70">
+              <CapabilityArt slug={pillar.slug} active={active} />
             </div>
           </div>
         ),
       }))}
     />
+  );
+}
+
+/* -------------------------------------------------------------- 3D / WebGL */
+
+export function GlDemo() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.9", "center 0.5"] });
+  return (
+    <div className="grid gap-6">
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-line bg-paper-2" data-tone="paper">
+          <p className="type-mono-s absolute left-4 top-4 z-10 text-ink-2">{lab.labels.terrainPaper}</p>
+          <DotField tone="paper" className="h-72 w-full" />
+        </div>
+        <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-line-night bg-night" data-tone="night">
+          <p className="type-mono-s absolute left-4 top-4 z-10 text-white/60">{lab.labels.terrainNight}</p>
+          <DotField tone="night" className="h-72 w-full" amplitude={1.2} />
+        </div>
+      </div>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-line-night bg-night">
+          <p className="type-mono-s absolute left-4 top-4 z-10 text-white/60">{lab.labels.chevronsAuto}</p>
+          <ChevronParticles tone="night" className="aspect-square w-full" />
+        </div>
+        <div ref={ref} className="relative overflow-hidden rounded-[var(--radius-md)] border border-line-night bg-night">
+          <p className="type-mono-s absolute left-4 top-4 z-10 text-white/60">{lab.labels.chevronsScroll}</p>
+          <ChevronParticles tone="night" progress={scrollYProgress} className="aspect-square w-full" />
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-line-night bg-night px-4 py-10">
+        <p className="type-mono-s absolute left-4 top-4 z-10 text-white/60">{lab.labels.wordmark}</p>
+        <DotWordmark text={lab.labels.wordmarkText} />
+      </div>
+    </div>
   );
 }
