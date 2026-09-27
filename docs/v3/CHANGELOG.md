@@ -97,3 +97,43 @@ Other
   titles, descriptions and canonicals unchanged).
 - Photo treatment (brief §7.3) dropped per decision #4.
 - `/lab` shows every graphic in paper and night.
+
+## Phase 3: Home page
+
+- `src/app/page.tsx` rebuilt as ten sections (brief §9.2), all copy from
+  `homeV3` in `src/content/home.ts` (plus short `line` fields on packages and
+  process stages; approved long copy untouched):
+  S1 `HomeHero` (inset card, guides draw in, blur-in H1, scramble rotator,
+  hero engine, stat tiles over the 3D dot field) · S2 `IndustryStrip` ·
+  S3 `ProblemStory` (pinned, scroll-scrubbed tangle → hub, headline swap at
+  55%) · S4 `Manifesto` (the merged "Who we are" + "What you get", with the
+  3D chevron particles assembling on scroll) · S5 `CapabilityPanels` ·
+  S6 `IndustryGrid` (animated scenes instead of photos) · S7 `ProcessFlow`
+  (packet walks the chain; active stage gets brackets and the green eye) ·
+  S8 `PackagesPanel` (featured night column follows hover/focus) ·
+  S9 `Compare` (With / Without, VS chip) · S10 `FaqSplit` (5 questions).
+- The mid-page CTA band is gone; its line lives in the footer (decision #3).
+- Retired: `Hero`, `IndustryMarquee`, `IndustryRail`, `RotatingWords`.
+- Measured (production build): 9,760 px tall at 1440 × 900 (was 15,928);
+  395 visible words in `main` excluding diagram labels, 451 including them
+  (was 1,338; target 350); first-load JS 190 kB (target ≤ 190). axe: no
+  violations at 1440 and 390, motion on and off.
+- `scripts/wordcount.mjs` now skips screen-reader-only text and reports
+  diagram (SVG) labels separately (`--svg true`).
+
+## Phase 4: Global shell
+
+- Header: floating nav pill with the four service pillars, then Packages ·
+  Industries · About (decision #6); hovering or focusing a pillar opens a
+  horizontal strip of its sub-services under the bar. Hides on scroll down
+  after 160px, returns on scroll up, flips to night styling over night
+  sheets (`src/lib/useSheetTone.ts`). 2px brand-gradient progress line.
+- Mobile menu: full-screen night sheet (clip-path reveal, guides, numbered
+  links, CTA, email, phone), scroll locked via Lenis, focus trapped, Escape
+  closes and returns focus.
+- Footer: revealed from behind `main`; 3D dot-field bookend, `[09] CONTACT`,
+  "Let's talk about" + rolling line, the merged CTA line and two buttons,
+  compact link columns, mono contact row (social links hidden while their
+  URL is `#`), Motion On/Off switch, 3D dot wordmark, legal line.
+- `layout.tsx`: paper body; `main` lifts off the footer (z-index, rounded
+  bottom corners).

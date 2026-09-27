@@ -91,7 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
-      <body className="antialiased">
+      <body className="bg-paper antialiased">
         <script
           type="application/ld+json"
           // Static, first-party schema — no user input reaches this string.
@@ -102,7 +102,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <SmoothScroll />
         <Header />
-        <main id="main">{children}</main>
+        {/* main lifts off the footer, which is revealed from behind it. */}
+        <main
+          id="main"
+          className="relative z-[1] rounded-b-[20px] bg-paper pb-2 shadow-[0_24px_48px_-24px_rgb(8_13_24/0.45)] md:rounded-b-[var(--radius-lg)]"
+        >
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
