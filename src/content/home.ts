@@ -214,3 +214,88 @@ export const faqSection = {
   heading: "Questions businesses ask us first",
   body: "If yours is not here, ask it directly.",
 };
+
+/* ---------------------------------------------------------------------------
+   v3 home page (docs/REDESIGN-V3.md §8.3). Short copy only: every line here
+   is taken or condensed from the approved copy above, which stays in place
+   for the inner pages. Budget: ≤ 350 visible words on the whole page.
+--------------------------------------------------------------------------- */
+
+export const homeV3 = {
+  hero: {
+    tag: "BUSINESS GROWTH PARTNER",
+    rotatorPrefix: "WE SOLVE →",
+    rotator: hero.rotatingWords.map((phrase) => phrase.toUpperCase()),
+    line: "Strategy, branding, technology and marketing, run by one accountable team.",
+    secondary: { label: "See how it works", href: "#problem" },
+  },
+  /** Mono labels for `proofCounters`, in the same order. */
+  statLabels: ["CAPABILITIES", "SERVICES", "INDUSTRIES", "POINT OF ACCOUNTABILITY"],
+  strip: { label: "BUILT FOR", items: industryStrip.items },
+  problem: {
+    tag: "THE PROBLEM",
+    before: "Six vendors. Nobody owns the result.",
+    after: "One strategy. One team. One point of accountability.",
+    scale: ["BEFORE", "AFTER"],
+  },
+  /** "Who we are" and "What you get" merged into one idea (decision log #2). */
+  manifesto: {
+    note: "// WHO WE ARE",
+    text: "We diagnose the business before we prescribe the marketing. Everything we recommend, we can execute. Everything we execute, we measure.",
+    line: "An external growth department, not another vendor.",
+    pillars: "STRATEGY · BRANDING · TECHNOLOGY · DIGITAL MARKETING",
+  },
+  capabilities: {
+    tag: "CAPABILITIES",
+    title: "Four capabilities. One growth plan.",
+    giantWord: "Capabilities",
+    action: { label: "All services", href: "/services" },
+    explore: "Explore",
+  },
+  industries: {
+    tag: "INDUSTRIES",
+    title: "Growth looks different in every industry.",
+    action: { label: "All industries", href: "/industries" },
+    cta: { label: "YOUR INDUSTRY?", link: "Talk to us", href: "/contact" },
+  },
+  process: {
+    tag: "PROCESS",
+    title: "From growth problem to measurable result.",
+    action: { label: "See the full process", href: "/process" },
+    outputs: ["DIAGNOSIS >", "ROADMAP >", "DELIVERY >", "REPORT >", "COMPOUND >"],
+    /** Icon per stage, in `processStages` order. */
+    icons: ["discover", "strategy", "execute", "measure", "scale"],
+  },
+  packages: {
+    tag: "PACKAGES",
+    title: "Engagements built around outcomes, not service lists.",
+    giantWord: "Packages",
+    action: { label: "Compare packages", href: "/growth-packages" },
+    featured: "grow",
+    includesShown: 3,
+    more: "What is included",
+  },
+  compare: {
+    tag: "WHY KESHAVCO",
+    title: "What changes with one partner.",
+    with: "With KeshavCo",
+    without: "Without",
+    vs: "VS",
+    /** Rows 4 and 5 restate house rules, confirmed by Krupal (decision log #17).
+     *  Say no more than this: a separate agency fee may apply per project. */
+    rows: [
+      { icon: "plan", with: "One plan across every channel", without: "Five vendors, five plans" },
+      { icon: "contact", with: "One point of contact", without: "You become the project manager" },
+      { icon: "review", with: "Monthly leadership reviews", without: "Activity reports, not outcomes" },
+      { icon: "ownership", with: "You own every account and asset", without: "Accounts scattered across freelancers" },
+      { icon: "spend", with: "Ad spend paid direct, no mark-up", without: "Mark-ups buried in media bills" },
+    ],
+  },
+  faq: {
+    tag: "FAQ",
+    title: faqSection.heading,
+    /** Questions shown on the home page (the rest are on /faq). */
+    shown: 5,
+    all: { label: "All questions", href: "/faq" },
+  },
+} as const;

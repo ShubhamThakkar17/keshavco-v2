@@ -3,18 +3,22 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import PageHero from "@/components/layout/PageHero";
-import CtaBand from "@/components/sections/CtaBand";
-import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import ScrollHighlightText from "@/components/motion/ScrollHighlightText";
-import SpotlightCard from "@/components/motion/SpotlightCard";
-import { SectionHeading } from "@/components/ui/Section";
+import LinkCells from "@/components/sections/LinkCells";
+import ProcessFlow from "@/components/sections/ProcessFlow";
+import PackageCard from "@/components/sections/PackageCard";
+import CapabilityArt from "@/components/graphics/capability";
+import Sheet from "@/components/ui/Sheet";
+import SectionHead from "@/components/ui/SectionHead";
+import Overview from "@/components/ui/Overview";
+import CheckList from "@/components/ui/CheckList";
+import CtaRow from "@/components/ui/CtaRow";
 import Button from "@/components/ui/Button";
-import MediaFrame from "@/components/ui/MediaFrame";
 import JsonLd from "@/components/ui/JsonLd";
-import PillarIcon from "@/components/ui/PillarIcon";
+import Reveal from "@/components/motion/Reveal";
 
-import { getPillar, pillars } from "@/content/services";
-import { pillarImages, images } from "@/content/images";
+import { getPillar, pillars, servicesV3 } from "@/content/services";
+import { growthPackages } from "@/content/packages";
+import { processStages } from "@/content/process";
 import { cta } from "@/content/site";
 import { breadcrumbSchema, pageMetadata, serviceSchema } from "@/lib/seo";
 
@@ -31,13 +35,23 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return pageMetadata({ ...pillar.seo, path: `/services/${pillar.slug}` });
 }
 
+/**
+ * Pillar page (brief §9.4): hero with the pillar art → what this solves
+ * (overview + the problem as three cards) → sub-service cells → outcomes
+ * checklist → the process in brief → related engagement and the pillar CTA.
+ */
 export default async function PillarPage({ params }: Params) {
   const { pillar: slug } = await params;
   const pillar = getPillar(slug);
   if (!pillar) notFound();
 
+  const copy = servicesV3.pillar;
   const path = `/services/${pillar.slug}`;
   const ctaButton = cta[pillar.ctaVariant];
+  const packageSlug = servicesV3.relatedPackage[pillar.slug];
+  const packageIndex = growthPackages.findIndex((pkg) => pkg.slug === packageSlug);
+  const related = growthPackages[packageIndex];
+  const problems = servicesV3.problemCards[pillar.slug] ?? [];
 
   return (
     <>
@@ -57,167 +71,129 @@ export default async function PillarPage({ params }: Params) {
       />
 
       <PageHero
-        eyebrow={pillar.eyebrow}
+        crumbs={[{ label: "Services", href: "/services" }, { label: pillar.name }]}
+        tag={pillar.eyebrow.toUpperCase()}
         title={pillar.h1}
-        intro={pillar.intro}
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Services", href: "/services" },
-          { label: pillar.name },
-        ]}
-        image={pillarImages[pillar.slug]}
-      >
-        <Button href={cta.primary.href} variant="light" size="lg" withArrow>
-          {cta.primary.label}
-        </Button>
-      </PageHero>
+        line={pillar.tagline}
+        actions={
+          <>
+            <Button href={ctaButton.href} size="lg">
+              {ctaButton.short}
+            </Button>
+            <Button href="#services" variant="ghost" size="lg">
+              {`${pillar.name} ${copy.services.suffix}`}
+            </Button>
+          </>
+        }
+        art={<CapabilityArt slug={pillar.slug} className="h-auto w-full" />}
+      />
 
-      {/* ------------------------------------------ The problem this solves */}
-      <section className="bg-white py-24 sm:py-32">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHeading title="The problem this solves" />
-            <div className="mt-8">
-              <MediaFrame
-                image={images.consultation}
-                className="aspect-[4/3] w-full"
-                sizes="(max-width: 1024px) 100vw, 30vw"
-                drift={6}
-                tint={false}
-              />
-            </div>
+      <Sheet tone="paper" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <Overview note={copy.overview} text={pillar.intro} />
+          <SectionHead index={2} tag={copy.problem.tag} title={copy.problem.title} className="mt-24 lg:mt-32" />
+          <ol className="mt-12 grid gap-3 md:grid-cols-3">
+            {problems.map((problem, index) => (
+              <Reveal key={problem} as="li" delay={index * 0.08} className="block">
+                <div className="flex h-full min-h-44 flex-col justify-between gap-8 rounded-[var(--radius-md)] border border-line bg-card p-6">
+                  <span className="type-mono inline-flex items-center gap-1.5 text-ink-2">
+                    <span aria-hidden="true" className="h-1.5 w-1.5 bg-signal" />
+                    {`.${String(index + 1).padStart(2, "0")}`}
+                  </span>
+                  <p className="font-display text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.02em] text-balance text-ink">{problem}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </Sheet>
+
+      <Sheet tone="paper-2" overlap={false} stack={false} guides={{ accent: 0, rules: ["pad"] }}>
+        <div id="services" className="container-page scroll-mt-24">
+          <SectionHead
+            index={3}
+            tag={copy.services.tag}
+            title={`${pillar.name} ${copy.services.suffix}.`}
+            line={copy.services.line}
+          />
+          <div className="mt-12">
+            <LinkCells
+              items={pillar.subServices.map((service, index) => ({
+                key: service.slug,
+                index: `.${String(index + 1).padStart(2, "0")}`,
+                title: service.name,
+                body: service.blurb,
+                href: `${path}/${service.slug}`,
+              }))}
+            />
           </div>
-          <ScrollHighlightText
-            text={pillar.problem}
-            className="font-display text-xl font-medium leading-snug text-navy-900 sm:text-[1.6rem]"
-          />
         </div>
-      </section>
+      </Sheet>
 
-      {/* ------------------------------------------------------ What we do */}
-      <section className="bg-navy-50 py-24 sm:py-32">
+      <Sheet tone="night" guides={{ accent: 3 }}>
+        <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
+            <SectionHead index={4} tag={copy.outcomes.tag} title={copy.outcomes.title} line={copy.outcomes.line} stacked />
+          </div>
+          <div className="lg:col-span-7">
+            <CheckList items={pillar.outcomes} />
+          </div>
+        </div>
+      </Sheet>
+
+      <Sheet tone="paper-2" guides={{ accent: 0, rules: ["pad"] }}>
         <div className="container-page">
-          <SectionHeading
-            eyebrow="What we do"
-            title={`${pillar.name} services`}
-            body={`Each of these is a page of its own. Start where your problem is, or take the whole practice as part of a growth plan.`}
-          />
-
-          <RevealGroup className="mt-14 grid gap-5 md:grid-cols-2" stagger={0.07}>
-            {pillar.subServices.map((service, index) => (
-              <RevealItem key={service.slug}>
-                <SpotlightCard className="h-full rounded-3xl border border-navy-900/10 bg-white">
-                  <Link
-                    href={`${path}/${service.slug}`}
-                    className="flex h-full flex-col p-8"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-indigo-brand transition-colors duration-500 group-hover:bg-navy-900 group-hover:text-white">
-                        <PillarIcon slug={pillar.slug} className="h-5 w-5" />
-                      </span>
-                      <span className="font-display text-xs font-semibold tabular-nums text-navy-300">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <h3 className="font-display mt-6 text-xl font-bold tracking-tight text-navy-900">
-                      {service.name}
-                    </h3>
-                    <p className="mt-3 flex-1 text-[0.92rem] leading-relaxed text-navy-500">
-                      {service.blurb}
-                    </p>
-                    <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-navy-900">
-                      Learn more
-                      <span
-                        aria-hidden="true"
-                        className="text-indigo-brand transition-transform duration-300 group-hover:translate-x-1"
-                      >
-                        →
-                      </span>
-                    </span>
-                  </Link>
-                </SpotlightCard>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------- Outcomes */}
-      <section className="grain relative overflow-hidden bg-navy-950 py-24 text-white sm:py-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -left-24 top-10 h-[30rem] w-[30rem] rounded-full opacity-30 blur-[120px]"
-          style={{ background: "radial-gradient(closest-side, #7C3AED, transparent)" }}
-        />
-        <div className="container-page relative z-10 grid gap-14 lg:grid-cols-2 lg:gap-20">
-          <SectionHeading
-            eyebrow="Outcomes"
-            title="What you get"
-            body="Not a list of deliverables — the state your business is in when the work is done."
-            tone="light"
-          />
-          <RevealGroup className="divide-y divide-white/10 border-y border-white/10">
-            {pillar.outcomes.map((outcome) => (
-              <RevealItem key={outcome}>
-                <p className="flex items-start gap-4 py-5 text-[0.98rem] leading-snug text-white/75">
-                  <span
-                    aria-hidden="true"
-                    className="bg-gradient-brand mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
-                  />
-                  {outcome}
-                </p>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------- Pillar CTA */}
-      <section className="bg-white py-20 sm:py-24">
-        <div className="container-page">
-          <Reveal>
-            <div className="flex flex-col items-start justify-between gap-8 rounded-3xl border border-navy-900/10 bg-navy-50 p-9 sm:p-12 lg:flex-row lg:items-center">
-              <h2 className="font-display max-w-xl text-balance text-2xl font-bold leading-tight tracking-tight text-navy-900 sm:text-3xl">
-                {pillar.ctaHeading}
-              </h2>
-              <Button href={ctaButton.href} size="lg" withArrow>
-                {ctaButton.label}
+          <SectionHead
+            index={5}
+            tag={copy.process.tag}
+            title={copy.process.title}
+            action={
+              <Button href={copy.process.action.href} variant="link">
+                {copy.process.action.label}
               </Button>
-            </div>
-          </Reveal>
-
-          {/* Sibling capabilities */}
+            }
+          />
           <div className="mt-16">
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-navy-400">
-              Explore the other capabilities
-            </p>
-            <RevealGroup className="mt-6 grid gap-4 sm:grid-cols-3">
-              {pillars
-                .filter((other) => other.slug !== pillar.slug)
-                .map((other) => (
-                  <RevealItem key={other.slug}>
-                    <Link
-                      href={`/services/${other.slug}`}
-                      className="group flex items-center justify-between gap-4 rounded-2xl border border-navy-900/10 p-6 transition-colors hover:border-navy-900/30 hover:bg-navy-50"
-                    >
-                      <span className="font-display text-base font-semibold tracking-tight text-navy-900">
-                        {other.name}
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className="text-indigo-brand transition-transform duration-300 group-hover:translate-x-1"
-                      >
-                        →
-                      </span>
-                    </Link>
-                  </RevealItem>
-                ))}
-            </RevealGroup>
+            <ProcessFlow stages={processStages} />
           </div>
         </div>
-      </section>
+      </Sheet>
 
-      <CtaBand variant="service" supportLine={1} />
+      <Sheet tone="paper" overlap={false} stack={false} guides={{ accent: 0, rules: ["pad"] }}>
+        <div className="container-page">
+          <SectionHead index={6} tag={copy.next.tag} title={copy.next.title} />
+          <div className="mt-12 grid gap-3 lg:grid-cols-12">
+            <div className="lg:col-span-5">{related && <PackageCard pkg={related} index={packageIndex} />}</div>
+            <div className="flex flex-col gap-3 lg:col-span-7">
+              <CtaRow
+                heading={pillar.ctaHeading}
+                actions={<Button href={ctaButton.href}>{ctaButton.short}</Button>}
+                className="flex-1 [&>div]:h-full"
+              />
+              <nav aria-label={copy.next.others} className="rounded-[var(--radius-md)] border border-line bg-card p-6">
+                <p className="type-mono-s text-ink-2">{copy.next.others}</p>
+                <ul className="mt-3 grid gap-x-6 sm:grid-cols-3">
+                  {pillars
+                    .filter((other) => other.slug !== pillar.slug)
+                    .map((other) => (
+                      <li key={other.slug}>
+                        <Link
+                          href={`/services/${other.slug}`}
+                          className="group flex min-h-11 items-center justify-between gap-3 border-b border-line text-[0.9375rem] font-medium text-ink transition-colors hover:text-signal sm:border-b-0"
+                        >
+                          {other.name}
+                          <span aria-hidden="true" className="text-signal transition-transform duration-300 group-hover:translate-x-1">
+                            →
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </Sheet>
     </>
   );
 }

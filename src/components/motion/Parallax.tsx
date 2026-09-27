@@ -31,7 +31,11 @@ export default function Parallax({
   const s = useTransform(smooth, [0, 0.5, 1], [1.12, 1.02, 1.12]);
 
   if (reduceMotion) {
-    return <div className={className}>{children}</div>;
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
   }
 
   return (

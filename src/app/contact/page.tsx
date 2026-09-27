@@ -1,21 +1,41 @@
 import type { Metadata } from "next";
 
-import PageHero from "@/components/layout/PageHero";
-import ContactForm from "@/components/sections/ContactForm";
-import BookingEmbed from "@/components/sections/BookingEmbed";
-import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import SplitText from "@/components/motion/SplitText";
-import { Eyebrow, SectionHeading } from "@/components/ui/Section";
+import ContactTabs from "@/components/sections/ContactTabs";
+import LinkCells from "@/components/sections/LinkCells";
+import BlurInWords from "@/components/motion/BlurInWords";
+import Reveal from "@/components/motion/Reveal";
+import Sheet from "@/components/ui/Sheet";
+import SectionTag from "@/components/ui/SectionTag";
+import SectionHead from "@/components/ui/SectionHead";
+import Breadcrumb from "@/components/ui/Breadcrumb";
+import Overview from "@/components/ui/Overview";
+import Brackets from "@/components/ui/Brackets";
 import JsonLd from "@/components/ui/JsonLd";
+import Button from "@/components/ui/Button";
 
-import { contactPage } from "@/content/misc";
-import { site, booking } from "@/content/site";
-import { images } from "@/content/images";
+import { breadcrumbV3, contactPage, contactV3 } from "@/content/misc";
+import { booking, site } from "@/content/site";
+import { toParagraphs } from "@/lib/text";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({ ...contactPage.seo, path: "/contact" });
 
+/**
+ * /contact (brief §9.4): a split inset sheet. Left: the H1, direct contact
+ * rows and "what happens next" as a three-step flow. Right: the booking /
+ * enquiry tabs (`#book` selects booking; `?intent=proposal&package=`
+ * preselects the form; the 9-second Cal fallback is unchanged). Below: what
+ * the consultation involves and the other ways to reach us.
+ */
 export default function ContactPage() {
+  const copy = contactV3;
+  const socials = site.social.filter((profile) => profile.href && profile.href !== "#");
+  const rows = [
+    { label: copy.direct.email, value: site.email, href: `mailto:${site.email}` },
+    { label: copy.direct.phone, value: site.phone, href: site.phoneHref },
+    { label: copy.direct.offices, value: site.offices.map((office) => office.city).join(" · ") },
+  ];
+
   return (
     <>
       <JsonLd
@@ -25,175 +45,133 @@ export default function ContactPage() {
         ])}
       />
 
-      <PageHero
-        eyebrow={contactPage.eyebrow}
-        title={contactPage.h1}
-        intro={contactPage.intro}
-        crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
-        image={images.consultation}
-      />
+      <Sheet tone="paper-2" inset pad={false} guides={{ accent: 0, animate: true }}>
+        <div className="container-page grid gap-12 pb-12 pt-28 md:pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-36">
+          <div className="lg:col-span-5">
+            <Breadcrumb items={[{ label: breadcrumbV3.home, href: "/" }, { label: "Contact" }]} />
+            <div className="mt-10">
+              <SectionTag index={1} label={copy.tag} trigger="mount" />
+            </div>
+            <h1 className="type-display-page mt-6 max-w-[14ch] text-ink">
+              <BlurInWords text={contactPage.h1} />
+            </h1>
+            <p className="type-body-l mt-6 max-w-md text-pretty text-ink-2">{copy.short}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:hidden">
+              <Button href={copy.jump.book.href} size="lg">
+                {copy.jump.book.label}
+              </Button>
+              <Button href={copy.jump.enquiry.href} variant="ghost" size="lg">
+                {copy.jump.enquiry.label}
+              </Button>
+            </div>
 
-      {/* ------------------------------------------------ Book a time ---- */}
-      <section id="book" className="scroll-mt-24 bg-navy-50 py-24 sm:py-28">
-        <div className="container-page grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-14">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <Reveal duration={0.5}>
-              <Eyebrow>Book a consultation</Eyebrow>
-            </Reveal>
-            <h2 className="font-display mt-5 text-balance text-3xl font-bold leading-[1.08] tracking-tight text-navy-900 sm:text-4xl">
-              <SplitText text={booking.heading} />
-            </h2>
-            <Reveal delay={0.1}>
-              <p className="mt-5 text-[1rem] leading-relaxed text-navy-500">{booking.body}</p>
-            </Reveal>
+            <dl className="mt-10 border-t border-line">
+              {rows.map((row) => (
+                <div key={row.label} className="grid grid-cols-[6rem_1fr] items-baseline gap-4 border-b border-line py-4">
+                  <dt className="type-mono-s text-ink-2">{row.label}</dt>
+                  <dd className="text-[0.9375rem] text-ink">
+                    {row.href ? (
+                      <a href={row.href} className="underline-offset-4 transition-colors hover:text-signal hover:underline">
+                        {row.value}
+                      </a>
+                    ) : (
+                      row.value
+                    )}
+                  </dd>
+                </div>
+              ))}
+              {socials.length > 0 && (
+                <div className="grid grid-cols-[6rem_1fr] items-baseline gap-4 border-b border-line py-4">
+                  <dt className="type-mono-s text-ink-2">{copy.direct.follow}</dt>
+                  <dd className="flex flex-wrap gap-x-4 gap-y-1 text-[0.9375rem]">
+                    {socials.map((profile) => (
+                      <a key={profile.label} href={profile.href} className="text-ink hover:text-signal">
+                        {profile.label}
+                      </a>
+                    ))}
+                  </dd>
+                </div>
+              )}
+            </dl>
 
-            <Reveal delay={0.16}>
-              <div className="mt-8 rounded-2xl border border-navy-900/10 bg-white p-6">
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-navy-400">
-                  What the call covers
-                </p>
-                <ul className="mt-4 space-y-3">
-                  {[
-                    "Where your growth problem actually sits",
-                    "What we would prioritise, and in what order",
-                    "Whether we are the right partner — honestly",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-[0.9rem] text-navy-600">
-                      <span
-                        aria-hidden="true"
-                        className="bg-gradient-brand mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
+            <div className="mt-10">
+              <p className="type-mono-s text-ink-2">{copy.next.tag}</p>
+              <ol className="relative mt-5 space-y-5">
+                <span aria-hidden="true" className="absolute bottom-3 left-[15px] top-3 border-l border-dashed border-ink/25" />
+                {copy.next.steps.map((step, index) => (
+                  <li key={step} className="relative flex items-start gap-4">
+                    <span className="type-mono-s relative grid h-8 w-8 shrink-0 place-items-center bg-card text-ink outline outline-1 outline-line">
+                      {index === copy.next.steps.length - 1 && <Brackets inset={-4} size={7} />}
+                      {`0${index + 1}`}
+                    </span>
+                    <span className="type-body pt-1 text-ink">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
 
-            <Reveal delay={0.22}>
-              <p className="mt-6 text-sm text-navy-500">
-                Prefer to talk now?{" "}
-                <a
-                  href={site.phoneHref}
-                  className="font-semibold text-navy-900 underline-offset-4 hover:underline"
-                >
-                  {site.phone}
-                </a>
-              </p>
-            </Reveal>
+            <p className="type-body-s mt-10 text-ink-2">
+              {copy.phonePrompt}{" "}
+              <a href={site.phoneHref} className="font-medium text-ink underline-offset-4 hover:underline">
+                {site.phone}
+              </a>
+            </p>
           </div>
 
-          <Reveal amount={0.02}>
-            <BookingEmbed />
-          </Reveal>
+          <div className="lg:col-span-7">
+            <ContactTabs />
+          </div>
         </div>
-      </section>
+      </Sheet>
 
-      {/* ---------------------------------------------- Or write to us ---- */}
-      <section className="bg-white py-24 sm:py-28">
-        <div className="container-page grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
-          <Reveal amount={0.02}>
-            <ContactForm />
-          </Reveal>
-
-          <div className="space-y-6">
-            <Reveal direction="left" delay={0.1}>
-              <div className="rounded-3xl border border-navy-900/10 bg-navy-50/60 p-8">
-                <h2 className="font-display text-xl font-bold tracking-tight text-navy-900">
-                  {contactPage.consultation.heading}
-                </h2>
-                {contactPage.consultation.body.map((paragraph, index) => (
-                  <p
-                    key={index}
-                    className="mt-4 text-[0.92rem] leading-relaxed text-navy-500"
-                  >
+      <Sheet tone="paper" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <Overview note={copy.overview} text={contactPage.intro} />
+          <div className="mt-20 grid gap-3 lg:mt-28 lg:grid-cols-12">
+            <Reveal className="lg:col-span-7">
+              <div className="relative h-full rounded-[var(--radius-md)] border border-line bg-card p-7 sm:p-10">
+                <h2 className="type-display-m text-ink">{contactPage.consultation.heading}</h2>
+                {toParagraphs(contactPage.consultation.body).map((paragraph) => (
+                  <p key={paragraph} className="type-body mt-4 text-pretty text-ink-2">
                     {paragraph}
                   </p>
                 ))}
               </div>
             </Reveal>
-
-            <Reveal direction="left" delay={0.16}>
-              <div className="grain overflow-hidden rounded-3xl bg-navy-950 p-8 text-white">
-                <dl className="relative z-10 space-y-6">
-                  <div>
-                    <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/40">
-                      Email
-                    </dt>
-                    <dd className="mt-1.5">
-                      <a
-                        href={`mailto:${site.email}`}
-                        className="text-sm text-white/85 underline-offset-4 transition-colors hover:text-white hover:underline"
-                      >
-                        {site.email}
-                      </a>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/40">
-                      Phone
-                    </dt>
-                    <dd className="mt-1.5">
-                      <a
-                        href={site.phoneHref}
-                        className="text-sm text-white/85 underline-offset-4 transition-colors hover:text-white hover:underline"
-                      >
-                        {site.phone}
-                      </a>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/40">
-                      Working hours
-                    </dt>
-                    <dd className="mt-1.5 text-sm text-white/85">{site.workingHours}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/40">
-                      Follow
-                    </dt>
-                    <dd className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-                      {site.social.map((profile) => (
-                        <a
-                          key={profile.label}
-                          href={profile.href}
-                          className="text-sm text-white/60 transition-colors hover:text-white"
-                        >
-                          {profile.label}
-                        </a>
-                      ))}
-                    </dd>
-                  </div>
-                </dl>
+            <Reveal delay={0.08} className="lg:col-span-5">
+              <div className="h-full rounded-[var(--radius-md)] border border-line bg-paper-2 p-7 sm:p-10">
+                <p className="type-mono-s text-ink-2">{copy.covers.label}</p>
+                <ul className="mt-5 space-y-3">
+                  {copy.covers.items.map((item) => (
+                    <li key={item} className="type-body flex gap-3 text-ink">
+                      <span aria-hidden="true" className="font-mono text-signal">
+                        &gt;
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="type-body-s mt-6 text-ink-2">{booking.body}</p>
               </div>
             </Reveal>
           </div>
-        </div>
-      </section>
 
-      <section className="bg-navy-50 py-20 sm:py-24">
-        <div className="container-page">
-          <SectionHeading title="Other ways to reach us" />
-          <RevealGroup className="mt-12 grid gap-5 md:grid-cols-3">
-            {contactPage.notes.map((note) => (
-              <RevealItem key={note.title}>
-                <div className="h-full rounded-2xl border border-navy-900/10 bg-white p-7">
-                  <h3 className="font-display text-base font-semibold tracking-tight text-navy-900">
-                    {note.title}
-                  </h3>
-                  <p className="mt-3 text-[0.88rem] leading-relaxed text-navy-500">{note.body}</p>
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="mt-4 inline-block text-xs font-semibold text-indigo-brand underline-offset-4 hover:underline"
-                  >
-                    {site.email}
-                  </a>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+          <SectionHead index={2} tag={copy.other.tag} title={copy.other.title} className="mt-24 lg:mt-32" />
+          <div className="mt-12">
+            <LinkCells
+              items={contactPage.notes.map((note, index) => ({
+                key: note.title,
+                title: note.title,
+                body: note.body,
+                href:
+                  index === contactPage.notes.length - 1
+                    ? `mailto:${site.email}?subject=${encodeURIComponent(copy.careersSubject)}`
+                    : `mailto:${site.email}`,
+              }))}
+            />
+          </div>
         </div>
-      </section>
+      </Sheet>
     </>
   );
 }

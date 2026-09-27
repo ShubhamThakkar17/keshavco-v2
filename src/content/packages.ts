@@ -2,6 +2,8 @@ export type GrowthPackage = {
   slug: string;
   name: string;
   audience: string;
+  /** v3 one-liner for the home panel (≤ 6 words), condensed from `audience`. */
+  line: string;
   /** Short version used in the home page section. */
   summary: string;
   situation: string;
@@ -46,6 +48,7 @@ export const packagesPage = {
 export const growthPackages: GrowthPackage[] = [
   {
     slug: "launch",
+    line: "Going to market for the first time",
     name: "Launch",
     audience: "For businesses going to market for the first time",
     summary:
@@ -66,6 +69,7 @@ export const growthPackages: GrowthPackage[] = [
   },
   {
     slug: "grow",
+    line: "When you need predictable enquiries",
     name: "Grow",
     audience: "For businesses that need predictable enquiries",
     summary:
@@ -86,6 +90,7 @@ export const growthPackages: GrowthPackage[] = [
   },
   {
     slug: "expand",
+    line: "Entering new markets or categories",
     name: "Expand",
     audience: "For businesses entering new markets or categories",
     summary:
@@ -106,6 +111,7 @@ export const growthPackages: GrowthPackage[] = [
   },
   {
     slug: "scale",
+    line: "A growth team, not a project",
     name: "Scale",
     audience: "For businesses that need a growth team, not a project",
     summary:
@@ -126,3 +132,31 @@ export const growthPackages: GrowthPackage[] = [
       "you are managing multiple agencies, you need senior marketing leadership without a full-time hire, or growth has become too complex to run alongside your day job.",
   },
 ];
+
+/* v3 /growth-packages (docs/REDESIGN-V3.md §9.4): labels and short lines. */
+export const packagesV3 = {
+  tag: "PACKAGES",
+  short: "Four engagements for the four problems we solve most. Scoped after a consultation, priced after the plan.",
+  overview: "// HOW WE SELL",
+  panel: { tag: "COMPARE", title: "Choose your starting point." },
+  /** House rule, confirmed (decision log #17). Nothing beyond this: a separate
+   *  agency fee may apply per project, so never claim "no fees". */
+  note: "AD SPEND IS PAID DIRECTLY TO THE PLATFORM. NO MARK-UP.",
+  stack: {
+    tag: "ENGAGEMENTS",
+    title: "What each engagement looks like.",
+    situation: "THE SITUATION",
+    whatWeDo: "WHAT WE DO",
+    includes: "INCLUDES",
+    considerIf: "CONSIDER IT IF",
+  },
+  matrix: {
+    tag: "WHAT IS INCLUDED",
+    title: "Every deliverable, side by side.",
+    caption: "Deliverables included in each growth package",
+    deliverable: "Deliverable",
+    included: "Included",
+    notIncluded: "Not included",
+  },
+  questions: { tag: "HOW ENGAGEMENTS WORK", title: "The three questions we always get." },
+} as const;

@@ -1,15 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Sora, Inter } from "next/font/google";
+import { Sora, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
-import { site } from "@/content/site";
+import SiteChrome from "@/components/layout/SiteChrome";
+import { navV3, site } from "@/content/site";
 import { organizationSchema } from "@/lib/seo";
+import { MOTION_STORAGE_KEY } from "@/lib/motionPreference";
 
 const sora = Sora({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-sora",
   display: "swap",
 });
@@ -18,7 +20,24 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  preload: false,
 });
+
+/** Labels, tags and diagram annotations only (brief §5.2). */
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-geist-mono",
+  display: "swap",
+  preload: false,
+});
+
+/**
+ * Runs before first paint: marks the page as scripted (so CSS can park
+ * odometers at 0 without a flash) and restores the visitor's "Motion: Off"
+ * choice. Wrapped in try/catch because storage can be blocked.
+ */
+const bootScript = `(function(){var d=document.documentElement;d.classList.add("js");try{if(localStorage.getItem("${MOTION_STORAGE_KEY}")==="off")d.setAttribute("data-motion","off")}catch(e){}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -64,20 +83,24 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${sora.variable} ${inter.variable}`}>
-      <body className="antialiased">
+    // The boot script adds a class and possibly data-motion before hydration.
+    <html
+      lang="en-IN"
+      className={`${sora.variable} ${inter.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+      </head>
+      <body className="bg-paper antialiased">
         <script
           type="application/ld+json"
           // Static, first-party schema — no user input reaches this string.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <SmoothScroll />
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        <SiteChrome skipLabel={navV3.skipLink} smooth={<SmoothScroll />} header={<Header />} footer={<Footer />}>
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );

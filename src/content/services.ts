@@ -696,3 +696,101 @@ export const getSubService = (pillarSlug: string, serviceSlug: string) => {
 export const allServicePaths = pillars.flatMap((pillar) =>
   pillar.subServices.map((service) => ({ pillar: pillar.slug, service: service.slug })),
 );
+
+/* ---------------------------------------------------------------------------
+   v3 inner pages (docs/REDESIGN-V3.md §9.4). Section labels and compressed
+   lines only. The approved long copy above stays and is still rendered on
+   these pages, split so no paragraph runs over 60 words.
+--------------------------------------------------------------------------- */
+
+export const servicesV3 = {
+  hub: {
+    tag: "SERVICES",
+    short: "Four capabilities, planned together as one growth system. Start with the problem and we will recommend the plan.",
+    overview: "// OVERVIEW",
+    rows: {
+      tag: "CAPABILITIES",
+      title: "Four capabilities. One growth plan.",
+      line: "Each is a full practice with its own specialists, planned and priced as one engagement.",
+    },
+    explore: "Explore",
+    supporting: { tag: "ALSO INSIDE ENGAGEMENTS", title: "Supporting capabilities." },
+    planned: { tag: "PLANNED TOGETHER" },
+    faq: {
+      tag: "FAQ",
+      title: "Questions about how we work.",
+      ids: ["vs-specialists", "single-service", "who-does-the-work", "pricing"],
+      all: { label: "All questions", href: "/faq" },
+    },
+    notSure: { tag: "NOT SURE?" },
+  },
+  pillar: {
+    overview: "// OVERVIEW",
+    problem: { tag: "THE PROBLEM", title: "What this solves." },
+    services: {
+      tag: "SERVICES",
+      suffix: "services",
+      line: "Each is a page of its own. Start where your problem is.",
+    },
+    outcomes: {
+      tag: "OUTCOMES",
+      title: "What you get.",
+      line: "Not a list of deliverables. The state your business is in when the work is done.",
+    },
+    process: {
+      tag: "PROCESS",
+      title: "How the work runs.",
+      action: { label: "See the full process", href: "/process" },
+    },
+    next: {
+      tag: "NEXT STEP",
+      title: "Where to go from here.",
+      packageNote: "// RELATED ENGAGEMENT",
+      packageLink: "View the package",
+      others: "Other capabilities",
+    },
+  },
+  service: {
+    tag: "WHAT YOU GET",
+    title: "Three things this changes.",
+    line: "Every engagement is scoped to your business, but this is the shape of the outcome.",
+    overview: "// OVERVIEW",
+    partOf: { tag: "PART OF", title: "One part of a bigger plan." },
+    siblings: "Other services in",
+    back: "Back to",
+  },
+  /** Three short cards per pillar, compressed from the pillar's `problem`. */
+  problemCards: {
+    strategy: [
+      "Most growth plans are marketing plans in disguise.",
+      "Ad spend aimed at what is really a positioning problem.",
+      "Channel conflict and slow follow-up, mistaken for low visibility.",
+    ],
+    branding: [
+      "An identity designed when the company was a third of its size.",
+      "A company profile that has not changed in three years.",
+      "Every department with its own presentation template.",
+    ],
+    technology: [
+      "A website that exists but does no job.",
+      "Enquiries in a shared inbox, answered when someone remembers.",
+      "Customer data across three spreadsheets and one person's phone.",
+    ],
+    "digital-marketing": [
+      "Digital spend rises while nobody can say what it produced.",
+      "Leads come in but are never tracked to a sale.",
+      "Reports on impressions when the business wants enquiries.",
+    ],
+  } as Record<string, [string, string, string]>,
+  /** The engagement that most often starts with each pillar. */
+  relatedPackage: {
+    strategy: "scale",
+    branding: "launch",
+    technology: "grow",
+    "digital-marketing": "grow",
+  } as Record<string, string>,
+} as const;
+
+/** The "part of a bigger plan" line on a sub-service page (approved copy). */
+export const partOfBody = (serviceName: string, pillarName: string) =>
+  `${serviceName} rarely works on its own. It sits inside ${pillarName.toLowerCase()}, which sits inside a growth plan that decides what to do first and why.`;

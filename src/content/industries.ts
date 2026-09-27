@@ -20,6 +20,8 @@ export type Industry = {
   name: string;
   /** One line for cards and rails — written, not truncated from `problem`. */
   tagline: string;
+  /** v3: `help` compressed to one line for the industry cards. */
+  helpLine: string;
   problem: string;
   help: string;
   typicalWork: string[];
@@ -28,6 +30,7 @@ export type Industry = {
 export const industries: Industry[] = [
   {
     slug: "manufacturing",
+    helpLine: "Procurement-ready material, product search visibility and a CRM built for long cycles.",
     tagline: "Long sales cycles, technical buyers, and no presence where they research.",
     name: "Manufacturing",
     problem:
@@ -44,6 +47,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "healthcare",
+    helpLine: "Local visibility and patient education that respect the category.",
     tagline: "Trust is the entire purchase decision, and regulation limits the claims.",
     name: "Healthcare",
     problem:
@@ -60,6 +64,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "education",
+    helpLine: "Admissions campaigns built around the real parent and student journey.",
     tagline: "Admissions run on a calendar, and the decision-maker is rarely the student.",
     name: "Education",
     problem:
@@ -76,6 +81,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "real-estate",
+    helpLine: "Campaigns for qualified site visits, and a CRM that catches every serious buyer.",
     tagline: "Lead quality matters more than lead volume, and follow-up decides everything.",
     name: "Real Estate",
     problem:
@@ -92,6 +98,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "d2c",
+    helpLine: "A brand that justifies the price, and retention so revenue is not rented.",
     tagline: "Growth stalls the moment paid spend stops.",
     name: "D2C",
     problem:
@@ -108,6 +115,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "retail",
+    helpLine: "Local visibility that fills the catchment and brings customers back.",
     tagline: "Footfall depends on local visibility; the last three feet decide the sale.",
     name: "Retail",
     problem:
@@ -124,6 +132,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "professional-services",
+    helpLine: "Positioning and content that make your expertise visible before the first meeting.",
     tagline: "You sell expertise buyers cannot evaluate before they buy.",
     name: "Professional Services",
     problem:
@@ -139,3 +148,15 @@ export const industries: Industry[] = [
     ],
   },
 ];
+
+/* v3 /industries (docs/REDESIGN-V3.md §9.4): labels and short lines. */
+export const industriesV3 = {
+  tag: "INDUSTRIES",
+  short: "Seven industries where we know the buying process, the sales cycle and the channels that work.",
+  overview: "// WHY IT MATTERS",
+  stack: { tag: "WHERE WE WORK", title: "Seven industries. Seven different growth problems." },
+  jump: "See the seven industries",
+  help: "HOW WE HELP",
+  work: "TYPICAL WORK",
+  also: { tag: "ALSO WORKING WITH" },
+} as const;

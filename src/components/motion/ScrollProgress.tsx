@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useSpring } from "framer-motion";
 
-/** Brand-gradient reading indicator pinned under the header. */
+/** 2px brand-gradient reading line pinned to the very top of the viewport. */
 export default function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -15,7 +15,7 @@ export default function ScrollProgress() {
     <motion.div
       aria-hidden="true"
       style={{ scaleX }}
-      className="bg-gradient-brand absolute inset-x-0 bottom-0 h-px origin-left"
+      className="bg-gradient-brand fixed inset-x-0 top-0 z-[60] h-[2px] origin-left"
     />
   );
 }

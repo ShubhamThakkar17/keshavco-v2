@@ -1,8 +1,9 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import type { ElementType, ReactNode } from "react";
+import { Fragment, type ElementType, type ReactNode } from "react";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
+import { dur, ease, stagger as staggers, viewport } from "@/lib/motion";
 
 type SplitTextProps = {
   text: string;
@@ -12,35 +13,34 @@ type SplitTextProps = {
   stagger?: number;
   delay?: number;
   once?: boolean;
+  /** Fraction of the element that must be visible before it plays. */
   amount?: number;
-  /** Rendered after the last word — used for a rotating word or a full stop. */
+  /** Rendered after the last word, for a rotating word or a full stop. */
   trailing?: ReactNode;
 };
 
 const wordVariants: Variants = {
-  hidden: { y: "110%", opacity: 0 },
-  show: {
-    y: "0%",
-    opacity: 1,
-    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
-  },
+  hidden: { y: "110%" },
+  show: { y: "0%", transition: { duration: dur.reveal, ease: ease.outExpo } },
 };
 
 /**
- * Masked, word-by-word heading reveal. Each word sits in an `overflow-hidden`
- * span so it rises out of the line above it rather than fading in place.
+ * Masked, word-by-word heading reveal (H2s). Each word sits in an
+ * `overflow-hidden` span so it rises out of the line rather than fading in
+ * place.
  *
- * The whole string stays in one accessible node — screen readers read the
- * heading, not a pile of one-word spans.
+ * The words stay real text in reading order: no aria-label on the wrapper
+ * (not allowed on a generic span) and no aria-hidden on the words, so screen
+ * readers and crawlers read the heading exactly as written.
  */
 export default function SplitText({
   text,
   className,
   as = "span",
-  stagger = 0.055,
+  stagger = staggers.words,
   delay = 0,
   once = true,
-  amount = 0.35,
+  amount,
   trailing,
 }: SplitTextProps) {
   const reduceMotion = useReducedMotionSafe();
@@ -63,28 +63,20 @@ export default function SplitText({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once, amount }}
+      viewport={amount === undefined ? { ...viewport, once } : { once, amount }}
       transition={{ staggerChildren: stagger, delayChildren: delay }}
-      aria-label={trailing ? undefined : text}
     >
       {words.map((word, index) => (
-        <span
-          key={`${word}-${index}`}
-          className="inline-block overflow-hidden align-bottom pb-[0.12em]"
-          aria-hidden="true"
-        >
-          <motion.span className="inline-block" variants={wordVariants}>
-            {word}
-            {index < words.length - 1 ? " " : ""}
-          </motion.span>
-        </span>
+        <Fragment key={`${word}-${index}`}>
+          <span className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+            <motion.span className="inline-block" variants={wordVariants}>
+              {word}
+            </motion.span>
+          </span>
+          {index < words.length - 1 ? " " : null}
+        </Fragment>
       ))}
-      {trailing ? (
-        <>
-          {" "}
-          {trailing}
-        </>
-      ) : null}
+      {trailing ? <> {trailing}</> : null}
     </MotionTag>
   );
 }

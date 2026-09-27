@@ -3,6 +3,8 @@
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect, useRef, useState } from "react";
 import { booking, site } from "@/content/site";
+import { bookingEmbedCopy as copy } from "@/content/misc";
+import ChevronStack from "@/components/graphics/ChevronStack";
 
 /** How long to wait for Cal's iframe before showing the fallback. */
 const TIMEOUT_MS = 9000;
@@ -59,39 +61,28 @@ export default function BookingEmbed() {
   }, []);
 
   return (
-    <div className="relative min-h-[36rem] overflow-hidden rounded-3xl border border-navy-900/10 bg-white">
+    <div className="relative min-h-[36rem] overflow-hidden rounded-[var(--radius-md)] border border-line bg-card">
       {status !== "ready" && (
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-white px-8 text-center">
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-card px-8 text-center">
           {status === "loading" ? (
             <>
-              <span
-                aria-hidden="true"
-                className="bg-gradient-brand h-1 w-24 animate-pulse rounded-full"
-              />
-              <p className="text-sm text-navy-400">Loading available times…</p>
+              <ChevronStack className="h-10 w-10 text-signal" loader />
+              <p className="type-mono-s text-ink-2">{copy.loading}</p>
             </>
           ) : (
             <>
-              <p className="font-display text-lg font-semibold text-navy-900">
-                The calendar did not load.
-              </p>
-              <p className="max-w-sm text-sm leading-relaxed text-navy-500">
-                Open it in a new tab, or use the enquiry form below and we will come back with
-                times.
-              </p>
-              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-semibold">
+              <p className="type-display-m text-ink">{copy.failedHeading}</p>
+              <p className="type-body max-w-sm text-ink-2">{copy.failedBody}</p>
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[0.9375rem] font-medium">
                 <a
                   href={booking.directUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-indigo-brand underline-offset-4 hover:underline"
+                  className="text-signal underline-offset-4 hover:underline"
                 >
-                  Open the booking page →
+                  {copy.openLink} <span aria-hidden="true">→</span>
                 </a>
-                <a
-                  href={site.phoneHref}
-                  className="text-navy-900 underline-offset-4 hover:underline"
-                >
+                <a href={site.phoneHref} className="text-ink underline-offset-4 hover:underline">
                   {site.phone}
                 </a>
               </div>

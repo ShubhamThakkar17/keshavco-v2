@@ -3,16 +3,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import PageHero from "@/components/layout/PageHero";
-import CtaBand from "@/components/sections/CtaBand";
-import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import SpotlightCard from "@/components/motion/SpotlightCard";
-import { SectionHeading } from "@/components/ui/Section";
+import CapabilityArt from "@/components/graphics/capability";
+import { CheckIcon } from "@/components/graphics/CompareIcons";
+import Sheet from "@/components/ui/Sheet";
+import SectionHead from "@/components/ui/SectionHead";
+import CtaRow from "@/components/ui/CtaRow";
 import Button from "@/components/ui/Button";
 import JsonLd from "@/components/ui/JsonLd";
+import Reveal from "@/components/motion/Reveal";
 
-import { allServicePaths, getSubService } from "@/content/services";
-import { pillarImages } from "@/content/images";
+import { allServicePaths, getSubService, partOfBody, servicesV3 } from "@/content/services";
 import { cta } from "@/content/site";
+import { toParagraphs } from "@/lib/text";
 import { breadcrumbSchema, pageMetadata, serviceSchema } from "@/lib/seo";
 
 type Params = { params: Promise<{ pillar: string; service: string }> };
@@ -31,15 +33,22 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   });
 }
 
+/**
+ * Sub-service page (brief §9.4): hero (tag = pillar, H1, blurb) → the intro
+ * and the three points as numbered cells → "part of" strip with the sibling
+ * services as chips and the pillar CTA. Service JSON-LD unchanged.
+ */
 export default async function SubServicePage({ params }: Params) {
   const { pillar: pillarSlug, service: serviceSlug } = await params;
   const found = getSubService(pillarSlug, serviceSlug);
   if (!found) notFound();
 
   const { pillar, service } = found;
+  const copy = servicesV3.service;
   const pillarPath = `/services/${pillar.slug}`;
   const path = `${pillarPath}/${service.slug}`;
   const ctaButton = cta[service.cta];
+  const pillarCta = cta[pillar.ctaVariant];
   const siblings = pillar.subServices.filter((s) => s.slug !== service.slug);
 
   return (
@@ -61,105 +70,96 @@ export default async function SubServicePage({ params }: Params) {
       />
 
       <PageHero
-        eyebrow={`${pillar.name} — ${service.name}`}
-        title={service.h1}
-        intro={service.intro}
         crumbs={[
-          { label: "Home", href: "/" },
           { label: "Services", href: "/services" },
           { label: pillar.name, href: pillarPath },
           { label: service.name },
         ]}
-        image={pillarImages[pillar.slug]}
-      >
-        <div className="flex flex-wrap gap-3">
-          <Button href={ctaButton.href} variant="light" size="lg" withArrow>
-            {ctaButton.label}
-          </Button>
-          <Link
-            href={pillarPath}
-            className="inline-flex h-14 items-center text-sm text-white/55 transition-colors hover:text-white"
-          >
-            ← Back to {pillar.name}
-          </Link>
-        </div>
-      </PageHero>
+        tag={pillar.name.toUpperCase()}
+        title={service.h1}
+        line={service.blurb}
+        actions={
+          <>
+            <Button href={ctaButton.href} size="lg">
+              {ctaButton.short}
+            </Button>
+            <Button href={pillarPath} variant="ghost" size="lg">
+              {`${copy.back} ${pillar.name}`}
+            </Button>
+          </>
+        }
+        art={<CapabilityArt slug={pillar.slug} className="h-auto w-full" />}
+      />
 
-      {/* ------------------------------------------------- What you get */}
-      <section className="bg-white py-24 sm:py-32">
-        <div className="container-page grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHeading
-              eyebrow="What you get"
-              title="Three things this changes"
-              body="Every engagement is scoped to your business, but this is the shape of the outcome."
-            />
-          </div>
-
-          <RevealGroup className="grid gap-5" stagger={0.1}>
-            {service.points.map((point, index) => (
-              <RevealItem key={point}>
-                <SpotlightCard className="flex gap-6 rounded-3xl border border-navy-900/10 bg-navy-50/60 p-8">
-                  <span className="font-display shrink-0 text-2xl font-extrabold tabular-nums">
-                    <span className="text-gradient-brand">0{index + 1}</span>
-                  </span>
-                  <p className="text-[1.02rem] leading-relaxed text-navy-700">{point}</p>
-                </SpotlightCard>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* ---------------------------------------- Where this sits + CTA */}
-      <section className="bg-navy-50 py-24 sm:py-32">
+      <Sheet tone="paper" guides={{ accent: 0 }}>
         <div className="container-page">
-          <SectionHeading
-            eyebrow={pillar.name}
-            title="This is one part of a bigger plan"
-            body={`${service.name} rarely works on its own. It sits inside ${pillar.name.toLowerCase()}, which sits inside a growth plan that decides what to do first and why.`}
-          />
-
-          <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {siblings.map((sibling) => (
-              <RevealItem key={sibling.slug}>
-                <Link
-                  href={`${pillarPath}/${sibling.slug}`}
-                  className="group flex h-full flex-col justify-between gap-6 rounded-2xl border border-navy-900/10 bg-white p-6 transition-colors hover:border-navy-900/30"
-                >
-                  <div>
-                    <h3 className="font-display text-base font-semibold tracking-tight text-navy-900">
-                      {sibling.name}
-                    </h3>
-                    <p className="mt-2 line-clamp-3 text-[0.85rem] leading-relaxed text-navy-500">
-                      {sibling.blurb}
-                    </p>
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    className="text-indigo-brand transition-transform duration-300 group-hover:translate-x-1"
-                  >
-                    →
-                  </span>
-                </Link>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-
-          <Reveal>
-            <div className="mt-12 flex flex-col items-start justify-between gap-6 rounded-3xl border border-navy-900/10 bg-white p-9 sm:flex-row sm:items-center">
-              <p className="font-display max-w-lg text-balance text-xl font-semibold tracking-tight text-navy-900">
-                {pillar.ctaHeading}
-              </p>
-              <Button href={cta[pillar.ctaVariant].href} withArrow>
-                {cta[pillar.ctaVariant].label}
-              </Button>
+          <SectionHead index={2} tag={copy.tag} title={copy.title} line={copy.line} />
+          <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-4">
+              <p className="type-mono text-ink-2">{copy.overview}</p>
+              {toParagraphs(service.intro).map((paragraph, index) => (
+                <Reveal key={index}>
+                  <p className="type-body-l mt-5 text-pretty text-ink">{paragraph}</p>
+                </Reveal>
+              ))}
             </div>
-          </Reveal>
+            <ol className="grid gap-3 lg:col-span-8 lg:col-start-5">
+              {service.points.map((point, index) => (
+                <Reveal key={point} as="li" delay={index * 0.08} className="block">
+                  <div className="grid grid-cols-[auto_1fr_auto] items-start gap-5 rounded-[var(--radius-md)] border border-line bg-card p-6 sm:p-7">
+                    <span className="type-mono inline-flex items-center gap-1.5 text-ink-2">
+                      <span aria-hidden="true" className="h-1.5 w-1.5 bg-signal" />
+                      {`.${String(index + 1).padStart(2, "0")}`}
+                    </span>
+                    <p className="type-body-l text-pretty text-ink">{point}</p>
+                    <span className="mt-1 text-growth-ink">
+                      <CheckIcon />
+                    </span>
+                  </div>
+                </Reveal>
+              ))}
+            </ol>
+          </div>
         </div>
-      </section>
+      </Sheet>
 
-      <CtaBand variant="service" supportLine={1} />
+      <Sheet tone="paper-2" overlap={false} stack={false} guides={{ accent: 0, rules: ["pad"] }}>
+        <div className="container-page">
+          <SectionHead index={3} tag={`${copy.partOf.tag} ${pillar.name.toUpperCase()}`} title={copy.partOf.title} />
+          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-8">
+            <p className="type-body-l max-w-xl text-pretty text-ink-2 lg:col-span-5">
+              {partOfBody(service.name, pillar.name)}
+            </p>
+            <nav aria-label={`${copy.siblings} ${pillar.name}`} className="lg:col-span-7">
+              <p className="type-mono-s text-ink-2">{`${copy.siblings} ${pillar.name}`}</p>
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {siblings.map((sibling) => (
+                  <li key={sibling.slug}>
+                    <Link
+                      href={`${pillarPath}/${sibling.slug}`}
+                      className="type-mono-s inline-flex min-h-11 items-center rounded-[var(--radius-sm)] bg-card px-3 text-ink-2 transition-colors hover:bg-ink hover:text-white lg:min-h-9"
+                    >
+                      {sibling.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+          <CtaRow
+            className="mt-16"
+            heading={pillar.ctaHeading}
+            actions={
+              <>
+                <Button href={pillarCta.href}>{pillarCta.short}</Button>
+                <Button href={pillarPath} variant="ghost">
+                  {`${servicesV3.hub.explore} ${pillar.name}`}
+                </Button>
+              </>
+            }
+          />
+        </div>
+      </Sheet>
     </>
   );
 }

@@ -1,51 +1,48 @@
-import PageHero from "@/components/layout/PageHero";
+import Sheet from "@/components/ui/Sheet";
+import SectionTag from "@/components/ui/SectionTag";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import Reveal from "@/components/motion/Reveal";
-import { legalPages } from "@/content/misc";
+import { breadcrumbV3, legalPages, legalV3 } from "@/content/misc";
 import { site } from "@/content/site";
 
 type LegalSlug = keyof typeof legalPages;
 
+/**
+ * Legal pages (brief §9.4): a plain reading layout. 68ch measure, mono
+ * section headings, fade-in only, no art.
+ */
 export default function LegalPage({ slug }: { slug: LegalSlug }) {
   const page = legalPages[slug];
 
   return (
-    <>
-      <PageHero
-        eyebrow="Legal"
-        title={page.title}
-        intro={page.intro}
-        crumbs={[{ label: "Home", href: "/" }, { label: page.title }]}
-      />
+    <Sheet tone="paper" inset pad={false} guides={{ accent: 0, animate: true }}>
+      <div className="container-page pb-24 pt-28 lg:pb-32 lg:pt-36">
+        <Breadcrumb items={[{ label: breadcrumbV3.home, href: "/" }, { label: page.title }]} />
+        <div className="mt-10 max-w-[68ch]">
+          <SectionTag index={1} label={legalV3.tag} trigger="mount" />
+          <h1 className="type-display-page mt-6 text-ink">{page.title}</h1>
+          <p className="type-body-l mt-6 text-pretty text-ink-2">{page.intro}</p>
 
-      <section className="bg-white py-24 sm:py-32">
-        <div className="container-page max-w-3xl">
-          {page.sections.map((section, index) => (
-            <Reveal key={section.heading} delay={index * 0.05}>
-              <div className="border-b border-navy-900/10 py-8 first:pt-0">
-                <h2 className="font-display text-xl font-bold tracking-tight text-navy-900">
-                  {section.heading}
-                </h2>
-                <p className="mt-4 text-[0.98rem] leading-relaxed text-navy-500">
-                  {section.body}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+          <div className="mt-14 border-t border-line">
+            {page.sections.map((section, index) => (
+              <Reveal key={section.heading} direction="none" delay={index * 0.04}>
+                <section className="border-b border-line py-8">
+                  <h2 className="type-mono text-ink">{`${String(index + 1).padStart(2, "0")} ${section.heading}`}</h2>
+                  <p className="type-body mt-4 text-pretty text-ink-2">{section.body}</p>
+                </section>
+              </Reveal>
+            ))}
+          </div>
 
-          <Reveal delay={0.2}>
-            <p className="mt-10 text-sm text-navy-500">
-              Questions about this page? Write to{" "}
-              <a
-                href={`mailto:${site.email}`}
-                className="font-medium text-navy-900 underline-offset-4 hover:underline"
-              >
-                {site.email}
-              </a>
-              .
-            </p>
-          </Reveal>
+          <p className="type-body-s mt-10 text-ink-2">
+            {legalV3.questions}{" "}
+            <a href={`mailto:${site.email}`} className="font-medium text-ink underline-offset-4 hover:underline">
+              {site.email}
+            </a>
+            .
+          </p>
         </div>
-      </section>
-    </>
+      </div>
+    </Sheet>
   );
 }
