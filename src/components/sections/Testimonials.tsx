@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { testimonials } from "@/content/home";
-import { SectionHeading } from "@/components/ui/Section";
+import SectionHead from "@/components/ui/SectionHead";
 import useReducedMotionSafe from "@/lib/useReducedMotionSafe";
 
 /**
@@ -20,11 +20,9 @@ export default function Testimonials() {
     <section ref={ref} className="relative h-[260vh] bg-navy-50">
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
         <div className="container-page">
-          <SectionHeading
-            eyebrow={testimonials.eyebrow}
-            title={testimonials.heading}
-            body={testimonials.body}
-          />
+          {/* Hidden while showTestimonials is false; rebuild in v3 style when
+              real, permissioned quotes exist (brief §15, item 10). */}
+          <SectionHead index={7} tag={testimonials.eyebrow.toUpperCase()} title={testimonials.heading} line={testimonials.body} />
         </div>
 
         <motion.div

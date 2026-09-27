@@ -15,6 +15,7 @@ export default function SectionHead({
   line,
   action,
   align = "left",
+  stacked = false,
   id,
   className = "",
 }: {
@@ -24,17 +25,20 @@ export default function SectionHead({
   line?: string;
   action?: ReactNode;
   align?: "left" | "center";
+  /** Single column (for a head that sits in a narrow column of its own). */
+  stacked?: boolean;
   /** Put on the H2, for `aria-labelledby` on the sheet. */
   id?: string;
   className?: string;
 }) {
   const centered = align === "center";
+  const grid = stacked ? "grid gap-8" : "grid gap-8 lg:grid-cols-12 lg:items-end";
 
   return (
     <div
-      className={`grid gap-8 lg:grid-cols-12 lg:items-end ${centered ? "justify-items-center text-center" : ""} ${className}`}
+      className={`${grid} ${centered ? "justify-items-center text-center" : ""} ${className}`}
     >
-      <div className={centered ? "lg:col-span-12 lg:mx-auto lg:max-w-3xl" : "lg:col-span-7"}>
+      <div className={stacked ? "" : centered ? "lg:col-span-12 lg:mx-auto lg:max-w-3xl" : "lg:col-span-7"}>
         <SectionTag index={index} label={tag} />
         <h2 id={id} className="type-display-l mt-6">
           <SplitText text={title} />
@@ -52,7 +56,7 @@ export default function SectionHead({
       {action && (
         <Reveal
           delay={0.15}
-          className={centered ? "lg:col-span-12" : "lg:col-span-5 lg:justify-self-end"}
+          className={stacked ? "" : centered ? "lg:col-span-12" : "lg:col-span-5 lg:justify-self-end"}
         >
           {action}
         </Reveal>

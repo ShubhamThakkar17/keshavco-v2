@@ -17,6 +17,12 @@ export const processPage = {
 export const processStages = [
   {
     number: "01",
+    /** v3: `body` as three scannable points for the stage panels. */
+    points: [
+      "How you make money, who buys and why.",
+      "Your sales process, and what happens to every enquiry.",
+      "Your market, your competitors and where growth is leaking.",
+    ],
     title: "Discover",
     /** v3 one-liner (condensed from \`lead\`) for the home process row. */
     line: "Understand the business first.",
@@ -27,6 +33,12 @@ export const processStages = [
   },
   {
     number: "02",
+    /** v3: `body` as three scannable points for the stage panels. */
+    points: [
+      "Priorities and their sequence, with reasoning for every channel.",
+      "Budget allocation, targets and a reporting rhythm.",
+      "Reviewed with your leadership before anything is executed.",
+    ],
     title: "Create Strategy",
     /** v3 one-liner (condensed from \`lead\`) for the home process row. */
     line: "A written plan before a budget.",
@@ -36,6 +48,12 @@ export const processStages = [
   },
   {
     number: "03",
+    /** v3: `body` as three scannable points for the stage panels. */
+    points: [
+      "Specialists coordinated across creative, media and technology.",
+      "Campaigns run, projects delivered and vendors kept to the calendar.",
+      "One team and one point of contact for you.",
+    ],
     title: "Execute",
     /** v3 one-liner (condensed from \`lead\`) for the home process row. */
     line: "We do the work and manage the rest.",
@@ -45,6 +63,12 @@ export const processStages = [
   },
   {
     number: "04",
+    /** v3: `body` as three scannable points for the stage panels. */
+    points: [
+      "Monthly performance against the targets we agreed.",
+      "Plain answers on what worked, what did not and what changes.",
+      "Continuous optimisation, not an annual review.",
+    ],
     title: "Measure",
     /** v3 one-liner (condensed from \`lead\`) for the home process row. */
     line: "Business outcomes, not platform activity.",
@@ -54,6 +78,12 @@ export const processStages = [
   },
   {
     number: "05",
+    /** v3: `body` as three scannable points for the stage panels. */
+    points: [
+      "Expansion into new markets, segments and channels.",
+      "Higher efficiency from what already works.",
+      "Quarterly planning with your leadership.",
+    ],
     title: "Scale",
     /** v3 one-liner (condensed from \`lead\`) for the home process row. */
     line: "Build on what works.",
@@ -62,3 +92,14 @@ export const processStages = [
     outcome: "A long-term partner whose plan evolves with your business.",
   },
 ];
+
+/* v3 /process (docs/REDESIGN-V3.md §9.4): labels and short lines. */
+export const processV3 = {
+  tag: "PROCESS",
+  short: "Understand, plan, execute, measure, improve. Most growth failures skip one of these five stages.",
+  overview: "// HOW WE WORK",
+  track: { tag: "FIVE STAGES", title: "Nothing exotic. Just done properly." },
+  outcome: "OUTCOME",
+  of: "/",
+  cta: { tag: "START HERE" },
+} as const;

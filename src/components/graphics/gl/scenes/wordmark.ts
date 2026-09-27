@@ -62,6 +62,9 @@ void main() {
 `;
 
 async function sample(text: string, fontFamily: string | undefined, width: number, height: number, step: number) {
+  // A container with no size yet (hidden, or not laid out) has nothing to
+  // sample; the ResizeObserver rebuilds once it has a size.
+  if (width < 1 || height < 1) return new Float32Array(0);
   const family =
     fontFamily ||
     getComputedStyle(document.documentElement).getPropertyValue("--font-sora").trim() ||

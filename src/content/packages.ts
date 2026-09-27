@@ -132,3 +132,30 @@ export const growthPackages: GrowthPackage[] = [
       "you are managing multiple agencies, you need senior marketing leadership without a full-time hire, or growth has become too complex to run alongside your day job.",
   },
 ];
+
+/* v3 /growth-packages (docs/REDESIGN-V3.md §9.4): labels and short lines. */
+export const packagesV3 = {
+  tag: "PACKAGES",
+  short: "Four engagements for the four problems we solve most. Scoped after a consultation, priced after the plan.",
+  overview: "// HOW WE SELL",
+  panel: { tag: "COMPARE", title: "Choose your starting point." },
+  /** House rule restated; confirm with Krupal before launch (brief §15, item 3). */
+  note: "AD SPEND IS PAID DIRECTLY TO THE PLATFORM. NO MARK-UP.",
+  stack: {
+    tag: "ENGAGEMENTS",
+    title: "What each engagement looks like.",
+    situation: "THE SITUATION",
+    whatWeDo: "WHAT WE DO",
+    includes: "INCLUDES",
+    considerIf: "CONSIDER IT IF",
+  },
+  matrix: {
+    tag: "WHAT IS INCLUDED",
+    title: "Every deliverable, side by side.",
+    caption: "Deliverables included in each growth package",
+    deliverable: "Deliverable",
+    included: "Included",
+    notIncluded: "Not included",
+  },
+  questions: { tag: "HOW ENGAGEMENTS WORK", title: "The three questions we always get." },
+} as const;

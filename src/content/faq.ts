@@ -85,3 +85,18 @@ export const homeFaqIds = [
 export const homeFaqs = homeFaqIds
   .map((id) => faqs.find((f) => f.id === id))
   .filter((f): f is Faq => Boolean(f));
+
+/* v3 /faq (docs/REDESIGN-V3.md §9.4): topic filters and short lines. */
+export const faqV3 = {
+  tag: "FAQ",
+  short: "If yours is not answered here, ask it directly. You will get a straight answer.",
+  title: "Browse by topic.",
+  filterLabel: "Filter questions by topic",
+  all: "All",
+  topics: [
+    { label: "About us", ids: ["what-we-do", "are-you-an-agency", "vs-specialists", "business-size"] },
+    { label: "Working with us", ids: ["single-service", "who-does-the-work", "location"] },
+    { label: "Pricing and results", ids: ["pricing", "timeline"] },
+  ],
+  closing: { tag: "STILL ASKING?" },
+} as const;

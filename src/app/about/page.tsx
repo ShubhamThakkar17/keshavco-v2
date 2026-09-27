@@ -1,25 +1,39 @@
 import type { Metadata } from "next";
 
 import PageHero from "@/components/layout/PageHero";
-import CtaBand from "@/components/sections/CtaBand";
-import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import Compare from "@/components/sections/Compare";
+import AboutMark from "@/components/graphics/AboutMark";
 import ScrollHighlightText from "@/components/motion/ScrollHighlightText";
-import SpotlightCard from "@/components/motion/SpotlightCard";
-import Counter from "@/components/motion/Counter";
-import { SectionHeading } from "@/components/ui/Section";
-import JsonLd from "@/components/ui/JsonLd";
+import Reveal from "@/components/motion/Reveal";
+import Sheet from "@/components/ui/Sheet";
+import SectionHead from "@/components/ui/SectionHead";
+import SectionTag from "@/components/ui/SectionTag";
+import Overview from "@/components/ui/Overview";
+import StatTile from "@/components/ui/StatTile";
+import Brackets from "@/components/ui/Brackets";
+import CtaRow from "@/components/ui/CtaRow";
 import Button from "@/components/ui/Button";
-import MediaFrame from "@/components/ui/MediaFrame";
+import JsonLd from "@/components/ui/JsonLd";
 
-import { aboutPage } from "@/content/about";
-import { images } from "@/content/images";
-import { pillars } from "@/content/services";
+import { aboutPage, aboutV3 } from "@/content/about";
 import { cta } from "@/content/site";
+import { toParagraphs } from "@/lib/text";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({ ...aboutPage.seo, path: "/about" });
 
+/**
+ * /about (brief §9.4): hero (mark + chevrons) → where we started → why we
+ * exist (scroll-filled statement) → mission and vision → principles as big
+ * numbered rows → how we are structured, with structural counts → founders
+ * (only once real names and photos are supplied) → With / Without → CTA.
+ */
 export default function AboutPage() {
+  const copy = aboutV3;
+  const [whyLead, ...whyRest] = aboutPage.whyWeExist.body;
+  let index = 1;
+  const next = () => (index += 1);
+
   return (
     <>
       <JsonLd
@@ -30,149 +44,151 @@ export default function AboutPage() {
       />
 
       <PageHero
-        eyebrow={aboutPage.eyebrow}
+        crumbs={[{ label: "About" }]}
+        tag={copy.tag}
         title={aboutPage.h1}
-        intro={aboutPage.intro[0]}
-        crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
-        image={images.office}
-      >
-        <Button href={cta.primary.href} variant="light" size="lg" withArrow>
-          {cta.primary.label}
-        </Button>
-      </PageHero>
+        line={copy.short}
+        actions={
+          <>
+            <Button href={cta.primary.href} size="lg">
+              {cta.primary.short}
+            </Button>
+            <Button href={copy.processLink.href} variant="ghost" size="lg">
+              {copy.processLink.label}
+            </Button>
+          </>
+        }
+        art={<AboutMark />}
+      />
 
-      {/* ------------------------------------------------ Why we exist */}
-      <section className="bg-white py-24 sm:py-32">
-        <div className="container-page grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHeading title={aboutPage.whyWeExist.heading} />
-            <div className="mt-8">
-              <MediaFrame
-                image={images.boardroom}
-                className="aspect-[4/3] w-full"
-                sizes="(max-width: 1024px) 100vw, 32vw"
-                drift={6}
-                tint={false}
-              />
+      <Sheet tone="paper" guides={{ accent: 0 }}>
+        <div className="container-page">
+          <Overview note={copy.overview} text={aboutPage.intro} />
+          <div className="mt-24 grid gap-10 lg:mt-32 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-4">
+              <SectionTag index={next()} label={copy.why.tag} />
+              <h2 className="type-display-l mt-6 text-ink">{aboutPage.whyWeExist.heading}</h2>
+            </div>
+            <div className="lg:col-span-8">
+              {/* Starts at half strength so even the unfilled words keep 3:1 contrast. */}
+              <ScrollHighlightText text={whyLead} className="type-display-m text-balance text-ink" from={0.5} />
+              <div className="mt-10 max-w-[62ch] space-y-5">
+                {toParagraphs(whyRest).map((paragraph, i) => (
+                  <Reveal key={i}>
+                    <p className="type-body-l text-pretty text-ink-2">{paragraph}</p>
+                  </Reveal>
+                ))}
+              </div>
             </div>
           </div>
-          <div>
-            <ScrollHighlightText
-              text={aboutPage.whyWeExist.body[0]}
-              className="font-display text-xl font-semibold leading-snug text-navy-900 sm:text-2xl"
-            />
-            {aboutPage.whyWeExist.body.slice(1).map((paragraph, index) => (
-              <Reveal key={index} delay={0.05 * index}>
-                <p className="mt-6 text-[1rem] leading-relaxed text-navy-500">{paragraph}</p>
+        </div>
+      </Sheet>
+
+      <Sheet tone="night" guides={{ accent: 3 }}>
+        <div className="container-page">
+          <SectionTag index={next()} label={copy.mission.tag} />
+          <div className="mt-12 grid gap-3 lg:grid-cols-2">
+            {aboutPage.missionVision.map((item, i) => (
+              <Reveal key={item.label} delay={i * 0.08}>
+                <div className="relative h-full rounded-[var(--radius-md)] border border-line-night bg-night-2 p-7 sm:p-10">
+                  <Brackets inset={10} />
+                  <h2 className="type-mono text-white/60">{item.label}</h2>
+                  <p className="type-display-m mt-6 text-pretty text-white">{item.body}</p>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
-      </section>
+      </Sheet>
 
-      {/* ------------------------------------------ Mission and vision */}
-      <section className="grain relative overflow-hidden bg-navy-950 py-24 text-white sm:py-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -top-20 h-[34rem] w-[34rem] rounded-full opacity-30 blur-[130px]"
-          style={{ background: "radial-gradient(closest-side, #4F46E5, transparent)" }}
-        />
-        <div className="container-page relative z-10">
-          <RevealGroup className="grid gap-5 lg:grid-cols-2">
-            {aboutPage.missionVision.map((item) => (
-              <RevealItem key={item.label}>
-                <div className="h-full rounded-3xl border border-white/10 bg-white/[0.03] p-9 backdrop-blur-sm">
-                  <span className="text-gradient-brand font-display text-sm font-bold uppercase tracking-[0.2em]">
-                    {item.label}
-                  </span>
-                  <p className="font-display mt-6 text-xl leading-snug text-white/85 sm:text-2xl">
-                    {item.body}
-                  </p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-
-          <div className="mt-20">
-            <SectionHeading title="What we hold ourselves to" tone="light" />
-            <RevealGroup className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-              {aboutPage.values.map((value, index) => (
-                <RevealItem key={value.title} className="bg-navy-950 p-8">
-                  <span className="font-display block text-xs font-semibold tabular-nums text-white/30">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="font-display mt-5 text-lg font-bold tracking-tight">
-                    {value.title}
-                  </h3>
-                  <p className="mt-3 text-[0.88rem] leading-relaxed text-white/55">{value.body}</p>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-          </div>
-        </div>
-      </section>
-
-      {/* ----------------------------------------- Structure + network */}
-      <section className="bg-white py-24 sm:py-32">
+      <Sheet tone="paper" guides={{ accent: 0, rules: ["pad"] }}>
         <div className="container-page">
-          <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <SectionHeading
-                title={aboutPage.howWeWork.heading}
-                body={aboutPage.howWeWork.body}
-              />
-            </div>
-            <div>
-              <SectionHeading title={aboutPage.network.heading} body={aboutPage.network.body} />
-            </div>
-          </div>
-
-          <div className="mt-14">
-            <MediaFrame
-              image={images.teamMeeting}
-              className="aspect-[21/9] w-full"
-              sizes="100vw"
-              drift={5}
-            />
-          </div>
-
-          <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {pillars.map((pillar) => (
-              <RevealItem key={pillar.slug}>
-                <SpotlightCard className="h-full rounded-2xl border border-navy-900/10 bg-navy-50/60 p-7">
-                  <p className="font-display text-base font-semibold tracking-tight text-navy-900">
-                    {pillar.name}
-                  </p>
-                  <p className="mt-3 text-[0.85rem] leading-relaxed text-navy-500">
-                    {pillar.subServices.map((s) => s.name).join(" · ")}
-                  </p>
-                </SpotlightCard>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-
-          <Reveal>
-            <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-navy-900/10 bg-navy-900/10 sm:grid-cols-3">
-              {[
-                { value: 4, label: "Capabilities under one plan" },
-                { value: 26, label: "Specialist services" },
-                { value: 7, label: "Industries we work in" },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-white p-8 text-center">
-                  <p className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
-                    <span className="text-gradient-brand">
-                      <Counter value={stat.value} />
-                    </span>
-                  </p>
-                  <p className="mt-3 text-[0.85rem] text-navy-500">{stat.label}</p>
+          <SectionHead index={next()} tag={copy.values.tag} title={copy.values.title} />
+          <ol className="mt-12 border-t border-line">
+            {aboutPage.values.map((value, i) => (
+              <Reveal key={value.title} as="li" className="block border-b border-line">
+                <div className="grid gap-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-10">
+                  <p className="type-mono text-ink-2 lg:col-span-1">{`.${String(i + 1).padStart(2, "0")}`}</p>
+                  <h3 className="type-display-m text-ink lg:col-span-4">{value.title}</h3>
+                  <p className="type-body-l max-w-xl text-pretty text-ink-2 lg:col-span-7">{value.body}</p>
                 </div>
-              ))}
-            </div>
-          </Reveal>
+              </Reveal>
+            ))}
+          </ol>
         </div>
-      </section>
+      </Sheet>
 
-      <CtaBand variant="general" supportLine={2} />
+      <Sheet tone="paper-2" overlap={false} stack={false} guides={{ accent: 0, rules: ["pad"] }}>
+        <div className="container-page">
+          <SectionHead index={next()} tag={copy.structure.tag} title={copy.structure.title} />
+          <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-8">
+            {[aboutPage.howWeWork, aboutPage.network].map((block) => (
+              <div key={block.heading}>
+                <h3 className="type-mono text-ink">{block.heading}</h3>
+                <div className="mt-4 space-y-4">
+                  {toParagraphs(block.body).map((paragraph, i) => (
+                    <Reveal key={i}>
+                      <p className="type-body text-pretty text-ink-2">{paragraph}</p>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-14 grid gap-3 sm:grid-cols-3">
+            {copy.stats.map((stat, i) => (
+              <StatTile key={stat.label} value={stat.value} label={stat.label} delay={i * 120} className="bg-card" />
+            ))}
+          </div>
+        </div>
+      </Sheet>
+
+      {copy.founders.people.length > 0 && (
+        <Sheet tone="paper" guides={{ accent: 0, rules: ["pad"] }}>
+          <div className="container-page">
+            <SectionHead index={next()} tag={copy.founders.tag} title={copy.founders.title} />
+            <ul className="mt-12 grid gap-3 sm:grid-cols-2">
+              {copy.founders.people.map((person) => (
+                <li key={person.name} className="flex items-center gap-5 rounded-[var(--radius-md)] border border-line bg-card p-5">
+                  <span className="relative grid h-20 w-20 place-items-center bg-paper-2 font-display text-2xl font-semibold text-ink">
+                    <Brackets />
+                    {person.initials}
+                  </span>
+                  <span>
+                    <span className="type-display-m block text-ink">{person.name}</span>
+                    <span className="type-mono-s mt-1 block text-ink-2">{person.role}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Sheet>
+      )}
+
+      <Sheet tone="night" guides={{ accent: 3 }}>
+        <div className="container-page">
+          <SectionHead index={next()} tag={copy.compare.tag} title={copy.compare.title} align="center" />
+          <Compare />
+        </div>
+      </Sheet>
+
+      <Sheet tone="paper" guides={{ accent: 0, rules: ["pad"] }}>
+        <div className="container-page">
+          <CtaRow
+            tag={copy.cta.tag}
+            heading={aboutPage.cta.heading}
+            body={aboutPage.cta.body}
+            actions={
+              <>
+                <Button href={cta.primary.href}>{cta.primary.short}</Button>
+                <Button href={cta.secondary.href} variant="ghost">
+                  {cta.secondary.short}
+                </Button>
+              </>
+            }
+          />
+        </div>
+      </Sheet>
     </>
   );
 }

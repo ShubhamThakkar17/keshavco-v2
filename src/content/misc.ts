@@ -171,3 +171,95 @@ export const notFound = {
   heading: "This page has moved or does not exist.",
   body: "The link may be outdated. Start from the homepage, or tell us what you were looking for.",
 };
+
+/* ---------------------------------------------------------------------------
+   v3 labels and short lines for /contact, /insights, legal pages and the 404
+   (docs/REDESIGN-V3.md §9.4). The approved copy above is unchanged.
+--------------------------------------------------------------------------- */
+
+export const contactV3 = {
+  tag: "CONTACT",
+  short: "Bring a specific problem. We will tell you what we would do about it.",
+  overview: "// WHERE TO START",
+  tabs: { label: "How would you like to reach us?", book: "Book a call", enquiry: "Send an enquiry" },
+  direct: { tag: "DIRECT", email: "EMAIL", phone: "PHONE", hours: "HOURS", follow: "FOLLOW" },
+  next: {
+    tag: "WHAT HAPPENS NEXT",
+    steps: [
+      "We reply within one working day.",
+      "A 30-minute consultation on your growth problem.",
+      "A written proposal, if we are the right partner.",
+    ],
+  },
+  covers: {
+    label: "What the call covers",
+    items: [
+      "Where your growth problem actually sits",
+      "What we would prioritise, and in what order",
+      "Whether we are the right partner, honestly",
+    ],
+  },
+  phonePrompt: "Prefer to talk now?",
+  other: { tag: "OTHER WAYS TO REACH US", title: "Proposals, partners and careers." },
+  careersLink: { label: "See the careers page", href: "/careers" },
+} as const;
+
+/** Words inside the booking embed while it loads or if it fails. */
+export const bookingEmbedCopy = {
+  loading: "Loading available times…",
+  failedHeading: "The calendar did not load.",
+  failedBody: "Open it in a new tab, or use the enquiry form and we will come back with times.",
+  openLink: "Open the booking page",
+} as const;
+
+/** Extra labels for the v3 enquiry form (fields themselves: `contactForm`). */
+export const contactFormV3 = {
+  intentLabel: "Type of enquiry",
+  intents: [
+    { value: "enquiry", label: "General enquiry" },
+    { value: "proposal", label: "Request proposal" },
+  ],
+  packageLabel: "Package (optional)",
+  packagePlaceholder: "Not sure yet",
+  industryLabel: "Industry",
+  industryPlaceholder: "Select your industry",
+  interestLabel: "What do you need help with?",
+  interestPlaceholder: "Select an area",
+  sending: "Sending…",
+  failed: "Something went wrong sending that. Please email",
+  /** Hidden anti-spam field; people never see or fill it. */
+  honeypotLabel: "Leave this field empty",
+} as const;
+
+export const insightsV3 = {
+  tag: "INSIGHTS",
+  planned: {
+    tag: "EDITORIAL PLAN",
+    line: "Nothing is linked yet because nothing is published yet. Subscribers get the first piece first.",
+    status: "DRAFTING",
+  },
+  subscribe: {
+    tag: "NEWSLETTER",
+    emailLabel: "Work email",
+    error: "Please enter a valid work email.",
+    failed: "That did not go through. Please try again, or email",
+    sending: "Subscribing…",
+  },
+} as const;
+
+export const legalV3 = {
+  tag: "LEGAL",
+  crumb: "Legal",
+  questions: "Questions about this page? Write to",
+} as const;
+
+export const notFoundV3 = {
+  tag: "404",
+  home: { label: "Back to homepage", href: "/" },
+  contact: { label: "Tell us what you were looking for", href: "/contact" },
+  startHere: "Or start here",
+  packages: { label: "Growth Packages", href: "/growth-packages" },
+} as const;
+
+/** Mono breadcrumb: the label for the first crumb on every inner page. */
+export const breadcrumbV3 = { home: "Home", label: "Breadcrumb" } as const;

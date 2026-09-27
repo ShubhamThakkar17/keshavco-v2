@@ -52,3 +52,9 @@ export const channelHub = {
 } as const;
 
 export const notFoundArt = { code: "404" } as const;
+
+/** /careers hero: the core team and the specialist network around it. */
+export const networkArt = {
+  core: "CORE TEAM",
+  nodes: ["STRATEGY", "BRAND", "TECHNOLOGY", "MEDIA", "CONTENT", "PRODUCTION"],
+} as const;

@@ -137,3 +137,48 @@ Other
   URL is `#`), Motion On/Off switch, 3D dot wordmark, legal line.
 - `layout.tsx`: paper body; `main` lifts off the footer (z-index, rounded
   bottom corners).
+
+## Phase 5: Inner pages, careers and forms
+
+- `PageHero` rebuilt (brief §9.3): inset paper card, mono breadcrumb, page
+  tag, blur-in H1 (`type-display-page`), one short line, actions and a
+  page-specific vector (`CapabilityQuad`, `CapabilityArt`, `PackagesMini`,
+  `IndustryCluster`, `ProcessMini`, `AboutMark`, `NetworkArt`). No 3D on
+  inner pages.
+- Templates (brief §9.4): `/services` (pillar rows, supporting cells, channel
+  hub, service FAQs), pillar pages (overview, problem as three cards,
+  sub-service cells, outcomes checklist, process in brief, related package,
+  pillar CTA), 26 sub-service pages (intro, three numbered points, "part of"
+  strip), `/growth-packages` (panel + ad-spend note, sticky package cards,
+  includes matrix, the three questions), `/industries` (seven sticky night
+  cards led by the animated scenes, `id={slug}` kept), `/process` (pinned
+  horizontal track on desktop, stacked on phones and with reduced motion),
+  `/about` (manifesto, mission and vision, principles, structure, structural
+  counts, With / Without; founders block ready but hidden until real names
+  and photos are supplied), `/contact` (split: H1, direct rows and "what
+  happens next" beside booking / enquiry tabs; `#book` selects booking,
+  `?intent=proposal&package=` preselects the form, 9-second Cal fallback
+  unchanged), `/faq` (topic chips over light rows, FAQPage JSON-LD keeps all
+  nine), `/insights` (DRAFTING rows, newsletter form), legal pages (68ch
+  reading layout, mono headings) and the 404 (`NotFoundArt`).
+- New `/careers` page (decision #7, route 43, added to the sitemap): how
+  KeshavCo is structured, two ways in, and an open application with a CV or
+  portfolio link field. No openings, people or perks invented.
+- Forms (decisions #8 and #9): v3 underline fields shared by all forms
+  (`src/components/forms/Field.tsx`) with a hidden honeypot. New
+  `/api/careers` and `/api/subscribe` forward to `FORMS_WEBHOOK_URL` or
+  `ENQUIRY_WEBHOOK_URL` (`src/lib/forms.ts`); `/api/enquiry` is unchanged.
+  Google Apps Script (sheet tab per form + email to hello@keshavco.com) and
+  setup guide in `docs/forms/`.
+- Every page's long approved copy is still rendered, split between sentences
+  so no paragraph runs over 60 words (`src/lib/text.ts`). New section labels
+  and short lines live in `servicesV3`, `packagesV3`, `industriesV3`,
+  `processV3`, `aboutV3`, `faqV3`, `contactV3`, `insightsV3`, `legalV3`,
+  `notFoundV3` and `careersPage`.
+- Careers added to the footer's Company column and the mobile menu.
+- Retired: `CapabilityShowcase`, `PackagesStack`, `ProcessTimeline`,
+  `CtaBand`, `SpotlightCard`, `Counter`, `BrandFeature`, `MediaFrame`,
+  `IndustryExplorer`, `PillarIcon`, `Section` (`Eyebrow`, `SectionHeading`).
+- Fix: the footer wordmark no longer throws when its canvas has no size yet.
+- `scripts/overflow-check.mjs`: horizontal-overflow check for every route.
+- `scripts/axe.mjs`: axe-core on one route per template, desktop and phone, motion on and off.

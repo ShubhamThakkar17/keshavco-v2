@@ -1,59 +1,52 @@
 import Link from "next/link";
+import Sheet from "@/components/ui/Sheet";
+import SectionTag from "@/components/ui/SectionTag";
 import Button from "@/components/ui/Button";
-import { notFound as copy } from "@/content/misc";
+import NotFoundArt from "@/components/graphics/NotFoundArt";
+import { notFound as copy, notFoundV3 } from "@/content/misc";
 import { pillars } from "@/content/services";
 
+/**
+ * 404 (brief §9.4): the file that slipped out of the grid, the approved
+ * message, two actions and a row of places to start.
+ */
 export default function NotFound() {
+  const links = [
+    ...pillars.map((pillar) => ({ label: pillar.name, href: `/services/${pillar.slug}` })),
+    notFoundV3.packages,
+  ];
   return (
-    <section className="grain relative flex min-h-[100svh] items-center overflow-hidden bg-navy-950 py-32 text-white">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/3 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full opacity-30 blur-[130px]"
-        style={{
-          background: "radial-gradient(closest-side, #4F46E5 0%, #7C3AED 60%, transparent 100%)",
-        }}
-      />
-      <div className="container-page relative z-10">
-        <p className="font-display text-gradient-brand text-[7rem] font-extrabold leading-none tracking-tighter sm:text-[10rem]">
-          404
-        </p>
-        <h1 className="font-display mt-4 max-w-2xl text-balance text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
-          {copy.heading}
-        </h1>
-        <p className="mt-5 max-w-xl text-[0.98rem] leading-relaxed text-white/60">{copy.body}</p>
-
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Button href="/" variant="light" size="lg" withArrow>
-            Back to homepage
-          </Button>
-          <Button href="/contact" variant="ghost" size="lg" className="text-white/70 hover:text-white">
-            Tell us what you were looking for
-          </Button>
-        </div>
-
-        <div className="mt-16 border-t border-white/10 pt-8">
-          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/40">
-            Or start here
-          </p>
-          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
-            {pillars.map((pillar) => (
-              <Link
-                key={pillar.slug}
-                href={`/services/${pillar.slug}`}
-                className="text-sm text-white/65 transition-colors hover:text-white"
-              >
-                {pillar.name}
-              </Link>
-            ))}
-            <Link
-              href="/growth-packages"
-              className="text-sm text-white/65 transition-colors hover:text-white"
-            >
-              Growth Packages
-            </Link>
+    <Sheet tone="paper-2" inset pad={false} guides={{ accent: 0, animate: true }} className="lg:min-h-[calc(100svh-24px)]">
+      <div className="container-page grid items-center gap-12 pb-16 pt-32 lg:min-h-[calc(100svh-24px)] lg:grid-cols-12 lg:gap-8 lg:pb-24 lg:pt-36">
+        <div className="lg:col-span-6">
+          <SectionTag index={1} label={notFoundV3.tag} trigger="mount" />
+          <h1 className="type-display-page mt-6 max-w-[16ch] text-ink">{copy.heading}</h1>
+          <p className="type-body-l mt-6 max-w-md text-pretty text-ink-2">{copy.body}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Button href={notFoundV3.home.href} size="lg">
+              {notFoundV3.home.label}
+            </Button>
+            <Button href={notFoundV3.contact.href} variant="ghost" size="lg">
+              {notFoundV3.contact.label}
+            </Button>
           </div>
+          <nav aria-label={notFoundV3.startHere} className="mt-12 border-t border-line pt-6">
+            <p className="type-mono-s text-ink-2">{notFoundV3.startHere}</p>
+            <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-1">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="inline-flex min-h-11 items-center text-[0.9375rem] font-medium text-ink transition-colors hover:text-signal">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+        <div aria-hidden="true" className="mx-auto w-full max-w-md text-ink/70 lg:col-span-6">
+          <NotFoundArt className="h-auto w-full" />
         </div>
       </div>
-    </section>
+    </Sheet>
   );
 }

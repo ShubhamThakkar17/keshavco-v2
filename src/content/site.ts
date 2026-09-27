@@ -64,6 +64,7 @@ export const navV3 = {
   ],
   mobileExtras: [
     { label: "Insights", href: "/insights" },
+    { label: "Careers", href: "/careers" },
     { label: "Contact", href: "/contact" },
   ],
   allServices: "All services",
@@ -91,6 +92,7 @@ export const footerColumns = [
       { label: "Industries", href: "/industries" },
       { label: "Process", href: "/process" },
       { label: "Insights", href: "/insights" },
+      { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
     ],
   },

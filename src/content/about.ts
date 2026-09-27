@@ -101,3 +101,32 @@ export const servicesHub = {
       "Strategy, branding, technology and digital marketing — planned together as one growth system. Explore our services.",
   },
 };
+
+/* v3 /about (docs/REDESIGN-V3.md §9.4): labels and short lines. */
+export const aboutV3 = {
+  tag: "OUR STORY",
+  short: "One team that sets the strategy, runs the execution and answers for the outcome.",
+  overview: "// WHERE WE STARTED",
+  processLink: { label: "How we work", href: "/process" },
+  why: { tag: "WHY WE EXIST" },
+  mission: { tag: "MISSION AND VISION" },
+  values: { tag: "PRINCIPLES", title: "What we hold ourselves to." },
+  structure: { tag: "HOW WE WORK", title: "One core team, a vetted network." },
+  /** Structural facts (counted from the content), not performance claims. */
+  stats: [
+    { value: 4, label: "CAPABILITIES UNDER ONE PLAN" },
+    { value: 26, label: "SPECIALIST SERVICES" },
+    { value: 7, label: "INDUSTRIES WE WORK IN" },
+  ],
+  /**
+   * Founders block (brief §9.4): real names, roles and photos only. Empty
+   * until supplied, so the block does not render (brief §15, item 2).
+   */
+  founders: {
+    tag: "FOUNDERS",
+    title: "The people accountable for your growth.",
+    people: [] as { name: string; role: string; initials: string; photo?: string }[],
+  },
+  compare: { tag: "WHY KESHAVCO", title: "What changes with one partner." },
+  cta: { tag: "START HERE" },
+} as const;

@@ -264,6 +264,15 @@ details summary::-webkit-details-marker {
   line-height: 0.98;
   text-wrap: balance;
 }
+/* Inner-page H1 (brief §9.3): display-xl, one step down. */
+@utility type-display-page {
+  font-family: var(--font-display);
+  font-size: clamp(2.375rem, 4.6vw, 4.25rem);
+  font-weight: 600;
+  letter-spacing: -0.042em;
+  line-height: 1;
+  text-wrap: balance;
+}
 @utility type-display-l {
   font-family: var(--font-display);
   font-size: clamp(2.1rem, 3.8vw, 3.5rem);

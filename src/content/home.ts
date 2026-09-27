@@ -274,9 +274,6 @@ export const homeV3 = {
     featured: "grow",
     includesShown: 3,
     more: "What is included",
-    /** House rule restated; confirm with Krupal before launch (brief §15, item 3).
-     *  Shown on /growth-packages, not on the home page (word budget). */
-    note: "AD SPEND IS PAID DIRECTLY TO THE PLATFORM. NO MARK-UP.",
   },
   compare: {
     tag: "WHY KESHAVCO",
