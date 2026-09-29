@@ -251,3 +251,21 @@ Other
   project to `keshavco-v2`). Still to do after launch: forms setup
   (`docs/forms/README.md`), editor setup (`docs/cms/README.md`), and the
   journey trims in `docs/v3/handover.md`.
+
+## Forms by email (Resend)
+
+- New package `resend`. `src/lib/email.ts` emails every submission (enquiry,
+  careers, newsletter) to shubhamthakkar1701@gmail.com, shubham@keshavco.com
+  and hello@keshavco.com.
+  - Reply-To is set to the sender.
+  - The email has an HTML table and a plain-text version, with the time in IST.
+  - Settings: `RESEND_API_KEY`, `FORMS_EMAIL_FROM` and `FORMS_EMAIL_TO`.
+  - Until keshavco.com is verified in Resend, mail goes only to the Resend
+    account inbox, because that is all Resend's test sender allows.
+- `src/lib/forms.ts` `deliver()` sends by email and/or to the Sheet webhook.
+  A submission counts as delivered when at least one of the two accepts it.
+- `/api/enquiry` now uses the shared delivery code and drops honeypot
+  submissions.
+- On production, when neither channel is configured, the form shows its error
+  with the email address instead of a thank-you.
+- Decision #26. Setup steps: README "Resend setup".

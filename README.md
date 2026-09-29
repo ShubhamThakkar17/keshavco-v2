@@ -144,17 +144,51 @@ not in the sitemap. Preview with `OUR_WORK_PREVIEW=1`; launch by setting
 
 ## Forms
 
-| Form | Route | Delivery |
-| :-- | :-- | :-- |
-| Enquiry (`/contact`) | `/api/enquiry` (unchanged from v2) | `ENQUIRY_WEBHOOK_URL` |
-| Careers (`/careers`) | `/api/careers` | `FORMS_WEBHOOK_URL`, else `ENQUIRY_WEBHOOK_URL` |
-| Newsletter (`/insights`) | `/api/subscribe` | same |
+| Form | Route |
+| :-- | :-- |
+| Enquiry (`/contact`) | `/api/enquiry` |
+| Careers (`/careers`) | `/api/careers` |
+| Newsletter (`/insights`) | `/api/subscribe` |
 
-All three go to one Google Apps Script web app that adds a row to a Google
-Sheet (a tab per form) and emails hello@keshavco.com. Each form has a hidden
-honeypot. Without a webhook, submissions are written to the server log.
-**Setup: [docs/forms/README.md](docs/forms/README.md)** (the Sheet already
-exists in Google Drive, folder "KeshavCo website forms").
+All three check the input, drop honeypot submissions and hand the rest to
+`src/lib/forms.ts`, which delivers through either or both channels:
+
+- **Email (main channel):** when `RESEND_API_KEY` is set, each submission is
+  emailed through [Resend](https://resend.com) to
+  shubhamthakkar1701@gmail.com, shubham@keshavco.com and hello@keshavco.com.
+  Reply-To is set to the sender, so hitting Reply answers them
+  (`src/lib/email.ts`).
+  - Until keshavco.com is verified in Resend, emails are sent from Resend's
+    test address. That address can only mail the Resend account's own inbox,
+    so only the first address gets a copy.
+  - Once the domain is verified, set `FORMS_EMAIL_FROM` and all three get a
+    copy.
+- **Google Sheet (optional):** when `ENQUIRY_WEBHOOK_URL` is set, each
+  submission is also added as a row through the Apps Script web app
+  ([docs/forms/README.md](docs/forms/README.md)).
+
+The visitor sees the thank-you message only when at least one channel accepted
+the submission. Otherwise they are asked to email hello@keshavco.com instead.
+With no channel configured:
+
+- local and preview builds write submissions to the server log;
+- production shows the visitor that error.
+
+### Resend setup
+
+1. Sign up at resend.com with shubhamthakkar1701@gmail.com. Then go to API
+   Keys → Create API key, with permission "Sending access".
+2. In Vercel, open project `keshavco-v2` → Settings → Environment Variables.
+   Add `RESEND_API_KEY` for Production and Preview, then redeploy.
+3. To reach all three inboxes:
+   1. In Resend, go to Domains → Add `keshavco.com`.
+   2. Add the DNS records Resend shows, and wait until the domain shows
+      "Verified".
+   3. In Vercel, add `FORMS_EMAIL_FROM` = `KeshavCo Website <website@keshavco.com>`,
+      then redeploy.
+
+Never commit the key. It belongs only in Vercel, and in `.env.local` for local
+testing.
 
 ## Booking: Cal.com
 
@@ -169,8 +203,11 @@ with "Request proposal" and the package preselected.
 
 | Variable | Needed for |
 | :-- | :-- |
-| `ENQUIRY_WEBHOOK_URL` | Form delivery (the Apps Script URL with `?key=`) |
-| `FORMS_WEBHOOK_URL` | Optional: careers and newsletter to a different endpoint |
+| `RESEND_API_KEY` | Sending form emails through Resend |
+| `FORMS_EMAIL_FROM` | The sender address, once keshavco.com is verified in Resend, e.g. `KeshavCo Website <website@keshavco.com>` |
+| `FORMS_EMAIL_TO` | Optional: comma-separated recipients (default: the three addresses above) |
+| `ENQUIRY_WEBHOOK_URL` | Optional: also add a row to the Google Sheet (the Apps Script URL with `?key=`) |
+| `FORMS_WEBHOOK_URL` | Optional: send careers and newsletter rows to a different Sheet endpoint |
 | `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | The `/keystatic` editor on a deployment |
 | `OUR_WORK_PREVIEW=1` | Preview the hidden Our Work pages (Preview environment only) |
 | `NEXT_PUBLIC_LAB=1` | Show the `/lab` component playground |
@@ -189,8 +226,8 @@ that array.
 - [x] Offices: Vadodara, Mumbai, Indore (footer, `/contact`, JSON-LD)
 - [x] Open Graph image (`src/app/opengraph-image.tsx`)
 - [x] Commitment lines confirmed (decision #17)
-- [ ] **Forms:** deploy the Apps Script and set `ENQUIRY_WEBHOOK_URL`
-      (`docs/forms/README.md`)
+- [ ] **Forms:** add `RESEND_API_KEY` in Vercel, verify keshavco.com in
+      Resend, and set `FORMS_EMAIL_FROM` (see "Resend setup")
 - [ ] **Editor:** create the GitHub App and set the four Keystatic variables
       (`docs/cms/README.md`)
 - [ ] **Social profile URLs:** `site.social` (all `#`, so hidden)

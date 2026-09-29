@@ -47,3 +47,9 @@ from `docs/REDESIGN-V3.md`, the decision here wins.
 | 23 | Long H1s | Kept: measured on phones (at most 5 lines at 360px, no broken words, primary button above the fold). | 8 routes |
 | 24 | Other §15 items | No SVG logo exists; founders stay hidden (NDA); social profiles not yet; Geist Mono unanswered, still used for labels only. | — |
 | 25 | Forms sheet | Created in Google Drive, folder "KeshavCo website forms" (sheet with Enquiries, Careers, Subscribers tabs, the script and setup steps). Script deployment and the Vercel variable need the owner's Google login. | `docs/forms/` |
+
+## After launch (29 Sep 2026)
+
+| # | Topic | Decision | Affects |
+| :-- | :-- | :-- | :-- |
+| 26 | Form delivery | Email through Resend is the main channel (owner's request; new package `resend`). Every form emails shubhamthakkar1701@gmail.com, shubham@keshavco.com and hello@keshavco.com with Reply-To set to the sender. The Google Sheet stays an optional second channel, and a Google Form embed was not used. `/api/enquiry` now shares the delivery code with the other two forms and drops honeypot submissions. On production, a submission that no channel accepted shows the error with the email address, instead of a thank-you. | `src/lib/email.ts`, `src/lib/forms.ts`, `/api/*` |

@@ -1,5 +1,10 @@
 # Website forms: Google Sheet + email
 
+> **Since 29 Sep 2026 (decision #26), form submissions are emailed through
+> Resend.** Setup is under "Forms" in the root README. The Google Sheet below
+> is now optional. When `ENQUIRY_WEBHOOK_URL` is also set, each submission is
+> emailed and also added to the Sheet.
+
 Decision log #8. The three website forms (enquiry, careers, Insights subscribe)
 all end up in one Google Sheet, one tab per form, and each submission also
 sends an email to hello@keshavco.com. No new packages or paid services.

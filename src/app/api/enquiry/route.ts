@@ -1,62 +1,32 @@
 import { NextResponse } from "next/server";
+import { deliver, EMAIL_PATTERN, isBot, readPayload, withinLimits } from "@/lib/forms";
 
 /**
- * Enquiry endpoint.
- *
- * By default this validates the payload and records it in the server log so no
- * enquiry is silently dropped in development. Set `ENQUIRY_WEBHOOK_URL` to
- * forward submissions to a CRM, an inbox automation or a form service before
- * launch — see the README.
+ * Enquiry endpoint. Validates the payload, drops honeypot submissions and
+ * hands the rest to src/lib/forms.ts, which emails it through Resend and/or
+ * forwards it to the Google Sheet (see the README).
  */
 
-const MAX_FIELD_LENGTH = 5000;
-
-type Payload = Record<string, unknown>;
-
-function isValid(payload: Payload) {
+function isValid(payload: Record<string, unknown>) {
   const name = String(payload.name ?? "").trim();
   const email = String(payload.email ?? "").trim();
   const message = String(payload.message ?? "").trim();
 
   if (!name || !email || !message) return false;
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return false;
-  return Object.values(payload).every(
-    (value) => typeof value !== "string" || value.length <= MAX_FIELD_LENGTH,
-  );
+  if (!EMAIL_PATTERN.test(email)) return false;
+  return withinLimits(payload);
 }
 
 export async function POST(request: Request) {
-  let payload: Payload;
-  try {
-    payload = (await request.json()) as Payload;
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
-  }
+  const payload = await readPayload(request);
+  if (!payload) return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
+  if (isBot(payload)) return NextResponse.json({ ok: true });
 
   if (!isValid(payload)) {
     return NextResponse.json({ ok: false, error: "Invalid submission" }, { status: 422 });
   }
 
-  const webhook = process.env.ENQUIRY_WEBHOOK_URL;
-
-  if (webhook) {
-    try {
-      const response = await fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, receivedAt: new Date().toISOString() }),
-      });
-      if (!response.ok) throw new Error(`Webhook responded ${response.status}`);
-    } catch (error) {
-      console.error("[enquiry] webhook delivery failed", error);
-      return NextResponse.json({ ok: false, error: "Delivery failed" }, { status: 502 });
-    }
-  } else {
-    console.warn(
-      "[enquiry] ENQUIRY_WEBHOOK_URL is not set — enquiry recorded to the server log only.",
-      { receivedAt: new Date().toISOString(), payload },
-    );
-  }
-
+  const delivered = await deliver("enquiry", payload);
+  if (!delivered) return NextResponse.json({ ok: false, error: "Delivery failed" }, { status: 502 });
   return NextResponse.json({ ok: true });
 }

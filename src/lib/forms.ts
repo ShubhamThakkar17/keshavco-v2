@@ -1,15 +1,19 @@
+import { sendFormEmail, type FormName } from "@/lib/email";
+
 /**
- * Server-side delivery for the careers and subscribe forms (decision log #8).
+ * Server-side delivery for all three forms: enquiry, careers and newsletter.
  *
- * Submissions go to the same Google Apps Script web app as enquiries: it
- * appends a row to a Google Sheet (a tab per form) and emails
- * hello@keshavco.com. See docs/forms/README.md for the setup.
+ * Two channels, either or both:
+ * - Email through Resend when `RESEND_API_KEY` is set (src/lib/email.ts).
+ * - The Google Apps Script web app when `FORMS_WEBHOOK_URL` or
+ *   `ENQUIRY_WEBHOOK_URL` is set: a row in the Google Sheet (a tab per form).
+ *   The shared secret travels in the URL (`…/exec?key=…`), because Apps
+ *   Script cannot read request headers. See docs/forms/README.md.
  *
- * `FORMS_WEBHOOK_URL` wins when set; otherwise `ENQUIRY_WEBHOOK_URL` is used,
- * so one Apps Script deployment can serve all three forms. The shared secret
- * travels in the web app URL (`…/exec?key=…`), because Apps Script cannot read
- * request headers. With neither variable set, the submission is written to
- * the server log so nothing is silently dropped in development.
+ * A submission counts as delivered when at least one configured channel took
+ * it. With neither configured, it is written to the server log; on the live
+ * site that also returns a failure, so the visitor is shown the email address
+ * instead of a thank-you for a message nobody will read.
  */
 
 export const MAX_FIELD_LENGTH = 5000;
@@ -36,22 +40,13 @@ export function withinLimits(payload: Payload) {
 /** A filled honeypot means a bot: accept quietly, deliver nothing. */
 export const isBot = (payload: Payload) => String(payload.website ?? "").trim() !== "";
 
-export async function deliver(form: "careers" | "subscribe", payload: Payload) {
-  const webhook = process.env.FORMS_WEBHOOK_URL || process.env.ENQUIRY_WEBHOOK_URL;
-  const fields = { ...payload };
-  delete fields.website; // the honeypot
-  const body = { ...fields, form, receivedAt: new Date().toISOString() };
-
-  if (!webhook) {
-    console.warn(`[${form}] FORMS_WEBHOOK_URL / ENQUIRY_WEBHOOK_URL not set — recorded to the server log only.`, body);
-    return true;
-  }
-
+async function postWebhook(form: FormName, webhook: string, body: Record<string, string>) {
   try {
     const response = await fetch(webhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      // Enquiries carry no `form` field: the Apps Script files them on the first tab.
+      body: JSON.stringify(form === "enquiry" ? body : { ...body, form }),
     });
     if (!response.ok) throw new Error(`Webhook responded ${response.status}`);
     return true;
@@ -59,4 +54,29 @@ export async function deliver(form: "careers" | "subscribe", payload: Payload) {
     console.error(`[${form}] webhook delivery failed`, error);
     return false;
   }
+}
+
+export async function deliver(form: FormName, payload: Payload) {
+  const fields: Record<string, string> = {};
+  for (const [key, value] of Object.entries(payload)) {
+    if (key !== "website") fields[key] = String(value ?? "").trim(); // `website` is the honeypot
+  }
+  const receivedAt = new Date().toISOString();
+
+  const webhook =
+    form === "enquiry" ? process.env.ENQUIRY_WEBHOOK_URL : process.env.FORMS_WEBHOOK_URL || process.env.ENQUIRY_WEBHOOK_URL;
+  const channels: Promise<boolean>[] = [];
+  if (process.env.RESEND_API_KEY) channels.push(sendFormEmail(form, fields, receivedAt));
+  if (webhook) channels.push(postWebhook(form, webhook, { ...fields, receivedAt }));
+
+  if (channels.length === 0) {
+    console.warn(`[${form}] no delivery configured (RESEND_API_KEY or a webhook URL): recorded to the server log only.`, {
+      ...fields,
+      receivedAt,
+    });
+    return process.env.VERCEL_ENV !== "production";
+  }
+
+  const results = await Promise.all(channels);
+  return results.some(Boolean);
 }
